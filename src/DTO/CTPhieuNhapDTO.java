@@ -4,7 +4,7 @@ public class CTPhieuNhapDTO {
     private String maPN;
     private String maSP;
     private int soLuong;
-    private float giaNhap;
+    private int giaNhap;
     
     public CTPhieuNhapDTO() {
     }
@@ -33,11 +33,11 @@ public class CTPhieuNhapDTO {
         this.soLuong = soLuong;
     }
 
-    public float getGiaNhap() {
+    public int getGiaNhap() {
         return giaNhap;
     }
 
-    public void setGiaNhap(float giaNhap) {
+    public void setGiaNhap(int giaNhap) {
         this.giaNhap = giaNhap;
     }
 
