@@ -13,8 +13,6 @@ public class NhaCungCapDao {
         connectManager = new ConnectManager();
     }
 
-
-
     public ArrayList<NhaCungCapDTO> getAllNCC(){
         ArrayList<NhaCungCapDTO> dsNCC = new ArrayList<NhaCungCapDTO>();
         String sql = "Select * from NhaCungCap";
@@ -84,11 +82,5 @@ public class NhaCungCapDao {
         return check;
     }
 
-    public static void main(String[] args) {
-        ArrayList<NhaCungCapDTO> lsncc = new ArrayList<NhaCungCapDTO>();
-        NhaCungCapDao methods = new NhaCungCapDao();
-        lsncc = methods.getAllNCC();
-        System.out.println(lsncc);
-    }
 
 }

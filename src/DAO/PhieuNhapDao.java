@@ -1,11 +1,11 @@
-package DAO;
+// package DAO;
 
-import java.sql.Connection;
+// import java.sql.Connection;
 
-public class PhieuNhapDao {
-    private Connection con;
+// public class PhieuNhapDao {
+//     private Connection con;
 
-    public PhieuNhapDao() {}
+//     public PhieuNhapDao() {}
 
     
-}
+// }
