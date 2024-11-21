@@ -5,7 +5,7 @@ public class NhaCungCapDTO {
     private String tenNCC;
     private String diaChi;
     private int sdt;
-    private String email;
+    private String nguoiLH;
     private int is_Deleted;
     
     public NhaCungCapDTO() {
@@ -43,12 +43,12 @@ public class NhaCungCapDTO {
         this.sdt = sdt;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNguoiLH() {
+        return nguoiLH;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNguoiLH(String nguoiLH) {
+        this.nguoiLH = nguoiLH;
     }
 
     public int getIs_Deleted() {
@@ -58,5 +58,6 @@ public class NhaCungCapDTO {
     public void setIs_Deleted(int is_Deleted) {
         this.is_Deleted = is_Deleted;
     }
+
 
 }

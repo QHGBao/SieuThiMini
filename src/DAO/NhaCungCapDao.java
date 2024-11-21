@@ -28,7 +28,7 @@ public class NhaCungCapDao {
                     ncc.setTenNCC(rs.getString(2));
                     ncc.setDiaChi(rs.getString(3));
                     ncc.setSdt(rs.getInt(4));
-                    ncc.setEmail(rs.getString(5));
+                    ncc.setNguoiLH(rs.getString(5));
                     ncc.setIs_Deleted(rs.getInt(6));
                     dsNCC.add(ncc);
                 }
@@ -52,7 +52,7 @@ public class NhaCungCapDao {
             stmt.setString(2, ncc.getTenNCC());
             stmt.setString(3, ncc.getDiaChi());
             stmt.setInt(4, ncc.getSdt());
-            stmt.setString(5, ncc.getEmail());
+            stmt.setString(5, ncc.getNguoiLH());
             stmt.setInt(6, ncc.getIs_Deleted()); 
             if (stmt.executeUpdate() >= 1) {
                 check = true;
