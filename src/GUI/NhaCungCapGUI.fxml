@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px; -fx-background-color: White;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px; -fx-background-color: White;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="185.0" layoutY="14.0" prefHeight="17.0" prefWidth="455.0" style="-fx-pref-width: 534px; -fx-pref-height: 59px;" text="QUẢN LÝ NHÀ CUNG CẤP">
          <font>
@@ -22,7 +22,7 @@
       </Label>
       <Pane layoutX="230.0" layoutY="76.0" prefHeight="68.0" prefWidth="200.0" style="-fx-background-radius: 20px; -fx-pref-width: 445px; -fx-pref-height: 92px; -fx-background-color: #F4F0F0;">
          <children>
-            <HBox alignment="CENTER" layoutX="-6.0" layoutY="-4.0" prefHeight="100.0" prefWidth="457.0" spacing="30.0" stylesheets="@../../lib/dashboardDesign.css">
+            <HBox alignment="CENTER" layoutX="-6.0" layoutY="-4.0" prefHeight="100.0" prefWidth="457.0" spacing="30.0" stylesheets="@../../Assets/css/dashboardDesign.css">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 90px;">
                      <children>
@@ -68,7 +68,7 @@
             </HBox>
          </children>
       </Pane>
-      <HBox alignment="CENTER" layoutX="172.0" layoutY="183.0" prefHeight="35.0" prefWidth="543.0" style="-fx-pref-height: 35px; -fx-pref-width: 560px; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" stylesheets="@../../lib/dashboardDesign.css">
+      <HBox alignment="CENTER" layoutX="172.0" layoutY="183.0" prefHeight="35.0" prefWidth="543.0" style="-fx-pref-height: 35px; -fx-pref-width: 560px; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" stylesheets="@../../Assets/css/dashboardDesign.css">
          <children>
             <TextField fx:id="txtInput" promptText="Nhập sđt bạn muốn tìm ..." style="-fx-pref-width: 500px; -fx-pref-height: 35px; -fx-background-color: transpacerant;">
                <font>

@@ -53,7 +53,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="22.0" layoutY="260.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhà cung cấp">
+                              <Button layoutX="22.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleNCCAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhà cung cấp">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>

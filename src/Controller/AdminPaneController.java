@@ -39,6 +39,12 @@ public class AdminPaneController {
 
     }
 
+    @FXML
+    void handleNCCAction(ActionEvent event) {
+        loadContent("NhaCungCapGUI.fxml");
+
+    }
+
     private void loadContent(String fxmlFile) {
         try {
             Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));
