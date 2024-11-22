@@ -1,18 +1,22 @@
 {
-    "java.project.sourcePaths": ["src"],
+    "java.project.sourcePaths": [
+        "src"
+    ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": {
         "include": [
-            "lib/**/*.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8-javadoc.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8-sources.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11-javadoc.jar",
-            "d:\\Game\\sqljdbc_12.8.1.0_enu\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11-sources.jar",
-            "d:\\CodeLearning\\Java_QLSieuThiMini\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8-sources.jar",
-            "d:\\CodeLearning\\Java_QLSieuThiMini\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11-sources.jar",
-            "d:\\CodeLearning\\Java_QLSieuThiMini\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11.jar"
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.controls.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.web.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx-swt.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.media.jar",
+            "d:\\Code\\SieuThiMini\\lib\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.fxml.jar",
+            "d:\\Code\\SieuThiMini\\lib\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8-javadoc.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.graphics.jar",
+            "d:\\Code\\SieuThiMini\\lib\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre8.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.swing.jar",
+            "d:\\Code\\SieuThiMini\\lib\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11-javadoc.jar",
+            "d:\\Code\\SieuThiMini\\lib\\javafx-sdk-23.0.1\\lib\\javafx.base.jar"
         ],
         "exclude": [
             "d:\\CodeLearning\\Java_QLSieuThiMini\\sqljdbc_12.8\\enu\\jars\\mssql-jdbc-12.8.1.jre11-javadoc.jar"
