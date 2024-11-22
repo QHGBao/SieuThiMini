@@ -76,7 +76,7 @@ public class CancellationDAO {
         }
     }
 
-    private int getCancellationQuantity(int cancellationID) throws SQLException {
+    /*private int getCancellationQuantity(int cancellationID) throws SQLException {
         String sql = "SELECT SoLuong FROM CTPhieuHuy WHERE MaPH = ? GROUP BY MaSP";
         connectManager.openConnection();
         Connection connection = connectManager.getConnection();
@@ -87,7 +87,7 @@ public class CancellationDAO {
             return resultSet.getInt(1);
         }
         return 0;
-    }
+    }*/
 
     public void createCancellation(CancellationDTO cancellationDTO) {
         String insertQuery = "INSERT INTO PhieuHuy (NgayLap, MaNV, Is_Deleted) VALUES (?, ?, 0)";
