@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,20 +14,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px; -fx-background-color: White;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px; -fx-background-color: White;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="185.0" layoutY="14.0" prefHeight="17.0" prefWidth="455.0" style="-fx-pref-width: 534px; -fx-pref-height: 59px;" text="QUẢN LÝ NHÀ CUNG CẤP">
          <font>
             <Font name="System Bold" size="42.0" />
          </font>
       </Label>
-      <Pane layoutX="230.0" layoutY="76.0" prefHeight="68.0" prefWidth="200.0" style="-fx-background-radius: 20px; -fx-pref-width: 445px; -fx-pref-height: 92px; -fx-background-color: #F4F0F0;">
+      <Pane layoutX="230.0" layoutY="76.0" prefHeight="68.0" prefWidth="200.0" style="-fx-background-radius: 20px; -fx-pref-width: 445px; -fx-pref-height: 92px; -fx-background-color: #F4F0F0;" stylesheets="@../../Assets/css/dashboardDesign.css">
          <children>
-            <HBox alignment="CENTER" layoutX="-6.0" layoutY="-4.0" prefHeight="100.0" prefWidth="457.0" spacing="30.0" stylesheets="@../../Assets/css/dashboardDesign.css">
+            <HBox alignment="CENTER" layoutX="-6.0" layoutY="-4.0" prefHeight="100.0" prefWidth="457.0" spacing="30.0">
                <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 90px;">
+                  <Pane fx:id="containAdd" prefHeight="56.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
                      <children>
-                        <ImageView fx:id="btnAdd" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#btnAddClicked" onMouseEntered="#btnAddEntered" onMouseExited="#btnAddExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 90px;">
+                        <ImageView fx:id="btnAdd" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnAddClicked" onMouseEntered="#btnAddEntered" onMouseExited="#btnAddExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -35,10 +36,13 @@
                            </image>
                         </ImageView>
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
                   </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 90px;">
+                  <Pane fx:id="containDelete" prefHeight="80.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
                      <children>
-                        <ImageView fx:id="btnDelete" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#btnDeleteClicked" onMouseEntered="#btnDeleteEntered" onMouseExited="#btnDeleteExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 90px;">
+                        <ImageView fx:id="btnDelete" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnDeleteClicked" onMouseEntered="#btnDeleteEntered" onMouseExited="#btnDeleteExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -47,26 +51,32 @@
                            </image>
                         </ImageView>
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
                   </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 90px;">
+                  <Pane fx:id="containRepair" prefHeight="80.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
                      <children>
-                        <ImageView fx:id="btnReset" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#btnResetClicked" onMouseEntered="#btnResetEntered" onMouseExited="#btnResetExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 90px;">
+                        <ImageView fx:id="btnRepair" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnRepairClicked" onMouseEntered="#btnRepairEntered" onMouseExited="#btnRepairExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <image>
-                              <Image url="@../../Assets/Img/resetIcon.png" />
+                              <Image url="@../../Assets/Img/repairIcon.png" />
                            </image>
                         </ImageView>
                      </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
                   </Pane>
                </children>
-               <styleClass>
-                  <String fx:value="shadow" />
-                  <String fx:value="white-bg" />
-               </styleClass>
             </HBox>
          </children>
+         <styleClass>
+            <String fx:value="shadow" />
+            <String fx:value="white-bg" />
+         </styleClass>
       </Pane>
       <HBox alignment="CENTER" layoutX="172.0" layoutY="183.0" prefHeight="35.0" prefWidth="543.0" style="-fx-pref-height: 35px; -fx-pref-width: 560px; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" stylesheets="@../../Assets/css/dashboardDesign.css">
          <children>
