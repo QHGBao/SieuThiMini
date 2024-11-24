@@ -82,5 +82,24 @@ public class NhaCungCapDao {
         return check;
     }
 
+    public boolean updateNCC(NhaCungCapDTO ncc){
+        boolean check = false;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "Update NhaCungCap Set TenNCC=?, DiaChi=?, Sdt=?, NguoiLH=? Where MaNCC=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, ncc.getTenNCC());
+            stmt.setString(0, sql);
+            if (stmt.executeUpdate() >= 1) {
+                check = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return check;
+    }
 
 }

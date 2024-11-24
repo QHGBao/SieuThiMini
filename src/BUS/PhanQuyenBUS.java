@@ -1,6 +1,6 @@
 package BUS;
 
-import DTO.NhaCungCapDTO;
+//import DTO.NhaCungCapDTO;
 import DTO.PhanQuyenDTO;
 
 import java.util.ArrayList;
