@@ -32,14 +32,11 @@
 }
 
 .radius{
-    -fx-background-radius: 20px
-}
-
-.white-bg{
-    -fx-background-color: #58f3e1;
+    -fx-background-radius: 20px;
 }
 
 .shadow{
     -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5), 6,0,0,0);
+    -fx-background-color: #fff;
 }
 

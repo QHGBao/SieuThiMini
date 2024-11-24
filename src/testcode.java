@@ -3,6 +3,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+// formNCC
+// NhaCungCapGUI
 
 public class testcode extends Application{
     @Override
@@ -12,6 +16,7 @@ public class testcode extends Application{
             Scene scene = new Scene(root);
             primaryStage.setTitle("QL NhaCungCap Page");
             primaryStage.setScene(scene);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

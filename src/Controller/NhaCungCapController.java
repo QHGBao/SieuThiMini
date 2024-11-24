@@ -7,6 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -79,6 +82,12 @@ public class NhaCungCapController implements Initializable{
         tableNCC.setItems(dsNhaCungCap);
     }
 
+    public void refreshDataNCC(){
+        dsNhaCungCap.clear();
+        dsNhaCungCap.addAll(nccBus.getAllNCC());
+        tableNCC.setItems(dsNhaCungCap);
+    }
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadDataNCC();
@@ -92,8 +101,11 @@ public class NhaCungCapController implements Initializable{
         try {   
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/formNCC.fxml"));
             Parent parent = loader.load();
+            formNCCController popAdd = loader.getController();
             Scene scene = new Scene(parent);
             popupStage = new Stage();
+            popAdd.setNccController(this);
+            popAdd.setOption("Tạo");
             popupStage.setScene(scene);
             popupStage.initStyle(StageStyle.UNDECORATED);
             popupStage.show();
@@ -116,7 +128,20 @@ public class NhaCungCapController implements Initializable{
 
     @FXML
     void btnDeleteClicked(MouseEvent event) {
-
+        if(tableNCC.getSelectionModel().getSelectedItem() != null){
+            NhaCungCapDTO ncc = (NhaCungCapDTO) tableNCC.getSelectionModel().getSelectedItem();
+            tableNCC.getSelectionModel().clearSelection();
+            formNCCController show = new formNCCController();
+             Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+            confirmAlert.setTitle("Xác nhận");
+            confirmAlert.setHeaderText("Bạn có chắc muốn xóa không?");
+            confirmAlert.setContentText("Việc này không thể hoàn tác.");
+            ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
+            if (result == ButtonType.OK) {
+                show.alertMessage(nccBus.xoaNCC(ncc));
+                tableNCC.getItems().remove(tableNCC.getSelectionModel().getFocusedIndex());
+            }
+        }
     }
 
     @FXML
@@ -133,7 +158,27 @@ public class NhaCungCapController implements Initializable{
 
      @FXML
     void btnRepairClicked(MouseEvent event) {
-
+        if(tableNCC.getSelectionModel().getSelectedItem() != null){
+            NhaCungCapDTO ncc = (NhaCungCapDTO) tableNCC.getSelectionModel().getSelectedItem();
+            tableNCC.getSelectionModel().clearSelection();
+            if (popupStage != null && popupStage.isShowing())
+                return;
+            try {   
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/formNCC.fxml"));
+                Parent parent = loader.load();
+                formNCCController popRepair = loader.getController();
+                Scene scene = new Scene(parent);
+                popupStage = new Stage();
+                popRepair.setInforNCC(ncc);
+                popRepair.setNccController(this);
+                popRepair.setOption("Sửa");
+                popupStage.setScene(scene);
+                popupStage.initStyle(StageStyle.UNDECORATED);
+                popupStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
