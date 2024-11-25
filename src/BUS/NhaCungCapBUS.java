@@ -16,8 +16,23 @@ public class NhaCungCapBUS {
         if (nccDAO.findNCC(ncc.getSdt()))
             return "Nhà cung cấp đã sài sđt này rồi !!";
         if (nccDAO.themNCC(ncc))
-            return "Thêm nhà cung cấp thành công !!";
-        return "Thêm nhà cung cấp thất bại !!";
+            return "Tạo nhà cung cấp thành công !!";
+        return "Tạo nhà cung cấp thất bại !!";
     }
 
+    public String capNhatNCC(NhaCungCapDTO ncc){
+        if (nccDAO.updateNCC(ncc))
+            return "Cập nhật nhà cung cấp thành công !!";
+        return "Cập nhật nhà cung cấp thất bại !!";
+    }
+
+    public String xoaNCC(NhaCungCapDTO ncc){
+        if (nccDAO.deleteNCC(ncc))
+            return "Xóa nhà cung cấp thành công !!";
+        return "Xóa nhà cung cấp thất bại !!";
+    }
+
+    public int taoMaNCC(){
+        return nccDAO.createCodeNCC();
+    }
 }

@@ -42,7 +42,26 @@ public class AdminPaneController {
     @FXML
     void handleNCCAction(ActionEvent event) {
         loadContent("NhaCungCapGUI.fxml");
+    }
 
+    @FXML
+    void handlePhanQuyenAction(ActionEvent event) {
+        loadContent("PhanQuyenGUI.fxml");
+    }
+
+    @FXML
+    void HandlePhieuHuyAction(ActionEvent event) {
+        loadContent("Review+DeleteCancellationGUI.fxml");
+    }
+
+    @FXML
+    void HandleKhachHangAction(ActionEvent event) {
+        loadContent("QLKHGUI.fxml");
+    }
+
+    @FXML
+    void HandleNhanVienAction(ActionEvent event) {
+        loadContent("QLNVGUI.fxml");
     }
 
     private void loadContent(String fxmlFile) {
