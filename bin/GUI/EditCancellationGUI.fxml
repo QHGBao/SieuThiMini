@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="639.0" prefWidth="800.0" style="-fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationController">
+<Pane prefHeight="639.0" prefWidth="800.0" style="-fx-background-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationEditController">
    <children>
       <SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="800.0" style="-fx-background-radius: 10;" styleClass=".split-pane-divider {    -fx-background-color: transparent;}">
          <items>
@@ -22,22 +22,12 @@
                <children>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="701.0" prefWidth="797.0" style="-fx-background-color: #F5F4E8; -fx-border-radius: 10;" StackPane.alignment="BOTTOM_CENTER">
                      <children>
-                        <Label layoutX="14.0" layoutY="45.0" prefHeight="27.0" prefWidth="135.0" text="Tên Nhân Viên:">
+                        <Label layoutX="27.0" layoutY="39.0" prefHeight="27.0" prefWidth="135.0" text="Mã Nhân Viên:">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="418.0" layoutY="45.0" prefHeight="27.0" prefWidth="135.0" text="Mã Nhân Viên:">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtEmployeeName" editable="false" layoutX="163.0" layoutY="43.0" prefHeight="29.0" prefWidth="212.0" style="-fx-alignment: center;">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="txtEmployeeID" editable="false" layoutX="561.0" layoutY="43.0" prefHeight="29.0" prefWidth="57.0" style="-fx-alignment: center;">
+                        <TextField fx:id="txtEmployeeID" editable="false" layoutX="170.0" layoutY="37.0" prefHeight="29.0" prefWidth="57.0" style="-fx-alignment: center;">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -72,7 +62,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </TextField>
-                        <Button alignment="CENTER" layoutX="350.0" layoutY="551.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Cập Nhật ">
+                        <Button alignment="CENTER" layoutX="350.0" layoutY="551.0" mnemonicParsing="false" onMouseClicked="#btnUpdate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Cập Nhật ">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

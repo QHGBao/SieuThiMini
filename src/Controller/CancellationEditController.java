@@ -1,26 +1,35 @@
 package Controller;
 
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import BUS.CancellationBUS;
+import BUS.CancellationDetailsBUS;
 import BUS.CancellationProductBUS;
-import DTO.CancellationDTO;
+import DTO.CancellationDetailsDTO;
 import DTO.CancellationProductDTO;
+import DTO.CancellationDTO;
 import DTO.SessionManager;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-public class CancellationController {
 
+public class CancellationEditController {
     @FXML
     private ImageView btnClose;
 
@@ -28,7 +37,7 @@ public class CancellationController {
     private ComboBox<String> cmbProductName;
 
     @FXML
-    private TextField txtProductID, txtProductType, txtCancellationQuantity, txtEmployeeName, txtEmployeeID, txtProductTypeID;
+    private TextField txtProductID, txtProductType, txtCancellationQuantity, txtEmployeeID, txtProductTypeID;
 
     @FXML
     private DatePicker dtpCancellationDay;
@@ -42,37 +51,25 @@ public class CancellationController {
     @FXML
     private TableColumn<CancellationProductDTO, Integer> colProductID, colCancellationQuantity,colProductTypeID;
 
-    private Connection connection;
+    private CancellationDTO cancellationDTO;
     private CancellationProductBUS cancellationProductBUS = new CancellationProductBUS();
     private CancellationBUS cancellationBUS = new CancellationBUS();
     private ObservableList<CancellationProductDTO> cancellationList = FXCollections.observableArrayList();
 
-    @FXML
-    public void initialize() {
-        SessionManager session = SessionManager.getInstance();
-        txtEmployeeName.setText(session.getEmployeeName());
-        txtEmployeeID.setText(String.valueOf(session.getEmployeeID()));
-        setupDatePicker();
-        setupTableColumns();
-        setupComboBoxWithAutocomplete();
-        setupProductSelectionHandler();
-        tblCancellationProducts.setItems(cancellationList);
+    private void setupProductSelectionHandler() {
+        cmbProductName.setOnAction(event -> {
+            String selectedProductName = cmbProductName.getValue();
+            CancellationProductDTO product = cancellationProductBUS.getProductByName(selectedProductName);
+    
+            // Nếu sản phẩm được tìm thấy, tự động điền thông tin
+            if (product != null) {
+                txtProductID.setText(String.valueOf(product.getProductId()));
+                txtProductType.setText(String.valueOf(cancellationProductBUS.getProductType(product.getProductTypeID())));
+                txtProductTypeID.setText(String.valueOf(product.getProductTypeID()));
+            }
+        });
     }
 
-    /** Thiết lập giá trị mặc định cho DatePicker */
-    private void setupDatePicker() {
-        dtpCancellationDay.setValue(LocalDate.now());
-    }
-
-    /** Gán các cột trong bảng với dữ liệu từ CancellationProductDTO */
-    private void setupTableColumns() {
-        colProductID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getProductId()).asObject());
-        colProductName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getProductName()));
-        colProductTypeID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getProductTypeID()).asObject());
-        colCancellationQuantity.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuantity()).asObject());
-    }
-
-    /** Lấy dữ liệu từ DAO và điền vào ComboBox */
     private void setupComboBoxWithAutocomplete() {
         List<CancellationProductDTO> products = cancellationProductBUS.getAllProducts();
     
@@ -103,18 +100,35 @@ public class CancellationController {
         });
     }
 
-    private void setupProductSelectionHandler() {
-        cmbProductName.setOnAction(event -> {
-            String selectedProductName = cmbProductName.getValue();
-            CancellationProductDTO product = cancellationProductBUS.getProductByName(selectedProductName);
-    
-            // Nếu sản phẩm được tìm thấy, tự động điền thông tin
-            if (product != null) {
-                txtProductID.setText(String.valueOf(product.getProductId()));
-                txtProductType.setText(String.valueOf(cancellationProductBUS.getProductType(product.getProductTypeID())));
-                txtProductTypeID.setText(String.valueOf(product.getProductTypeID()));
-            }
-        });
+    public void loadCancellationDetails(int cancellationID) {
+        // Lấy chi tiết phiếu hủy từ database bằng ID
+        List<CancellationProductDTO> details = cancellationBUS.getCancellationDetails(cancellationID);
+        
+        if (details != null) {
+            cancellationList = FXCollections.observableArrayList(details);
+            tblCancellationProducts.setItems(cancellationList);
+        }
+        
+        // Cấu hình các cột trong TableView
+        colProductID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getProductId()).asObject());
+        colProductName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProductName()));
+        colProductTypeID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getProductTypeID()).asObject());
+        colCancellationQuantity.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getQuantity()).asObject());
+
+        dtpCancellationDay.setValue(cancellationDTO.getCancellationDay().toLocalDate());
+        txtEmployeeID.setText(String.valueOf(cancellationDTO.getEmployeeID()));
+
+        setupComboBoxWithAutocomplete();
+        setupProductSelectionHandler();
+
+        cancellationList = FXCollections.observableArrayList(details);
+        tblCancellationProducts.setItems(cancellationList);
+    }
+
+    public void setCancellationDTO(CancellationDTO dto) {
+        this.cancellationDTO = dto;
+        // Gọi hàm loadCancellationDetails ngay sau khi nhận được DTO
+        loadCancellationDetails(dto.getCancellationID());
     }
 
     @FXML
@@ -153,27 +167,19 @@ public class CancellationController {
     }
 
     @FXML
-    private void btnCreate_Clicked(MouseEvent event) {
-     if (cancellationList.isEmpty()) {
-        showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Danh sách sản phẩm không được để trống!");
-        return;
-        }
-
-    try {
-        CancellationDTO cancellationDTO = new CancellationDTO(
-            0,
-            LocalDateTime.now(),
-            Integer.parseInt(txtEmployeeID.getText())
-        );
-
-        cancellationBUS.createCancellation(cancellationDTO, cancellationList);
-
-        showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phiếu hủy đã được tạo thành công!");
-        cancellationList.clear();
-        tblCancellationProducts.refresh();
+    private void btnUpdate_Clicked(MouseEvent event) {
+        if (cancellationList.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Danh sách sản phẩm không được để trống!");
+            return;
+            }
+        try {
+            cancellationBUS.updateCancellation(cancellationDTO.getCancellationID(), cancellationList);
+            showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phiếu hủy đã được cập nhật thành công!");
+            cancellationList.clear();
+            tblCancellationProducts.refresh();
         } catch (Exception e) {
-        e.printStackTrace();
-        showAlert(Alert.AlertType.ERROR, "Lỗi", "Có lỗi xảy ra trong quá trình tạo phiếu hủy: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Có lỗi xảy ra trong quá trình cập nhật phiếu hủy: " + e.getMessage());
         }
     }
 
