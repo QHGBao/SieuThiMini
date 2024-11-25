@@ -42,7 +42,11 @@ public class AdminPaneController {
     @FXML
     void handleNCCAction(ActionEvent event) {
         loadContent("NhaCungCapGUI.fxml");
+    }
 
+    @FXML
+    void handlePhanQuyenAction(ActionEvent event) {
+        loadContent("PhanQuyenGUI.fxml");
     }
 
     @FXML
