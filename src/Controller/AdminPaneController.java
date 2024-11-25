@@ -49,6 +49,11 @@ public class AdminPaneController {
         loadContent("PhanQuyenGUI.fxml");
     }
 
+    @FXML
+    void HandlePhieuHuyAction(ActionEvent event) {
+        loadContent("Review+DeleteCancellationGUI.fxml");
+    }
+
     private void loadContent(String fxmlFile) {
         try {
             Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));

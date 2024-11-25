@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="401.0" prefWidth="446.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-border-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.formNCCController">
+<Pane prefHeight="400.0" prefWidth="450.0" style="-fx-border-color: #949494;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.formNCCController">
    <children>
-      <BorderPane layoutX="12.0" layoutY="60.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="64.0" prefHeight="56.0" prefWidth="430.0">
          <center>
-            <TextField prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
+            <TextField fx:id="inputTen" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -27,13 +27,18 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
+                  <Label fx:id="warnTen" layoutX="100.0" prefHeight="18.0" prefWidth="331.0" textFill="#ff0000a3">
+                     <font>
+                        <Font name="Arial Italic" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="12.0" layoutY="130.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="131.0" prefHeight="56.0" prefWidth="430.0">
          <center>
-            <TextField prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
+            <TextField fx:id="inputSdt" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -56,9 +61,9 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="12.0" layoutY="200.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="200.0" prefHeight="56.0" prefWidth="430.0">
          <center>
-            <TextField prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
+            <TextField fx:id="inputDiaChi" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -81,9 +86,9 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="12.0" layoutY="270.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="268.0" prefHeight="56.0" prefWidth="430.0">
          <center>
-            <TextField prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
+            <TextField fx:id="inputNguoiLH" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -106,20 +111,24 @@
             </Pane>
          </top>
       </BorderPane>
-      <Label layoutX="12.0" layoutY="14.0" prefHeight="27.0" prefWidth="213.0" text="Tạo nhà cung cấp">
+      <Label fx:id="labelTitle" layoutX="12.0" layoutY="14.0" prefHeight="27.0" prefWidth="368.0" text="Tạo nhà cung cấp">
          <font>
             <Font name="Arial Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="btnSave" alignment="CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="345.0" onMouseClicked="#btnSaveClicked" prefHeight="38.0" prefWidth="52.0" text="Lưu" textFill="#69aed8">
-         <font>
-            <Font size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Label>
-      <Label fx:id="btnCancel" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="345.0" onMouseClicked="#btnCancelClicked" prefHeight="38.0" prefWidth="52.0" text="Hủy">
+      <Pane fx:id="containSave" layoutX="286.0" layoutY="345.0">
+         <children>
+            <Label fx:id="btnSave" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#btnSaveClicked" onMouseEntered="#btnSaveEntered" onMouseExited="#btnSaveExited" prefHeight="38.0" prefWidth="52.0" style="-fx-background-radius: 10px;" text="Lưu" textFill="#69aed8">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </Pane>
+      <Label fx:id="btnCancel" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="345.0" onMouseClicked="#btnCancelClicked" onMouseEntered="#btnCancelEntered" onMouseExited="#btnCancelExited" prefHeight="38.0" prefWidth="52.0" style="-fx-background-radius: 10px;" text="Hủy">
          <font>
             <Font size="18.0" />
          </font>
@@ -132,10 +141,5 @@
             <Image url="@../../Assets/Img/close.png" />
          </image>
       </ImageView>
-      <Label fx:id="warnTen" layoutX="124.0" layoutY="46.0" prefHeight="18.0" prefWidth="331.0" textFill="#ff0000a3">
-         <font>
-            <Font name="Arial Italic" size="14.0" />
-         </font>
-      </Label>
    </children>
 </Pane>

@@ -6,69 +6,75 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="932.0" prefWidth="1306.0" styleClass=".split-pane-divider {    -fx-background-color: transparent;}" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationDeleteController">
-   <items>
-      <StackPane prefHeight="929.0" prefWidth="974.0" style="-fx-background-color: #F5F4E8;">
-         <children>
-            <Pane maxHeight="-Infinity" prefHeight="171.0" prefWidth="1303.0" style="-fx-background-color: #D5F6FD; -fx-border-color: black;" StackPane.alignment="TOP_CENTER">
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationDeleteController">
+   <children>
+      <SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" styleClass=".split-pane-divider {    -fx-background-color: transparent;}">
+         <items>
+            <StackPane prefHeight="929.0" prefWidth="974.0" style="-fx-background-color: #F5F4E8;">
                <children>
-                  <Label alignment="CENTER" layoutX="7.0" layoutY="28.0" prefHeight="27.0" prefWidth="135.0" text="Tên Nhân Viên:">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="7.0" layoutY="63.0" prefHeight="27.0" prefWidth="135.0" text="Mã Nhân Viên:">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtEmployeeName" editable="false" layoutX="154.0" layoutY="25.0" prefHeight="29.0" prefWidth="383.0" style="-fx-alignment: center;">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </TextField>
-                  <TextField fx:id="txtEmployeeID" editable="false" layoutX="156.0" layoutY="64.0" prefHeight="29.0" prefWidth="73.0" style="-fx-alignment: center;">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </TextField>
+                  <Pane maxHeight="-Infinity" prefHeight="171.0" prefWidth="1303.0" style="-fx-background-color: #D5F6FD; -fx-border-color: black;" StackPane.alignment="TOP_CENTER">
+                     <children>
+                        <Label alignment="CENTER" layoutX="7.0" layoutY="28.0" prefHeight="27.0" prefWidth="135.0" text="Tên Nhân Viên:">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="7.0" layoutY="63.0" prefHeight="27.0" prefWidth="135.0" text="Mã Nhân Viên:">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtEmployeeName" editable="false" layoutX="154.0" layoutY="25.0" prefHeight="29.0" prefWidth="383.0" style="-fx-alignment: center;">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="txtEmployeeID" editable="false" layoutX="156.0" layoutY="64.0" prefHeight="29.0" prefWidth="73.0" style="-fx-alignment: center;">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </Pane>
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="705.0" prefWidth="902.0" style="-fx-background-color: #F5F4E8;" StackPane.alignment="BOTTOM_CENTER">
+                     <children>
+                        <TableView fx:id="tblCancellationDetail" layoutX="1.0" layoutY="389.0" prefHeight="342.0" prefWidth="966.0" style="-fx-font-size: 20;">
+                          <columns>
+                              <TableColumn fx:id="colCancellationDetailsID" prefWidth="153.33331298828125" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
+                            <TableColumn fx:id="colProductID" minWidth="0.0" prefWidth="146.888916015625" style="-fx-alignment: center;" text="Mã Sản Phẩm" />
+                            <TableColumn fx:id="colProductName" prefWidth="369.77764892578125" style="-fx-alignment: center;" text="Tên Sản Phẩm" />
+                              <TableColumn fx:id="colProductType" prefWidth="150.22210693359375" text="Loại Sản Phẩm" />
+                              <TableColumn fx:id="colCancellationQuantity" minWidth="8.0" prefWidth="145.3333740234375" text="Số Lượng Hủy" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tblCancellation" layoutX="75.0" layoutY="90.0" onMouseClicked="#handleCancellationClick" prefHeight="274.0" prefWidth="735.0" style="-fx-font-size: 20;">
+                           <columns>
+                              <TableColumn fx:id="colCancellationID" prefWidth="192.22222900390625" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
+                              <TableColumn fx:id="colCancellationDay" prefWidth="364.22216796875" style="-fx-alignment: center;" text="Ngày Lập" />
+                              <TableColumn fx:id="colEmployeeID" minWidth="0.0" prefWidth="177.77783203125" style="-fx-alignment: center;" text="Mã Nhân Viên" />
+                           </columns>
+                        </TableView>
+                        <Button alignment="CENTER" layoutX="831.0" layoutY="310.0" mnemonicParsing="false" onAction="#btnDelete_Clicked" prefHeight="43.0" prefWidth="121.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Xóa Phiếu Hủy">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="buttonCreate" alignment="CENTER" layoutX="831.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="43.0" prefWidth="121.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Tạo Phiếu Hủy">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
                </children>
-            </Pane>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="756.0" prefWidth="974.0" style="-fx-background-color: #F5F4E8;" StackPane.alignment="BOTTOM_CENTER">
-               <children>
-                  <TableView fx:id="tblCancellationDetail" layoutX="1.0" layoutY="389.0" prefHeight="342.0" prefWidth="966.0" style="-fx-font-size: 20;">
-                    <columns>
-                        <TableColumn fx:id="colCancellationDetailsID" prefWidth="153.33331298828125" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
-                      <TableColumn fx:id="colProductID" minWidth="0.0" prefWidth="146.888916015625" style="-fx-alignment: center;" text="Mã Sản Phẩm" />
-                      <TableColumn fx:id="colProductName" prefWidth="369.77764892578125" style="-fx-alignment: center;" text="Tên Sản Phẩm" />
-                        <TableColumn fx:id="colProductType" prefWidth="150.22210693359375" text="Loại Sản Phẩm" />
-                        <TableColumn fx:id="colCancellationQuantity" minWidth="8.0" prefWidth="145.3333740234375" text="Số Lượng Hủy" />
-                    </columns>
-                  </TableView>
-                  <TableView fx:id="tblCancellation" layoutX="75.0" layoutY="90.0" onMouseClicked="#handleCancellationClick" prefHeight="274.0" prefWidth="735.0" style="-fx-font-size: 20;">
-                     <columns>
-                        <TableColumn fx:id="colCancellationID" prefWidth="192.22222900390625" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
-                        <TableColumn fx:id="colCancellationDay" prefWidth="364.22216796875" style="-fx-alignment: center;" text="Ngày Lập" />
-                        <TableColumn fx:id="colEmployeeID" minWidth="0.0" prefWidth="177.77783203125" style="-fx-alignment: center;" text="Mã Nhân Viên" />
-                     </columns>
-                  </TableView>
-                  <Button alignment="CENTER" layoutX="831.0" layoutY="310.0" mnemonicParsing="false" onAction="#btnDelete_Clicked" prefHeight="43.0" prefWidth="121.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Xóa Phiếu Hủy">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="buttonCreate" alignment="CENTER" layoutX="831.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="43.0" prefWidth="121.0" style="-fx-background-radius: 5; -fx-background-color: red;" text="Tạo Phiếu Hủy">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-               </children>
-            </Pane>
-         </children>
-      </StackPane>
-   </items>
-</SplitPane>
+            </StackPane>
+         </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
