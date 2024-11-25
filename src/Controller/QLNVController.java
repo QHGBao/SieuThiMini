@@ -3,11 +3,9 @@ package Controller;
 
 import BUS.ChucVuBUS;
 import BUS.NhanVienBUS;
-import DTO.ChucVuDTO;
 import DTO.NhanVienDTO;
 
-import java.sql.Date;
-import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +29,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 public class QLNVController {
     @FXML

@@ -16,12 +16,6 @@ import javafx.stage.Stage;
 public class formNCCController {
 
     @FXML
-    private Label labelTitle;
-
-    @FXML
-    private Pane containSave;
-
-    @FXML
     private Label btnCancel;
 
     @FXML
@@ -30,7 +24,10 @@ public class formNCCController {
     @FXML
     private Label btnSave;
 
-     @FXML
+    @FXML
+    private Pane containSave;
+
+    @FXML
     private TextField inputDiaChi;
 
     @FXML
@@ -41,6 +38,12 @@ public class formNCCController {
 
     @FXML
     private TextField inputTen;
+
+    @FXML
+    private Label labelMaNCC;
+
+    @FXML
+    private Label labelTitle;
 
     @FXML
     private Label warnDiachi;
@@ -71,13 +74,16 @@ public class formNCCController {
         this.option = option;
         if(option.equals("Sửa")){
             labelTitle.setText("Thông tin nhà cung cấp");
+            labelMaNCC.setText(String.valueOf(ncc.getMaNCC()));
             inputTen.setText(ncc.getTenNCC());
             inputSdt.setText(ncc.getSdt());
             inputDiaChi.setText(ncc.getDiaChi());
             inputNguoiLH.setText(ncc.getNguoiLH());
         }
-        if(option.equals("Tạo"))
+        if(option.equals("Tạo")){
             btnSave.setText("Tạo");
+            labelMaNCC.setText(String.valueOf(nccBUS.taoMaNCC()));
+        }
     }
 
     public boolean checkInput(){
@@ -115,16 +121,18 @@ public class formNCCController {
             alSuccess.setHeaderText("Thành công");
             alSuccess.setContentText(message);
             alSuccess.showAndWait();
-            Stage stage = (Stage) containSave.getScene().getWindow();
-            stage.close();
         } else {
             Alert alFail = new Alert(AlertType.ERROR);
             alFail.setTitle("Thông báo");
             alFail.setHeaderText("Thất bại");
             alFail.setContentText(message);
             alFail.showAndWait();
+        }
+        if (containSave != null && containSave.getScene() != null) {
             Stage stage = (Stage) containSave.getScene().getWindow();
             stage.close();
+        } else {
+            return;
         }
     }
 
@@ -151,7 +159,6 @@ public class formNCCController {
         if(option.equals("Tạo")){
             NhaCungCapDTO ncc = new NhaCungCapDTO();
             if(checkInput()){
-                ncc.setMaNCC(nccBUS.taoMaNCC());
                 ncc.setTenNCC(inputTen.getText());
                 ncc.setSdt(inputSdt.getText());
                 ncc.setDiaChi(inputDiaChi.getText());
@@ -163,12 +170,18 @@ public class formNCCController {
         }
         if(option.equals("Sửa")){
             if(checkInput()){
-                ncc.setTenNCC(inputTen.getText());
-                ncc.setDiaChi(inputDiaChi.getText());
-                ncc.setSdt(inputSdt.getText());
-                ncc.setNguoiLH(inputNguoiLH.getText());
-                alertMessage(nccBUS.capNhatNCC(ncc));
-                nccController.refreshDataNCC();;
+                System.out.println(nccBUS.ktSdt(inputSdt.getText()));
+                System.out.println(inputSdt.getText());
+                if(nccBUS.ktSdt(inputSdt.getText())){
+                    warnSdt.setText("Số điện đã tồn tại vui lòng nhập lai");
+                } else {
+                    ncc.setTenNCC(inputTen.getText());
+                    ncc.setDiaChi(inputDiaChi.getText());
+                    ncc.setSdt(inputSdt.getText());
+                    ncc.setNguoiLH(inputNguoiLH.getText());
+                    alertMessage(nccBUS.capNhatNCC(ncc));
+                    nccController.refreshDataNCC();
+                }
             }
         }
     }

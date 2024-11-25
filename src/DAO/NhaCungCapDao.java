@@ -64,18 +64,21 @@ public class NhaCungCapDao {
         return check;
     }
 
-    public boolean findNCC(String sdt){
+    public boolean findNCC(String sdt) {
         boolean check = false;
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Select * from NhaCungCap Where Sdt="+sdt;
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            check = rs.next();
+            String sql = "Select * from NhaCungCap Where Sdt=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, sdt);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                check = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             connectManager.closeConnection();
         }
         return check;
@@ -143,4 +146,51 @@ public class NhaCungCapDao {
         return codeCreated;
     }
 
+    public int findMaNCC(String sdt){
+        int codeCreated = -1;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT MaNCC FROM NhaCungCap Where Sdt='"+sdt+"'";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            rs.next();
+            codeCreated = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return codeCreated;
+    }
+
+    public ArrayList<NhaCungCapDTO> searchArrayNCC(String keyword){
+        ArrayList<NhaCungCapDTO> dsSearch = new ArrayList<NhaCungCapDTO>();
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT * FROM NhaCungCap WHERE TenNCC LIKE ? OR Sdt LIKE ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                if(rs.getInt(6) == 0){
+                    NhaCungCapDTO ncc = new NhaCungCapDTO();
+                    ncc.setMaNCC(rs.getInt(1));
+                    ncc.setTenNCC(rs.getString(2));
+                    ncc.setDiaChi(rs.getString(3));
+                    ncc.setSdt(rs.getString(4));
+                    ncc.setNguoiLH(rs.getString(5));
+                    ncc.setIs_Deleted(rs.getInt(6));
+                    dsSearch.add(ncc);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return dsSearch;
+    }
 }
