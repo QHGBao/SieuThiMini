@@ -50,6 +50,16 @@ public class AdminPaneController {
         loadContent("Review+DeleteCancellationGUI.fxml");
     }
 
+    @FXML
+    void HandleKhachHangAction(ActionEvent event) {
+        loadContent("QLKHGUI.fxml");
+    }
+
+    @FXML
+    void HandleNhanVienAction(ActionEvent event) {
+        loadContent("QLNVGUI.fxml");
+    }
+
     private void loadContent(String fxmlFile) {
         try {
             Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));

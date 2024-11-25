@@ -77,7 +77,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="440.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Khách hàng">
+                              <Button layoutX="23.0" layoutY="440.0" mnemonicParsing="false" onAction="#HandleKhachHangAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Khách hàng">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -85,7 +85,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="24.0" layoutY="500.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhân viên">
+                              <Button layoutX="24.0" layoutY="500.0" mnemonicParsing="false" onAction="#HandleNhanVienAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhân viên">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
