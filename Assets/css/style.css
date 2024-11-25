@@ -8,6 +8,15 @@
     
 }
 
+.exit-button {
+    -fx-background-color:  #e15959;
+    -fx-background-radius:  30px;
+}
+
+.exit-button:hover {
+    -fx-background-color:  #fa0606e3;
+}
+
 .logout-button {
     -fx-background-color:  #079073;
     -fx-background-radius:  20px;

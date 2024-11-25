@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PhanQuyenController">
    <children>
       <Label alignment="CENTER" prefHeight="79.0" prefWidth="904.0" style="-fx-background-color: #FFFAE6;" text="QUẢN LÝ PHÂN QUYỀN " textAlignment="CENTER" textFill="#09447e">
          <font>
@@ -34,12 +33,20 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TableView fx:id="tbDS" layoutX="9.0" layoutY="177.0" prefHeight="564.0" prefWidth="339.0">
-              <columns>
-                <TableColumn fx:id="clSTT" prefWidth="96.7999849319458" text="Số thứ tự " />
-                <TableColumn fx:id="clName" minWidth="0.0" prefWidth="242.40000915527344" text="Tên User " />
-              </columns>
-            </TableView>
+            <ScrollPane layoutX="9.0" layoutY="177.0" prefHeight="449.0" prefWidth="339.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="573.0" prefWidth="323.0">
+                     <children>
+                        <TableView fx:id="tbDS" layoutX="-2.0" layoutY="-3.0" prefHeight="579.0" prefWidth="327.0">
+                           <columns>
+                              <TableColumn fx:id="clSTT" prefWidth="96.7999849319458" text="Số thứ tự " />
+                              <TableColumn fx:id="clName" minWidth="0.0" prefWidth="242.40000915527344" text="Tên User " />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
          </children>
       </Pane>
       <Pane depthTest="DISABLE" layoutX="356.0" layoutY="79.0" prefHeight="754.0" prefWidth="551.0" style="-fx-background-color: #D4E8FF;">
@@ -114,7 +121,7 @@
                                     </AnchorPane>
                                  </content>
                               </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý thoóng kê nhập hàng">
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý thống kê nhập hàng">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
                                        <children>

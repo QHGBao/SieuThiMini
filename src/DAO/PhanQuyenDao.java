@@ -2,12 +2,14 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement; 
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import DTO.PhanQuyenDTO;
+import DTO.TaiKhoan_DTO;
 
 public class PhanQuyenDao {
     private Connection con;
@@ -36,7 +38,7 @@ public class PhanQuyenDao {
 
     public ArrayList<PhanQuyenDTO> getALLQuyen() {
         ArrayList<PhanQuyenDTO> dsQuyen = new ArrayList<PhanQuyenDTO>();
-    
+
         try {
             if (openConnection()) {
                 String sql = "SELECT * FROM PhanQuyen";
@@ -59,8 +61,32 @@ public class PhanQuyenDao {
         } finally {
             closeConnection();
         }
-    
+
         return dsQuyen;
     }
-    
+
+    public ArrayList<TaiKhoan_DTO> getTaiKhoanByQuyen(int maQuyen) {
+        ArrayList<TaiKhoan_DTO> dsTaiKhoan = new ArrayList<>();
+        try {
+            if (openConnection()) {
+                String sql = "Select * from TaiKhoan Where MaQuyen = ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setInt(1, maQuyen);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    TaiKhoan_DTO tk = new TaiKhoan_DTO();
+                    tk.setMaTK(rs.getInt("MaTK"));
+                    tk.setTenTK(rs.getString("TenTK"));
+                    tk.setMaQuyen(rs.getInt("MaQuyen"));
+                    dsTaiKhoan.add(tk);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return dsTaiKhoan;
+    }
+
 }

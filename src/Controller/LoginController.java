@@ -1,12 +1,14 @@
 package Controller;
 
 import BUS.LoginBUS;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -14,10 +16,10 @@ import javafx.stage.Stage;
 public class LoginController {
 
     @FXML
-    private TextField passwordLabel;  // Mã người dùng nhập mật khẩu
+    private TextField passwordLabel; // Mã người dùng nhập mật khẩu
 
     @FXML
-    private TextField usernameLabel;  // Mã người dùng nhập tên đăng nhập
+    private TextField usernameLabel; // Mã người dùng nhập tên đăng nhập
 
     private LoginBUS loginBUS; // Đối tượng LoginBUS để kiểm tra đăng nhập
 
@@ -70,5 +72,28 @@ public class LoginController {
                 alert.showAndWait();
             }
         }
+    }
+
+    @FXML
+    void handleExitClick(MouseEvent event) {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    @FXML
+    public void initialize() {
+        // Xử lý khi nhấn Enter trong usernameLabel
+        usernameLabel.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                passwordLabel.requestFocus(); // Chuyển focus sang passwordLabel
+            }
+        });
+    
+        // Xử lý khi nhấn Enter trong passwordLabel
+        passwordLabel.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleLoginClick(null); // Gọi trực tiếp handleLoginClick để đăng nhập
+            }
+        });
     }
 }

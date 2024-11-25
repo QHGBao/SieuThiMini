@@ -8,6 +8,14 @@
             "type": "java",
             "name": "testcode",
             "request": "launch",
+            "vmArgs": " --enable-preview --module-path D:/Code/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "testcode",
+            "projectName": "SieuThiMini_3adf1d5d"
+        },
+        {
+            "type": "java",
+            "name": "testcode",
+            "request": "launch",
             "vmArgs": " --enable-preview --module-path D:/CodeLearning/Java_QLSieuThiMini/ProjectSieuThiMini/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "testcode",
             "projectName": "SieuThiMini_49cdcc9a"
