@@ -45,6 +45,11 @@ public class AdminPaneController {
 
     }
 
+    @FXML
+    void handleQLBHAction(ActionEvent event) {
+        loadContent("QLBHGUI.fxml");
+    }
+
     private void loadContent(String fxmlFile) {
         try {
             Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));

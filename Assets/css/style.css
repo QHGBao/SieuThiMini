@@ -30,3 +30,42 @@
 .management-button:hover {
     -fx-background-color: #58f3e1;
 }
+
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);  
+}
+
+.white-bg {
+    -fx-background-color: #FFFFFF;
+}
+
+.radius {
+    -fx-background-radius:  20px;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: linear-gradient(to bottom right, #396580,   #000c6e);
+    -fx-border-radius: 5px;
+    -fx-border-width: 1.5px;
+
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom right, #396580,   #000c6e);
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .fillter {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #fff;
+}
+
+.seller-button {
+    -fx-background-color: linear-gradient(to bottom right, #396580,   #000c6e);
+}
