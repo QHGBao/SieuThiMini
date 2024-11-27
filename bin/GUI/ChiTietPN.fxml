@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" style="-fx-background-color: #f3f1f2; -fx-border-color: #9c9c9c;" styleClass="shadow" stylesheets="@../../Assets/css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ChiTietPNController">
+   <children>
+      <Pane layoutX="1.0" layoutY="1.0" prefHeight="26.0" prefWidth="818.0" style="-fx-background-color: #f3f1f2;">
+         <children>
+            <Label fx:id="btnClose" alignment="CENTER" contentDisplay="CENTER" layoutX="789.0" layoutY="-1.0" onMouseClicked="#btnCloseClicked" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: red;" text="X" textFill="#e7e4e4">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+            <ImageView fitHeight="22.0" fitWidth="25.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Assets/Img/saveIcon.png" />
+               </image>
+            </ImageView>
+            <Label contentDisplay="CENTER" layoutX="36.0" prefHeight="26.0" prefWidth="120.0" text="Chi tiết phiếu" />
+         </children>
+      </Pane>
+      <Pane layoutX="1.0" layoutY="27.0" prefHeight="55.0" prefWidth="817.0" style="-fx-background-color: #D5F6FD;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="180.0" prefHeight="55.0" prefWidth="458.0" text="Chi Tiết Phiếu Nhập" textFill="#4e4747">
+               <font>
+                  <Font name="Arial Bold" size="26.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="20.0" layoutY="100.0" prefHeight="30.0" prefWidth="340.0">
+         <children>
+            <Label fx:id="txtMaPN" alignment="CENTER" contentDisplay="CENTER" layoutX="170.0" layoutY="-1.0" prefHeight="30.0" prefWidth="170.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="1.0" prefHeight="30.0" prefWidth="170.0" text="Mã Phiếu:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="20.0" layoutY="135.0" prefHeight="30.0" prefWidth="340.0">
+         <children>
+            <Label fx:id="txtNCC" alignment="CENTER" contentDisplay="CENTER" layoutX="170.0" layoutY="-1.0" prefHeight="30.0" prefWidth="170.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutY="1.0" prefHeight="30.0" prefWidth="170.0" text="Nhà Cung Cấp:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="460.0" layoutY="100.0" prefHeight="30.0" prefWidth="340.0">
+         <children>
+            <Label fx:id="txtUser" contentDisplay="CENTER" layoutX="170.0" prefHeight="30.0" prefWidth="170.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="1.0" prefHeight="30.0" prefWidth="170.0" text="Người tạo:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="460.0" layoutY="135.0" prefHeight="30.0" prefWidth="340.0">
+         <children>
+            <Label fx:id="txtThoiGian" contentDisplay="CENTER" layoutX="170.0" layoutY="-1.0" prefHeight="30.0" prefWidth="170.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="1.0" prefHeight="30.0" prefWidth="170.0" text="Thời Gian:">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TableView fx:id="tableCTPN" layoutX="20.0" layoutY="179.0" prefHeight="248.0" prefWidth="780.0" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <columns>
+            <TableColumn fx:id="colSTT" prefWidth="49.59997367858887" style="-fx-alignment: center;" text="STT" />
+            <TableColumn fx:id="colTenSP" prefWidth="300.00000762939453" text="Tên Sản Phẩm" />
+            <TableColumn fx:id="colSoLuong" prefWidth="92.79998779296875" style="-fx-alignment: center;" text="Số Lượng" />
+            <TableColumn fx:id="colGiaNhap" prefWidth="152.80001831054688" style="-fx-alignment: center;" text="Giá Nhập" />
+            <TableColumn fx:id="colThanhTien" minWidth="0.0" prefWidth="183.99993896484375" style="-fx-alignment: center;" text="Thành Tiền" />
+         </columns>
+      </TableView>
+      <ImageView fx:id="btnPrintPDF" fitHeight="41.0" fitWidth="120.0" layoutX="726.0" layoutY="439.0" onMouseClicked="#btnPrintPDFClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Assets/Img/filePDF.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Pane layoutX="64.0" layoutY="438.0" prefHeight="42.0" prefWidth="272.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="114.0" text="Tổng Tiền:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtTongTien" layoutX="117.0" layoutY="1.0" prefHeight="41.0" prefWidth="155.0" textFill="#d41515">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
