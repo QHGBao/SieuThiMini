@@ -5,16 +5,16 @@ public class DTO_ThongKe_DoanhThu {
     private String maHoaDon;
     private String tenSanPham;
     private int soLuong;
-    private double giaThuTe;
+    private double giaThucTe;
     private double tongTienHang;
     private double doanhThu;
     
-	public DTO_ThongKe_DoanhThu(String ngayLap, String maHoaDon, String tenSanPham, int soLuong, double giaThuTe,double tongTienHang, double doanhThu) {
+	public DTO_ThongKe_DoanhThu(String ngayLap, String maHoaDon, String tenSanPham, int soLuong, double giaThucTe,double tongTienHang, double doanhThu) {
 		this.ngayLap = ngayLap;
 		this.maHoaDon = maHoaDon;
 		this.tenSanPham = tenSanPham;
 		this.soLuong = soLuong;
-		this.giaThuTe = giaThuTe;
+		this.giaThucTe = giaThucTe;
 		this.tongTienHang = tongTienHang;
 		this.doanhThu = doanhThu;
 	}
@@ -51,12 +51,12 @@ public class DTO_ThongKe_DoanhThu {
 		this.soLuong = soLuong;
 	}
 
-	public double getGiaThuTe() {
-		return giaThuTe;
+	public double getGiaThucTe() {
+		return giaThucTe;
 	}
 
-	public void setGiaThuTe(double giaThuTe) {
-		this.giaThuTe = giaThuTe;
+	public void setGiaThucTe(double giaThucTe) {
+		this.giaThucTe = giaThucTe;
 	}
 
 	public double getTongTienHang() {
