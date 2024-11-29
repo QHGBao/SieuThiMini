@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ThongKeController">
+    <!-- Left Panel -->
+    <left>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: #D5F6FD;" prefWidth="500">
+            <ImageView fx:id="logo" fitWidth="150" fitHeight="150">
+                <image>
+                    <Image url="file:/C:/Users/Admin/Downloads/logo.jpg"/>
+                </image>
+            </ImageView>
+            <Label text="ADMIN PAGE" style="-fx-font-family: 'Fira Code'; -fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: red;"/>
+            <Button fx:id="btn_thongkeChiTieu"
+        text="Quản lý thống kê chi tiêu"
+        style="-fx-font-size: 15px; -fx-padding: 10 20 10 20; -fx-background-color: white; -fx-text-fill: black;  -fx-pref-width: 450px; -fx-font-weight: bold;  -fx-border-radius: 15px; -fx-border-color: black; -fx-border-width: 1px;"
+        onAction="#handleThongKeChiTieu" />
+
+            <Button fx:id="btn_thongkeDoanhThu" 
+            text="Quản lý thống kê doanh thu" 
+            style="-fx-font-size: 15px; -fx-padding: 10 20 10 20; -fx-background-color: white; -fx-text-fill: black; -fx-pref-width: 450px;-fx-font-weight: bold; -fx-border-radius: 15px;-fx-border-color: black;-fx-border-width: 1px;"
+            onAction="#handleThongKeDaonhThu"/>
+            <Button fx:id="btn_thongkeLoiNhuan" text="Quản lý thống kê lợi nhuận" style="-fx-font-size: 15px; -fx-padding: 10 20 10 20; -fx-background-color: white; -fx-text-fill: black; -fx-pref-width: 450px;-fx-font-weight: bold; -fx-border-radius: 15px;-fx-border-color: black;-fx-border-width: 1px;"
+            onAction="#handleThongKeLoiNhuan"/>
+        </VBox>
+    </left>
+    
+    <!-- Right Panel (StackPane for Card Layout) -->
+    <center>
+        <StackPane fx:id="mainPane">
+            <!-- ChiTieu Panel -->
+            <VBox fx:id="chiTieuPanel" style="-fx-background-color: #F5F4E8;" alignment="CENTER">
+                <Label text="Thống kê chi tiêu" style="-fx-font-family: 'Fira Code'; -fx-font-size: 60; -fx-font-weight: bold;"/>
+                <HBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Ngày bắt đầu:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="startDatePicker"/>
+                    <Label text="Ngày kết thúc:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="endDatePicker"/>
+                </HBox>
+                <Button fx:id="btnSearch" text="Tìm kiếm" style="-fx-font: 15 arial; -fx-background-color: #4CAF50; -fx-text-fill: white;-fx-font-size: 20px;-fx-font-weight: bold;-fx-border-radius: 15px;-fx-background-radius: 15px;-fx-pref-width: 250px;-fx-pref-height: 10px;"
+                onAction="#handleSearch"/>
+                
+                <!-- TableView for ChiTieu -->
+                <TableView fx:id="chiTieuTable" VBox.vgrow="ALWAYS" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px;" minHeight="200" maxHeight="400">
+				    <TableColumn fx:id="colNgayLap" text="Ngày lập phiếu" prefWidth="150"/>
+				    <TableColumn fx:id="colMaPhieu" text="Mã phiếu nhập" prefWidth="150"/>
+				    <TableColumn fx:id="colTenSanPham" text="Tên sản phẩm" prefWidth="200"/>
+				    <TableColumn fx:id="colMaSanPham" text="Mã sản phẩm" prefWidth="150"/>
+				    <TableColumn fx:id="colSoLuong" text="Số lượng" prefWidth="100"/>
+				    <TableColumn fx:id="colGiaNhap" text="Giá nhập" prefWidth="150"/>
+				    <TableColumn fx:id="colChiTieu" text="Chi tiêu" prefWidth="150"/>
+				</TableView>
+				<HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+        			<Label fx:id="lblTongChiTieu" text="" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+   			 	</HBox>
+            </VBox>
+           
+            <VBox fx:id="doanhThuPanel" style="-fx-background-color: #F5F4E8;" alignment="CENTER">
+                <Label text="Thống kê doanh thu" style="-fx-font-family: 'Fira Code'; -fx-font-size: 60; -fx-font-weight: bold;"/>
+                <HBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Ngày bắt đầu:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="startDatePickerDT"/>
+                    <Label text="Ngày kết thúc:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="endDatePickerDT"/>
+                </HBox>
+                <Button fx:id="btnSearchDT" text="Tìm kiếm" style="-fx-font: 15 arial; -fx-background-color: #4CAF50; -fx-text-fill: white;-fx-font-size: 20px;-fx-font-weight: bold;-fx-border-radius: 15px;-fx-background-radius: 15px;-fx-pref-width: 250px;-fx-pref-height: 10px;"
+                onAction="#handleSearchDT"/>
+                
+                <TableView fx:id="doanhThuTable" VBox.vgrow="ALWAYS" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px;" minHeight="200" maxHeight="400">
+				    <TableColumn fx:id="colNgayLapDT" text="Ngày lập phiếu" prefWidth="150"/>
+				    <TableColumn fx:id="colMaHoaDonDT" text="Mã hóa đơn" prefWidth="150"/>
+				    <TableColumn fx:id="colTenSanPhamDT" text="Tên sản phẩm" prefWidth="200"/>
+				    <TableColumn fx:id="colSoLuongDT" text="Số lượng" prefWidth="100"/>
+				    <TableColumn fx:id="colGiaThucTe" text="Giá thực tế" prefWidth="150"/>
+				    <TableColumn fx:id="colTongTienHang" text="Tổng tiền hàng" prefWidth="150"/>
+				    <TableColumn fx:id="colDoanhThu" text="Doanh thu" prefWidth="150"/>
+				</TableView>
+				<HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+        			<Label fx:id="lblTongDoanhThu" text="" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+   			 	</HBox>
+            </VBox>
+            
+            <VBox fx:id="loiNhuanPanel" style="-fx-background-color: #F5F4E8;" alignment="CENTER">
+                <Label text="Thống kê lợi nhuận" style="-fx-font-family: 'Fira Code'; -fx-font-size: 60; -fx-font-weight: bold;"/>
+                <HBox spacing="10" style="-fx-padding: 10;">
+                    <Label text="Ngày bắt đầu:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="startDatePickerLN"/>
+                    <Label text="Ngày kết thúc:" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+                    <DatePicker fx:id="endDatePickerLN"/>
+                </HBox>
+                <Button fx:id="btnSearchLN" text="Tìm kiếm" style="-fx-font: 15 arial; -fx-background-color: #4CAF50; -fx-text-fill: white;-fx-font-size: 20px;-fx-font-weight: bold;-fx-border-radius: 15px;-fx-background-radius: 15px;-fx-pref-width: 250px;-fx-pref-height: 10px;"
+                onAction="#handleSearchLN"/>
+                
+                <TableView fx:id="loiNhuanTable" VBox.vgrow="ALWAYS" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px;" minHeight="200" maxHeight="400">
+				    <TableColumn fx:id="colNgayLapLN" text="Ngày lập phiếu" prefWidth="150"/>
+				    <TableColumn fx:id="colMaHoaDonLN" text="Mã hóa đơn" prefWidth="150"/>
+				    <TableColumn fx:id="colTenSanPhamLN" text="Tên sản phẩm" prefWidth="200"/>
+				    <TableColumn fx:id="colSoLuongLN" text="Số lượng" prefWidth="100"/>
+				    <TableColumn fx:id="colGiaNhapLN" text="Giá nhập" prefWidth="150"/>
+				    <TableColumn fx:id="colGiaBanLN" text="Giá bán" prefWidth="150"/>
+				    <TableColumn fx:id="colLoiNhuan" text="Lợi nhuận" prefWidth="150"/>
+				</TableView>
+				<HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10;">
+        			<Label fx:id="lblTongLoiNhuan" text="" style="-fx-font-family: 'Fira Code'; -fx-font-size: 20; -fx-font-weight: bold;"/>
+   			 	</HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
