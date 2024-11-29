@@ -21,7 +21,7 @@ public class ProductDAO {
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, product.getMaSP());
             stmt.setString(2, product.getTenSP());
-            stmt.setString(3, product.getMaLoai());
+            stmt.setInt(3, product.getMaLoai());
             stmt.setString(4, product.getMoTa());
             stmt.setDouble(5, product.getGia());
             stmt.setInt(6, product.getSoLuong());
@@ -39,7 +39,7 @@ public class ProductDAO {
         try (Connection connection = connectManager.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, product.getTenSP());
-            stmt.setString(2, product.getMaLoai());
+            stmt.setInt(2, product.getMaLoai());
             stmt.setString(3, product.getMoTa());
             stmt.setDouble(4, product.getGia());
             stmt.setInt(5, product.getSoLuong());
@@ -76,7 +76,7 @@ public class ProductDAO {
                 return new ProductDTO(
                     rs.getInt("MaSP"),
                     rs.getString("TenSP"),
-                    rs.getString("MaLoai"),
+                    rs.getInt("MaLoai"),
                     rs.getString("MoTa"),
                     rs.getDouble("Gia"),
                     rs.getInt("SoLuong"),
@@ -100,7 +100,7 @@ public class ProductDAO {
                 products.add(new ProductDTO(
                     rs.getInt("MaSP"),
                     rs.getString("TenSP"),
-                    rs.getString("MaLoai"),
+                    rs.getInt("MaLoai"),
                     rs.getString("MoTa"),
                     rs.getDouble("Gia"),
                     rs.getInt("SoLuong"),

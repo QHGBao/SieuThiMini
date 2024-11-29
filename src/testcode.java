@@ -8,12 +8,14 @@ import javafx.stage.StageStyle;
 // formNCC
 // NhaCungCapGUI
 // ChiTietPN
+// PhieuNhapGUI
+// NhapHang
 
 public class testcode extends Application{
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/ChiTietPN.fxml"));  
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/PhieuNhapGUI.fxml"));  
             Scene scene = new Scene(root);
             primaryStage.setTitle("QL NhaCungCap Page");
             primaryStage.setScene(scene);

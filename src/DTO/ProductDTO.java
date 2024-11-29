@@ -4,7 +4,7 @@ package DTO;
 public class ProductDTO {
     private int maSP;
     private String tenSP;
-    private String maLoai;
+    private int maLoai;
     private String moTa;
     private double gia;
     private int soLuong;
@@ -12,7 +12,7 @@ public class ProductDTO {
     private int isDeleted;
 
 
-    public ProductDTO(int maSP, String tenSP, String maLoai, String moTa, double gia, int soLuong, String hinhAnh, int isDeleted) {
+    public ProductDTO(int maSP, String tenSP, int maLoai, String moTa, double gia, int soLuong, String hinhAnh, int isDeleted) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.maLoai = maLoai;
@@ -21,6 +21,9 @@ public class ProductDTO {
         this.soLuong = soLuong;
         this.hinhAnh = hinhAnh;
         this.isDeleted = isDeleted;
+    }
+
+    public ProductDTO() {
     }
 
     public int getMaSP() {
@@ -39,11 +42,11 @@ public class ProductDTO {
         this.tenSP = tenSP;
     }
 
-    public String getMaLoai() {
+    public int getMaLoai() {
         return maLoai;
     }
 
-    public void setMaLoai(String maLoai) {
+    public void setMaLoai(int maLoai) {
         this.maLoai = maLoai;
     }
 

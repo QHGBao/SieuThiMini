@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" style="-fx-background-color: #cfd6e6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PhieuNhapController">
+   <children>
+      <Pane layoutX="14.0" layoutY="10.0" prefHeight="64.0" prefWidth="400.0" style="-fx-border-color: #cfd6e6;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <children>
+            <HBox layoutY="2.0" prefHeight="60.0" prefWidth="400.0">
+               <children>
+                  <Pane fx:id="btnDuyet" onMouseClicked="#btnDuyetClicked" onMouseEntered="#btnDuyetEntered" onMouseExited="#btnDuyetExited" prefHeight="60.0" prefWidth="90.0">
+                     <children>
+                        <ImageView fitHeight="48.0" fitWidth="90.0" layoutX="21.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Assets/Img/checkedIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" right="2.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="btnRepair" onMouseClicked="#btnRepairClicked" onMouseEntered="#btnRepairEntered" onMouseExited="#btnRepairExited" prefHeight="60.0" prefWidth="90.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="90.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Assets/Img/repairIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="btnDelete" onMouseClicked="#btnDeleteClicked" onMouseEntered="#btnDeleteEntered" onMouseExited="#btnDeleteExited" prefHeight="60.0" prefWidth="90.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="90.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Assets/Img/deleteIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+                  <Pane fx:id="btnSee" onMouseClicked="#btnSeeClicked" onMouseEntered="#btnSeeEntered" onMouseExited="#btnSeeExited" prefHeight="60.0" prefWidth="90.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="90.0" layoutX="20.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Assets/Img/seeIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="2.0" right="10.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Pane layoutX="440.0" layoutY="10.0" prefHeight="64.0" prefWidth="280.0">
+         <children>
+            <Pane layoutX="5.0" layoutY="-1.0" prefHeight="30.0" prefWidth="270.0">
+               <children>
+                  <DatePicker fx:id="txtNgBD" layoutX="87.0" layoutY="1.0" prefHeight="30.0" prefWidth="183.0" />
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Ngày BĐ:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="5.0" layoutY="32.0" prefHeight="30.0" prefWidth="270.0">
+               <children>
+                  <DatePicker fx:id="txtNgKT" layoutX="87.0" layoutY="1.0" prefHeight="30.0" prefWidth="183.0" />
+                  <Label prefHeight="30.0" prefWidth="90.0" text="Ngày KT:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children></Pane>
+      <Pane layoutX="748.0" layoutY="10.0" prefHeight="64.0" prefWidth="135.0">
+         <children>
+            <Pane layoutX="6.0" layoutY="-1.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #E87D7D; -fx-border-color: #56565DED;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+               <children>
+                  <Label fx:id="btnNhap" alignment="CENTER" onMouseClicked="#btnNhapClicked" prefHeight="30.0" prefWidth="90.0" text="Tạo Phiếu">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="94.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/Img/createIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+            <Pane layoutX="6.0" layoutY="35.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #94CA97; -fx-border-color: #56565DED;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+               <children>
+                  <Label fx:id="btnExcel" alignment="CENTER" onMouseClicked="#btnExcelCliked" prefHeight="30.0" prefWidth="90.0" text="Xuất Excel">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="91.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/Img/excelIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+         </children>
+      </Pane>
+      <Pane layoutY="82.0" prefHeight="48.0" prefWidth="904.0" style="-fx-background-color: #cfd6e6;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="229.0" prefHeight="48.0" prefWidth="446.0" text="Quản Lý Phiếu Nhập">
+               <font>
+                  <Font name="Arial Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TableView fx:id="tablePN" layoutX="23.0" layoutY="188.0" prefHeight="622.0" prefWidth="858.0" style="-fx-border-color: #cfd6e6;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <columns>
+            <TableColumn fx:id="colMaPN" prefWidth="75.0" sortable="false" style="-fx-alignment: center;" text="Mã PN" />
+            <TableColumn fx:id="colDate" prefWidth="183.19998168945312" sortable="false" style="-fx-alignment: center;" text="Ngày Lập" />
+            <TableColumn fx:id="colNhanVien" prefWidth="245.5999755859375" sortable="false" style="-fx-alignment: center;" text="Nhân Viên" />
+            <TableColumn fx:id="colNCC" prefWidth="248.0" sortable="false" style="-fx-alignment: center;" text="Nhà Cung Cấp" />
+            <TableColumn fx:id="colTrangThai" prefWidth="110.4000244140625" sortable="false" style="-fx-alignment: center;" text="Trạng Thái" />
+         </columns>
+      </TableView>
+      <Pane layoutX="172.0" layoutY="143.0" prefHeight="30.0" prefWidth="560.0" style="-fx-background-radius: 20px;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <children>
+            <TextField fx:id="txtSearch" layoutX="6.0" onKeyReleased="#searchReleased" prefHeight="30.0" prefWidth="515.0" promptText="Tìm kiếm theo nhà cung cấp ..." style="-fx-background-color: transparent;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </TextField>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="521.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Assets/Img/searchIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="btnReset" layoutX="800.0" layoutY="142.0" onMouseClicked="#btnResetClicked" prefHeight="30.0" prefWidth="30.0">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Assets/Img/resetIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+   </children>
+</AnchorPane>
