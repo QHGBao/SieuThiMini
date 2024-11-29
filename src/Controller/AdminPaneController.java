@@ -45,6 +45,11 @@ public class AdminPaneController {
     }
 
     @FXML
+    void handlePNAction(ActionEvent event) {
+        loadContent("PhieuNhapGUI.fxml");
+    }
+
+    @FXML
     void handlePhanQuyenAction(ActionEvent event) {
         loadContent("PhanQuyenGUI.fxml");
     }

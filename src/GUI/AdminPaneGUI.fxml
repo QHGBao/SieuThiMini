@@ -61,7 +61,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
+                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePNAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>

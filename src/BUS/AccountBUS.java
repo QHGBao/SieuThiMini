@@ -25,7 +25,7 @@ public class AccountBUS {
     }
 
     public AccountDTO getAccountbyId(int maTK) {
-        return accountDAO.getAccount(maTK);
+        return accountDAO.getAccountbyId(maTK);
     }
 
     public List<AccountDTO> getAllAccounts() {

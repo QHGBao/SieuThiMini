@@ -1,9 +1,15 @@
 package Controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.PhieuNhapBUS;
 import DTO.PhieuNhapDTO;
@@ -183,7 +189,36 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     void btnExcelCliked(MouseEvent event) {
-
+        try {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("DS Phiếu");
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Mã PN");
+            headerRow.createCell(1).setCellValue("Ngày Lập");
+            headerRow.createCell(2).setCellValue("Nhân Viên");
+            headerRow.createCell(3).setCellValue("Nhà Cung Cấp");
+            headerRow.createCell(4).setCellValue("Trạng Thái");
+            for (int i = 0; i < tablePN.getItems().size(); i++) {
+                PhieuNhapDTO.tablePNDTO pn = tablePN.getItems().get(i);
+                Row row = sheet.createRow(i + 1);
+                row.createCell(0).setCellValue(pn.getMaPN());
+                row.createCell(1).setCellValue(pn.getNgayLap());
+                row.createCell(2).setCellValue(pn.getTenNV());
+                row.createCell(3).setCellValue(pn.getTenNCC());
+                row.createCell(4).setCellValue(pn.getTrangThai());
+            }
+            try (FileOutputStream fileOut = new FileOutputStream("DanhSachPhieuNhap.xlsx")) {
+                workbook.write(fileOut);
+                workbook.close();
+                Alert alSuccess = new Alert(AlertType.INFORMATION);
+                alSuccess.setTitle("Thông báo");
+                alSuccess.setHeaderText("Thành công");
+                alSuccess.setContentText("Xuất file Excel thành công !!");
+                alSuccess.showAndWait();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
