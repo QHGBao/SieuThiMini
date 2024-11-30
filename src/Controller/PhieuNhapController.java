@@ -91,7 +91,7 @@ public class PhieuNhapController implements Initializable {
     private ObservableList<PhieuNhapDTO.tablePNDTO> dsTable;
     private NhanVienDTO nvLogin;
 
-    public void setNvLogin(NhanVienDTO nvLogin){
+    public void setNV(NhanVienDTO nvLogin){
         this.nvLogin = nvLogin;
     }
 

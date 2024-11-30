@@ -123,12 +123,11 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
-    //private int maNV;
+    private NhanVienDTO nv;
 
-    public void setMaNV(int maNV) {
-        //this.maNV = maNV;
-        sellMaNV.setText("" + maNV); 
-        sellTenNV.setText(nhanVienBUS.getTenNVByMaNV(maNV));
+    public void setNV(NhanVienDTO nv) {
+        sellMaNV.setText(String.valueOf(nv.getMaNV())); 
+        sellTenNV.setText(nv.getTenNV());
     }
 
     @SuppressWarnings("static-access")

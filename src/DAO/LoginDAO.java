@@ -14,9 +14,9 @@ public class LoginDAO {
         connectManager = new ConnectManager();
     }
 
-    public Integer checkLogin(String username, String password) {
-        Integer maNV = null; // Biến để lưu mã nhân viên nếu đăng nhập thành công
-        String query = "SELECT MaNV FROM TaiKhoan WHERE TenTK = ? AND MatKhau = ?";
+    public NhanVienDTO checkLogin(String username, String password) {
+        NhanVienDTO nv = new NhanVienDTO();
+        String query = "SELECT tk.MaNV, nv.TenNV FROM TaiKhoan tk, NhanVien nv WHERE TenTK = ? AND MatKhau = ? AND tk.MaNV = nv.MaNV";
 
         try {
             connectManager.openConnection();
@@ -27,7 +27,8 @@ public class LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                maNV = resultSet.getInt("MaNV"); // Lấy mã nhân viên nếu đăng nhập thành công
+                nv.setMaNV(resultSet.getInt(1));
+                nv.setTenNV(resultSet.getString(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -35,30 +36,9 @@ public class LoginDAO {
             connectManager.closeConnection();
         }
 
-        return maNV; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
+        return nv; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
     }
 
-    public NhanVienDTO nvLogin(String username, String password) {
-        NhanVienDTO nvLogin = new NhanVienDTO();
-        String sql = "select nv.MaNV, nv.TenNV from TaiKhoan tk, NhanVien nv where tk.MaNV = nv.MaNV AND TenTK = ? AND MatKhau = ? ";
-        try {
-            connectManager.openConnection();
-            Connection connection = connectManager.getConnection();
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                nvLogin.setMaNV(rs.getInt(1));
-                nvLogin.setTenNV(rs.getString(2));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connectManager.closeConnection();
-        }
-        return nvLogin;
-    }
 
     public int getUserRole(String username) {
         int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy

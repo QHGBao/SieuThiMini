@@ -10,14 +10,10 @@ public class LoginBUS {
         loginDAO = new LoginDAO(); // Khởi tạo đối tượng LoginDAO
     }
 
-    public int validateUser(String username, String password) {
-        return loginDAO.checkLogin(username, password); // Gọi đến phương thức checkLogin trong DAO
+    public NhanVienDTO checkLogin(String username, String password) {
+        return loginDAO.checkLogin(username, password);
     }
 
-    public NhanVienDTO getNvLogin(String username, String password){
-        return loginDAO.nvLogin(username, password);
-    }
-        
     public int getUserRole(String username) {
         return loginDAO.getUserRole(username);
     }

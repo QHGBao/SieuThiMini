@@ -23,17 +23,10 @@ import java.util.Map;
 
 public class AdminPaneController {
 
-    private int maNV;
+    private NhanVienDTO nv;
 
-    public void setMaNV(int maNV) {
-        this.maNV = maNV;
-        // Thực hiện các thao tác khởi tạo giao diện hoặc dữ liệu dựa vào mã nhân viên
-    }
-
-    private NhanVienDTO nvLogin;
-    
-    public void setNvLogin(NhanVienDTO nvLogin){
-        this.nvLogin = nvLogin;
+    public void setNV(NhanVienDTO nv) {
+        this.nv = nv;
     }
 
     @FXML
@@ -126,12 +119,20 @@ public class AdminPaneController {
 
     private void loadContent(String fxmlFile, boolean isReadOnly) {
         try {
-            Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));
-            contentPane.getChildren().setAll(newContent);
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/" + fxmlFile));
+            Pane newContent = loader.load();
+            if(fxmlFile.equals("QLBHGUI.fxml")) {
+                QLBHController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
+            if(fxmlFile.equals("PhieuNhapGUI.fxml")) {
+                PhieuNhapController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem
             }
+            contentPane.getChildren().setAll(newContent);
         } catch (IOException e) {
             showErrorAlert("Unable to load content for: " + fxmlFile);
             e.printStackTrace();
@@ -157,7 +158,7 @@ public class AdminPaneController {
             case 6:
                 return "QLNVGUI.fxml";
             case 7:
-                return "BanHangGUI.fxml";
+                return "QLBHGUI.fxml";
             case 8:
                 return "GiamGiaSPGUI.fxml";
             case 9:
@@ -226,15 +227,7 @@ public class AdminPaneController {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/PhieuNhapGUI.fxml"));
-            Pane newContent = loader.load();
-            PhieuNhapController pnController = loader.getController();
-            pnController.setNvLogin(nvLogin);
-            contentPane.getChildren().setAll(newContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
     }
 
     @FXML

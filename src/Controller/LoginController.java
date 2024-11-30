@@ -1,6 +1,7 @@
 package Controller;
 
 import BUS.LoginBUS;
+import DTO.NhanVienDTO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,10 +41,9 @@ public class LoginController {
             alert.showAndWait();
         } else {
             // Kiểm tra thông tin đăng nhập từ LoginBUS và lấy mã nhân viên
-            Integer maNV = loginBUS.validateUser(username, password);
+            NhanVienDTO nv = loginBUS.checkLogin(username, password);
 
-            if (maNV != null) {
-                System.out.println("Login successful! MaNV: " + maNV);
+            if (nv != null) {
                 try {
                     int userMaQuyen = loginBUS.getUserRole(username); // Lấy MaQuyen từ LoginBUS
 
@@ -54,10 +54,8 @@ public class LoginController {
                     AdminPaneController controller = loader.getController();
 
                     // Truyền mã nhân viên cho AdminPaneController
-                    controller.setMaNV(maNV);
                     AdminPaneController mainStage = loader.getController();
-                    mainStage.setNvLogin(loginBUS.getNvLogin(username, password));
-                    System.out.println(loginBUS.getNvLogin(username, password).getMaNV());
+                    mainStage.setNV(nv);
                     // Tạo Scene mới và hiển thị trang AdminPane
                     controller.initialize(userMaQuyen); // Truyền MaQuyen sang AdminPaneController
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
