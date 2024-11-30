@@ -48,9 +48,8 @@ public class LoginController {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AdminPaneGUI.fxml"));
                     AnchorPane adminPane = loader.load();
 
-                    AdminPaneController controller = loader.getController();
-                    controller.initialize(userMaQuyen); // Truyền MaQuyen sang AdminPaneController
-
+                    AdminPaneController main = loader.getController();
+                    main.setMaQuyen(userMaQuyen);
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));
                 } catch (Exception e) {

@@ -5,6 +5,7 @@ import DTO.CTPhanQuyenDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,11 +15,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class AdminPaneController {
+public class AdminPaneController implements Initializable {
 
     @FXML
     private Button btnBanHang;
@@ -63,8 +66,12 @@ public class AdminPaneController {
         phanQuyenBUS = new PhanQuyenBUS();
     }
 
-    @FXML
-    public void initialize(int userMaQuyen) {
+    public void setMaQuyen(int mq) {
+        userMaQuyen = mq;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         this.userMaQuyen = userMaQuyen; // Lưu mã quyền của người dùng
         setupButtonMap(); // Tạo ánh xạ mã chức năng với các nút
         applyPermissions(); // Áp dụng quyền cho các nút
@@ -210,7 +217,7 @@ public class AdminPaneController {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-        loadContent("PhieuNhapGUI.fxml");
+
     }
 
     @FXML
