@@ -1,5 +1,12 @@
+
 package Controller;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+
+import DTO.NhanVienDTO;
+>>>>>>> 3cef21bf4402887b21da705335fff513694c6d3b
 import BUS.PhanQuyenBUS;
 import DTO.CTPhanQuyenDTO;
 import javafx.event.ActionEvent;
@@ -12,18 +19,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AdminPaneController {
 
-    private NhanVienDTO nvLogin;
-    
-    public void setNvLogin(NhanVienDTO nvLogin){
-        this.nvLogin = nvLogin;
+    private NhanVienDTO nv;
+
+    public void setNV(NhanVienDTO nv) {
+        this.nv = nv;
     }
 
     @FXML
@@ -116,12 +121,20 @@ public class AdminPaneController {
 
     private void loadContent(String fxmlFile, boolean isReadOnly) {
         try {
-            Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));
-            contentPane.getChildren().setAll(newContent);
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/" + fxmlFile));
+            Pane newContent = loader.load();
+            if(fxmlFile.equals("QLBHGUI.fxml")) {
+                QLBHController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
+            if(fxmlFile.equals("PhieuNhapGUI.fxml")) {
+                PhieuNhapController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem
             }
+            contentPane.getChildren().setAll(newContent);
         } catch (IOException e) {
             showErrorAlert("Unable to load content for: " + fxmlFile);
             e.printStackTrace();
@@ -141,13 +154,13 @@ public class AdminPaneController {
             case 3:
                 return "PhieuNhapGUI.fxml";
             case 4:
-                return "Review+DeleteCancellationGUI.fxml";
+                return "DeleteCancellationGUI.fxml";
             case 5:
                 return "QLKHGUI.fxml";
             case 6:
                 return "QLNVGUI.fxml";
             case 7:
-                return "BanHangGUI.fxml";
+                return "QLBHGUI.fxml";
             case 8:
                 return "GiamGiaSPGUI.fxml";
             case 9:
@@ -216,15 +229,7 @@ public class AdminPaneController {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/PhieuNhapGUI.fxml"));
-            Pane newContent = loader.load();
-            PhieuNhapController pnController = loader.getController();
-            pnController.setNvLogin(nvLogin);
-            contentPane.getChildren().setAll(newContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
     }
 
     @FXML

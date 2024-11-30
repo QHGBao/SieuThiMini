@@ -1,25 +1,18 @@
 package Controller;
 
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import BUS.CancellationBUS;
-import BUS.CancellationDetailsBUS;
 import BUS.CancellationProductBUS;
-import DTO.CancellationDetailsDTO;
 import DTO.CancellationProductDTO;
 import DTO.CancellationDTO;
-import DTO.SessionManager;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;

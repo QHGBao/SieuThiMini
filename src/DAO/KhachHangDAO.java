@@ -147,6 +147,8 @@ public class KhachHangDAO {
         }
         return result;
     }
+    
+    
     public boolean kiemTraSoDienThoai(String soDienThoai){
         boolean result = false;
         String sql = "Select COUNT(*) From KhachHang  Where SoDienThoai = ? and Is_Deleted = 0";
@@ -168,5 +170,50 @@ public class KhachHangDAO {
             connectManager.closeConnection();
         }
         return result;
+    }
+
+    public int getDiemTichLuyBySoDienThoai(String phoneNumber) {
+        int Points = -1;
+        String query = "SELECT DiemTichLuy FROM KhachHang WHERE SoDienThoai = ? AND Is_Deleted = 0";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, phoneNumber);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Points = resultSet.getInt("DiemTichLuy");
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            connectManager.closeConnection();
+        }
+        return Points;
+    }
+
+    public int getMaKHBySDT(String sdt) {
+        int maKH = -1;  // Giá trị mặc định nếu không tìm thấy mã khách hàng
+        String sql = "SELECT MaKH FROM KhachHang WHERE SoDienThoai = ? AND Is_Deleted = 0";  // Lọc theo số điện thoại và đảm bảo khách hàng chưa bị xóa
+        
+        try {
+            connectManager.openConnection();  // Mở kết nối đến cơ sở dữ liệu
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, sdt);  // Thiết lập giá trị cho tham số ? trong câu lệnh SQL
+            
+            ResultSet rs = preparedStatement.executeQuery();  // Thực thi câu lệnh SQL và nhận kết quả
+            
+            // Kiểm tra nếu có kết quả trả về
+            if (rs.next()) {
+                maKH = rs.getInt("MaKH");  // Lấy mã khách hàng từ ResultSet
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();  // Xử lý ngoại lệ SQL
+        } finally {
+            connectManager.closeConnection();  // Đóng kết nối sau khi thực hiện xong
+        }
+        return maKH;  // Trả về mã khách hàng (nếu tìm thấy) hoặc -1 nếu không tìm thấy
     }
 }

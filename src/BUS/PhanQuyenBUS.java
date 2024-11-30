@@ -3,7 +3,6 @@ package BUS;
 import DTO.PhanQuyenDTO;
 import DTO.TaiKhoan_DTO;
 import DTO.CTPhanQuyenDTO;
-import DTO.ChucNangDTO;
 import java.util.ArrayList;
 import DAO.PhanQuyenDao;
 
