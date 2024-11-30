@@ -58,105 +58,125 @@
             </Label>
             <Pane layoutY="643.0" prefHeight="101.0" prefWidth="551.0" style="-fx-background-color: #D4E8FF;">
                <children>
-                  <Button layoutX="216.0" layoutY="26.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="126.0" text="Lưu thay đổi" textFill="#366139">
+                  <Button layoutX="216.0" layoutY="26.0" mnemonicParsing="false" onAction="#btnSave" prefHeight="53.0" prefWidth="126.0" text="Lưu thay đổi" textFill="#366139">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
                </children>
             </Pane>
-            <ScrollPane layoutX="9.0" layoutY="49.0" prefHeight="579.0" prefWidth="537.0">
+            <ScrollPane layoutX="9.0" layoutY="49.0" prefHeight="579.0" prefWidth="531.0">
                <content>
                   <AnchorPane prefHeight="468.0" prefWidth="522.0">
                      <children>
-                        <VBox prefHeight="754.0" prefWidth="531.0">
+                        <VBox prefHeight="1060.0" prefWidth="531.0" AnchorPane.bottomAnchor="0.0">
                            <children>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý sản phẩm ">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="136.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="301.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý nhà cung cấp">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý phiếu nhập">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="139.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="304.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý phiếu huỷ ">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý khách hàng ">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý thống kê nhập hàng">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý thống kê hóa đơn ">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="200.0">
-                                       <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý phân quyền">
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý sản phẩm">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
                                        <children>
-                                          <CheckBox layoutX="138.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="19.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem1" />
+                                          <CheckBox fx:id="thaoTac1" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
                                        </children>
                                     </AnchorPane>
                                  </content>
                               </TitledPane>
-                              <TitledPane alignment="CENTER" animated="false" text="Quản lý thống kê tổng">
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Nhà cung cấp">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
                                        <children>
-                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" />
-                                          <CheckBox layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem2" />
+                                          <CheckBox fx:id="thaoTac2" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Phiếu nhập">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem3" />
+                                          <CheckBox fx:id="thaoTac3" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Phiếu hủy">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem4" />
+                                          <CheckBox fx:id="thaoTac4" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Khách hàng">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem5" />
+                                          <CheckBox fx:id="thaoTac5" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Nhân viên">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem6" />
+                                          <CheckBox fx:id="thaoTac6" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Bán hàng">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem7" />
+                                          <CheckBox fx:id="thaoTac7" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Giảm giá sản phẩm">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem8" />
+                                          <CheckBox fx:id="thaoTac8" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Quản lý Tài khoản">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem9" />
+                                          <CheckBox fx:id="thaoTac9" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Thống Kê">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem10" />
+                                          <CheckBox fx:id="thaoTac10" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </TitledPane>
+                              <TitledPane alignment="CENTER" animated="false" text="Phân Quyền">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="518.0">
+                                       <children>
+                                          <CheckBox layoutX="138.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Xem" fx:id="xem11" />
+                                          <CheckBox fx:id="thaoTac11" layoutX="303.0" layoutY="24.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="Thao tác" />
                                        </children>
                                     </AnchorPane>
                                  </content>

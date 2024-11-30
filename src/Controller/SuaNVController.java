@@ -23,7 +23,6 @@ import javafx.stage.Stage;
 public class SuaNVController {
 
     private Runnable onAddSuccessCallback; // Callback khi thêm thành công
-    private int maNV;
 
     @FXML
     private Label btnSua;
@@ -81,8 +80,7 @@ public class SuaNVController {
         this.onAddSuccessCallback = callback;
     }
     public void setMaNV(int maNV) {
-        this.maNV = maNV;
-        txtMaNV.setText(String.valueOf(maNV)); // Hiển thị maNV trong TextField
+        txtMaNV.setText(String.valueOf(maNV));
         loadDuLieuTuBang();
     }
     private void closePopup() {
@@ -179,8 +177,8 @@ public class SuaNVController {
                 validDiaChi.setText("Không Được Bỏ Trống");
                 flag = false;
             }
-            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sĐường*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
-                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Đường ABC hoặc 123 Đường ABC).");
+            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sDuong*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
+                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Duong ABC hoặc 123 Duong ABC).");
                 flag = false;
             }
             

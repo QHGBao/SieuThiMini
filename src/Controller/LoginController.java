@@ -32,9 +32,7 @@ public class LoginController {
         String username = usernameLabel.getText();
         String password = passwordLabel.getText();
 
-        // Kiểm tra tên đăng nhập và mật khẩu có trống không
         if (username.isEmpty() || password.isEmpty()) {
-            System.out.println("Please enter username and password.");
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Input Error");
             alert.setHeaderText("Username or Password Missing");
@@ -47,7 +45,8 @@ public class LoginController {
             if (maNV != null) {
                 System.out.println("Login successful! MaNV: " + maNV);
                 try {
-                    // Tải tệp FXML của AdminPane
+                    int userMaQuyen = loginBUS.getUserRole(username); // Lấy MaQuyen từ LoginBUS
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AdminPaneGUI.fxml"));
                     AnchorPane adminPane = loader.load();
 
@@ -56,8 +55,11 @@ public class LoginController {
 
                     // Truyền mã nhân viên cho AdminPaneController
                     controller.setMaNV(maNV);
-
+                    AdminPaneController mainStage = loader.getController();
+                    mainStage.setNvLogin(loginBUS.getNvLogin(username, password));
+                    System.out.println(loginBUS.getNvLogin(username, password).getMaNV());
                     // Tạo Scene mới và hiển thị trang AdminPane
+                    controller.initialize(userMaQuyen); // Truyền MaQuyen sang AdminPaneController
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));
                 } catch (Exception e) {
@@ -69,7 +71,6 @@ public class LoginController {
                     alert.showAndWait();
                 }
             } else {
-                System.out.println("Invalid username or password.");
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Lỗi đăng nhập");
                 alert.setHeaderText("Thông tin xác thực không hợp lệ");

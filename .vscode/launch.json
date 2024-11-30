@@ -6,6 +6,22 @@
     "configurations": [
         {
             "type": "java",
+            "name": "testcode",
+            "request": "launch",
+            "vmArgs": "--module-path D:/CodeLearning/Java_QLSieuThiMini/ProjectSieuThiMini/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src",
+            "mainClass": "testcode",
+            "projectName": "SieuThiMini_49cdcc9a"
+        },
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "vmArgs": "--module-path D:/CodeLearning/Java_QLSieuThiMini/ProjectSieuThiMini/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src",
+            "mainClass": "App",
+            "projectName": "SieuThiMini_49cdcc9a"
+        },
+        {
+            "type": "java",
             "name": "App",
             "request": "launch",
             "mainClass": "App",

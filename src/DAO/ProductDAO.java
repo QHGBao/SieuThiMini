@@ -24,7 +24,7 @@ public class ProductDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, product.getMaSP());
             preparedStatement.setString(2, product.getTenSP());
-            preparedStatement.setString(3, product.getMaLoai());
+            preparedStatement.setInt(3, product.getMaLoai());
             preparedStatement.setString(4, product.getMoTa());
             preparedStatement.setDouble(5, product.getGia());
             preparedStatement.setInt(6, product.getSoLuong());
@@ -46,7 +46,7 @@ public class ProductDAO {
             Connection connection = connectManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, product.getTenSP());
-            preparedStatement.setString(2, product.getMaLoai());
+            preparedStatement.setInt(2, product.getMaLoai());
             preparedStatement.setString(3, product.getMoTa());
             preparedStatement.setDouble(4, product.getGia());
             preparedStatement.setInt(5, product.getSoLuong());
@@ -91,7 +91,7 @@ public class ProductDAO {
                 return new ProductDTO(
                         rs.getInt("MaSP"),
                         rs.getString("TenSP"),
-                        rs.getString("MaLoai"),
+                        rs.getInt("MaLoai"),
                         rs.getString("MoTa"),
                         rs.getInt("Gia"),
                         rs.getInt("SoLuong"),
@@ -120,7 +120,7 @@ public class ProductDAO {
                 products.add(new ProductDTO(
                         rs.getInt("MaSP"),
                         rs.getString("TenSP"),
-                        rs.getString("MaLoai"),
+                        rs.getInt("MaLoai"),
                         rs.getString("MoTa"),
                         rs.getInt("GiaBan"),
                         rs.getInt("SoLuong"),
@@ -147,7 +147,7 @@ public class ProductDAO {
                 products.add(new ProductDTO(
                         rs.getInt("MaSP"),
                         rs.getString("TenSP"),
-                        rs.getString("MaLoai"),
+                        rs.getInt("MaLoai"),
                         rs.getString("MoTa"),
                         rs.getInt("GiaBan"),
                         rs.getInt("SoLuong"),

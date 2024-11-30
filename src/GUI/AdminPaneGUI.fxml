@@ -36,7 +36,21 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="874.0" prefWidth="376.0" style="-fx-background-color: #D5F6FD; -fx-border-color: #D5F6FD;">
                            <children>
+<<<<<<< HEAD
                               <Button layoutX="23.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleQLSPAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý sản phẩm">
+=======
+                              <ImageView fitHeight="127.0" fitWidth="183.0" layoutX="97.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Assets/Img/Login1.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="92.0" layoutY="144.0" text="ADMIN PAGE" textFill="#f80101">
+                                 <font>
+                                    <Font name="Arial Bold" size="30.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnQLSP" layoutX="23.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleQLSPAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý sản phẩm">
+>>>>>>> d36e3d558e9cdaf71e59cc56d5c01874461f0472
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -44,7 +58,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="22.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleNCCAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhà cung cấp">
+                              <Button fx:id="btnNCC" layoutX="22.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleNCCAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhà cung cấp">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -52,7 +66,11 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
+<<<<<<< HEAD
+                              <Button fx:id="btnPhieuNhap" layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePhieuNhapAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
+=======
+                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePNAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
+>>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -60,7 +78,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="24.0" layoutY="380.0" mnemonicParsing="false" onAction="#HandlePhieuHuyAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu hủy">
+                              <Button fx:id="btnPhieuHuy" layoutX="24.0" layoutY="380.0" mnemonicParsing="false" onAction="#HandlePhieuHuyAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu hủy">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -68,7 +86,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="440.0" mnemonicParsing="false" onAction="#HandleKhachHangAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Khách hàng">
+                              <Button fx:id="btnKhachHang" layoutX="23.0" layoutY="440.0" mnemonicParsing="false" onAction="#HandleKhachHangAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Khách hàng">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -76,7 +94,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="24.0" layoutY="500.0" mnemonicParsing="false" onAction="#HandleNhanVienAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhân viên">
+                              <Button fx:id="btnNhanVien" layoutX="24.0" layoutY="500.0" mnemonicParsing="false" onAction="#HandleNhanVienAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Nhân viên">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -84,7 +102,11 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
+<<<<<<< HEAD
                               <Button layoutX="22.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleQLBHAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Bán hàng">
+=======
+                              <Button fx:id="btnBanHang" layoutX="22.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleBanHangAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Bán hàng">
+>>>>>>> d36e3d558e9cdaf71e59cc56d5c01874461f0472
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -92,7 +114,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="21.0" layoutY="620.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Giảm giá sản phẩm">
+                              <Button fx:id="btnGiamGia" layoutX="21.0" layoutY="620.0" mnemonicParsing="false" onAction="#handleGiamGiaction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Giảm giá sản phẩm">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -100,7 +122,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="22.0" layoutY="680.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Tài khoản">
+                              <Button fx:id="btnQLTaiKhoan" layoutX="22.0" layoutY="680.0" mnemonicParsing="false" onAction="#handleQLTaiKhoanction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Tài khoản">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -108,7 +130,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="740.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Thống Kê">
+                              <Button fx:id="btnQLThongKe" layoutX="23.0" layoutY="740.0" mnemonicParsing="false" onAction="#handleQLThongKeAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Thống Kê">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -116,7 +138,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button layoutX="23.0" layoutY="800.0" mnemonicParsing="false" onAction="#handlePhanQuyenAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Phân Quyền">
+                              <Button fx:id="btnPhanQuyen" layoutX="23.0" layoutY="800.0" mnemonicParsing="false" onAction="#handlePhanQuyenAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Phân Quyền">
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>

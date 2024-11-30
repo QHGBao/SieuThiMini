@@ -143,8 +143,8 @@ public class ThemNVController {
                 validDiaChi.setText("Không Được Bỏ Trống");
                 flag = false;
             }
-            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sĐường*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
-                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Đường ABC hoặc 123 Đường ABC).");
+            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sDuong*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
+                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Duong ABC hoặc 123 Duong ABC).");
                 flag = false;
             }
             if(soDienThoai.isEmpty()){

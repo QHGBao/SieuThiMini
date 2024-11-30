@@ -3,6 +3,7 @@ package Controller;
 
 import BUS.NhaCungCapBUS;
 import DTO.NhaCungCapDTO;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -61,6 +62,7 @@ public class formNCCController {
     private String option;
     private NhaCungCapDTO ncc;
     private NhaCungCapController nccController;
+    private ObservableList<NhaCungCapDTO> dsNCC;
 
     public void setNccController(NhaCungCapController nccController){
         this.nccController = nccController;
@@ -68,6 +70,10 @@ public class formNCCController {
 
     public void setInforNCC(NhaCungCapDTO ncc){
         this.ncc = ncc;
+    }
+
+    public void setDsNCC(ObservableList<NhaCungCapDTO> dsNCC){
+        this.dsNCC = dsNCC;
     }
 
     public void setOption(String option) {
@@ -165,7 +171,11 @@ public class formNCCController {
                 ncc.setNguoiLH(inputNguoiLH.getText());
                 ncc.setIs_Deleted(0);
                 alertMessage(nccBUS.themNCC(ncc));
-                nccController.refreshDataNCC();
+                if (nccController != null) {
+                    nccController.refreshDataNCC();
+                }
+                dsNCC.clear();
+                dsNCC.addAll(nccBUS.getAllNCC());
             }
         }
         if(option.equals("Sửa")){

@@ -4,14 +4,14 @@ package DTO;
 public class ProductDTO {
     private int maSP;
     private String tenSP;
-    private String maLoai;
+    private int maLoai;
     private String moTa;
     private int gia;
     private int soLuong;
     private String hinhAnh;
     private int isDeleted;
 
-    public ProductDTO(int maSP, String tenSP, String maLoai, String moTa, int gia, int soLuong, String hinhAnh,
+    public ProductDTO(int maSP, String tenSP, int maLoai, String moTa, int gia, int soLuong, String hinhAnh,
             int isDeleted) {
         this.maSP = maSP;
         this.tenSP = tenSP;
@@ -22,7 +22,10 @@ public class ProductDTO {
         this.hinhAnh = hinhAnh;
         this.isDeleted = isDeleted;
     }
-    
+
+    public ProductDTO() {
+    }
+
     public int getMaSP() {
         return maSP;
     }
@@ -35,10 +38,12 @@ public class ProductDTO {
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }
-    public String getMaLoai() {
+
+    public int getMaLoai() {
         return maLoai;
     }
-    public void setMaLoai(String maLoai) {
+
+    public void setMaLoai(int maLoai) {
         this.maLoai = maLoai;
     }
     public String getMoTa() {

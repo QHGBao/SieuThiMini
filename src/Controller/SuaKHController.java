@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class SuaKHController {
-    private int maKH;
     private Runnable onSuaSuccessCallback;
     @FXML
     private Label btnClosePopUps;
@@ -49,7 +48,6 @@ public class SuaKHController {
         this.onSuaSuccessCallback = callback;
     }
     public void setMaKH(int maKH) {
-        this.maKH = maKH;
         txtMaKH.setText(String.valueOf(maKH)); // Hiển thị maKH trong TextField
         loadDuLieuTuBang();
     }

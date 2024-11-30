@@ -1,27 +1,27 @@
 package DTO;
 
 public class CTPhieuNhapDTO {
-    private String maPN;
-    private String maSP;
+    private int maPN;
+    private int maSP;
     private int soLuong;
     private int giaNhap;
     
     public CTPhieuNhapDTO() {
     }
 
-    public String getMaPN() {
+    public int getMaPN() {
         return maPN;
     }
 
-    public void setMaPN(String maPN) {
+    public void setMaPN(int maPN) {
         this.maPN = maPN;
     }
 
-    public String getMaSP() {
+    public int getMaSP() {
         return maSP;
     }
 
-    public void setMaSP(String maSP) {
+    public void setMaSP(int maSP) {
         this.maSP = maSP;
     }
 
