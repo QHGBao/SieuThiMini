@@ -15,7 +15,12 @@ public class LoginBUS {
         return loginDAO.checkLogin(username, password); // Gọi đến phương thức checkLogin trong DAO
     }
 
+<<<<<<< HEAD
     public NhanVienDTO getNvLogin(String username, String password){
         return loginDAO.nvLogin(username, password);
+=======
+    public int getUserRole(String username) {
+        return loginDAO.getUserRole(username);
+>>>>>>> f4c9c8c87b45287f920db8b0d68e2ba663d03ea5
     }
 }

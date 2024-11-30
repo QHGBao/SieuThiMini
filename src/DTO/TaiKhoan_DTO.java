@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.ArrayList;
+
 public class TaiKhoan_DTO {
     private int maTK;
     private String tenTK;
@@ -47,6 +49,21 @@ public class TaiKhoan_DTO {
     }
     public void setIs_Deleted(int is_Deleted) {
         this.is_Deleted = is_Deleted;
+    }
+
+    public void setMaTaiKhoan(int int1) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setMaTaiKhoan'");
+    }
+
+    public int getMaTaiKhoan() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getMaTaiKhoan'");
+    }
+
+    public void setPermissions(ArrayList<CTPhanQuyenDTO> permissions) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPermissions'");
     }
 
     

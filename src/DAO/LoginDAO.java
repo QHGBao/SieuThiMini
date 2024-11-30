@@ -27,7 +27,7 @@ public class LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                isValid = true; 
+                isValid = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,6 +38,7 @@ public class LoginDAO {
         return isValid;
     }
 
+<<<<<<< HEAD
     public NhanVienDTO nvLogin(String username, String password){
         NhanVienDTO nvLogin = new NhanVienDTO();
         String sql = "select nv.MaNV, nv.TenNV from TaiKhoan tk, NhanVien nv where tk.MaNV = nv.MaNV AND TenTK = ? AND MatKhau = ? ";
@@ -53,10 +54,30 @@ public class LoginDAO {
                 nvLogin.setTenNV(rs.getString(2));
             }
         } catch (Exception e) {
+=======
+    public int getUserRole(String username) {
+        int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy
+        String query = "SELECT MaQuyen FROM TaiKhoan WHERE TenTK = ?";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                maQuyen = resultSet.getInt("MaQuyen");
+            }
+        } catch (SQLException e) {
+>>>>>>> f4c9c8c87b45287f920db8b0d68e2ba663d03ea5
             e.printStackTrace();
         } finally {
             connectManager.closeConnection();
         }
+<<<<<<< HEAD
         return nvLogin;
+=======
+        return maQuyen;
+>>>>>>> f4c9c8c87b45287f920db8b0d68e2ba663d03ea5
     }
 }

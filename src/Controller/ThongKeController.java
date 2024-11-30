@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+package Controller;
+
+public class ThongKeController {
+    
+}
+=======
 package Controller;
 import javafx.fxml.FXML;
 
@@ -690,3 +697,4 @@ public class ThongKeController {
         hidePanel2.setVisible(false);
     }
 }
+>>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39

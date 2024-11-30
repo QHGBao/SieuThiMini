@@ -1,18 +1,32 @@
 package BUS;
 
 import DTO.PhanQuyenDTO;
+import DTO.TaiKhoan_DTO;
+import DTO.CTPhanQuyenDTO;
+import DTO.ChucNangDTO;
 import java.util.ArrayList;
 import DAO.PhanQuyenDao;
-import DTO.TaiKhoan_DTO;
 
 public class PhanQuyenBUS {
-    PhanQuyenDao pqDAO = new PhanQuyenDao();
+    private final PhanQuyenDao phanQuyenDao;
 
-    public ArrayList<PhanQuyenDTO> getALLQuyen() {
-        return pqDAO.getALLQuyen();
+    public PhanQuyenBUS() {
+        phanQuyenDao = new PhanQuyenDao();
     }
 
-    public ArrayList<TaiKhoan_DTO> getTaiKhoanByQuyen(int maQuyen){
-        return pqDAO.getTaiKhoanByQuyen(maQuyen);
+    public ArrayList<PhanQuyenDTO> getALLQuyen() {
+        return phanQuyenDao.getALLQuyen();
+    }
+
+    public ArrayList<TaiKhoan_DTO> getTaiKhoanByQuyen(int maQuyen) {
+        return phanQuyenDao.getTaiKhoanByQuyen(maQuyen);
+    }
+
+    public ArrayList<CTPhanQuyenDTO> getPermissionsByQuyen(int maQuyen) {
+        return phanQuyenDao.getPermissionsByQuyen(maQuyen);
+    }
+
+    public void savePermissions(ArrayList<CTPhanQuyenDTO> permissions) {
+        phanQuyenDao.savePermissions(permissions);
     }
 }
