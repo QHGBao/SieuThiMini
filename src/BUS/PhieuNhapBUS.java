@@ -54,4 +54,18 @@ public class PhieuNhapBUS {
             return "Duyệt phiếu nhập thành công !!";
         return "Duyệt phiếu nhập thất bại !!";
     }
+
+    public String themPN(PhieuNhapDTO pn){
+        if(pnDAO.themPN(pn))
+            return "Thêm phiếu nhập thành công !!";
+        return "Thêm phiếu nhập thất bại !!";
+    }
+
+    public void themCTPN(CTPhieuNhapDTO ctpn){
+        pnDAO.themCTPN(ctpn);
+    }
+
+    public int createNewCode(){
+        return pnDAO.createCodeNCC();
+    }
 }

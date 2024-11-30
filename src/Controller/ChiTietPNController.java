@@ -1,8 +1,19 @@
 package Controller;
 
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import BUS.PhieuNhapBUS;
 import DTO.PhieuNhapDTO;
@@ -107,6 +118,31 @@ public class ChiTietPNController implements Initializable {
 
     @FXML
     void btnPrintPDFClicked(MouseEvent event) {
-        
+        try {
+            // Tạo tài liệu PDF
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("PhieuNhap.pdf"));
+            document.open();
+
+            // Tiêu đề "PHIẾU NHẬP"
+            Paragraph title = new Paragraph("PHIẾU NHẬP", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24));
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+            document.add(Chunk.NEWLINE); // Thêm khoảng cách dòng
+
+            // Thông tin phiếu
+            PdfPTable infoTable = new PdfPTable(2);
+            infoTable.setWidthPercentage(100);
+            infoTable.setSpacingAfter(10);
+            
+            infoTable.addCell(new PdfPCell(new Phrase("Mã Phiếu: 4")));
+            infoTable.addCell(new PdfPCell(new Phrase("Nhà Cung Cấp: Công ty XYZ")));
+            infoTable.addCell(new PdfPCell(new Phrase("Người Tạo: Tran Thi B")));
+            infoTable.addCell(new PdfPCell(new Phrase("Thời Gian: 19/09/2024")));
+            document.add(infoTable);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

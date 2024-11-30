@@ -50,7 +50,9 @@ public class LoginController {
                     // Tải tệp FXML của AdminPane
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AdminPaneGUI.fxml"));
                     AnchorPane adminPane = loader.load();
-
+                    AdminPaneController mainStage = loader.getController();
+                    mainStage.setNvLogin(loginBUS.getNvLogin(username, password));
+                    System.out.println(loginBUS.getNvLogin(username, password).getMaNV());
                     // Tạo Scene mới và hiển thị trang AdminPane
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));

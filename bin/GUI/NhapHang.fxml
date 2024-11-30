@@ -103,7 +103,7 @@
             </Pane>
             <Pane fx:id="btnNhapHang" layoutX="324.0" layoutY="487.0" onMouseClicked="#btnNhapHangClicked" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #E87D7D; -fx-border-color: #56565DED;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
                <children>
-                  <Label fx:id="btnNhap" alignment="CENTER" onMouseClicked="#btnNhapClicked" prefHeight="30.0" prefWidth="90.0" text="Nhập Hàng">
+                  <Label fx:id="btnNhap" alignment="CENTER" prefHeight="30.0" prefWidth="90.0" text="Nhập Hàng">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -199,6 +199,5 @@
             <TextField fx:id="txtGiaNHap" alignment="CENTER" editable="false" layoutX="141.0" layoutY="106.0" prefHeight="25.0" prefWidth="105.0" promptText="0đ" style="-fx-background-color: #E4E2E6;" />
          </children>
       </Pane>
-      <TextField layoutX="131.0" layoutY="-34.0" />
    </children>
 </AnchorPane>

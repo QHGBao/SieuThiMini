@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 
+import DTO.NhanVienDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class AdminPaneController {
+
+    private NhanVienDTO nvLogin;
+    
+    public void setNvLogin(NhanVienDTO nvLogin){
+        this.nvLogin = nvLogin;
+    }
 
     @FXML
     private StackPane contentPane;
@@ -46,7 +53,15 @@ public class AdminPaneController {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-        loadContent("PhieuNhapGUI.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/PhieuNhapGUI.fxml"));
+            Pane newContent = loader.load();
+            PhieuNhapController pnController = loader.getController();
+            pnController.setNvLogin(nvLogin);
+            contentPane.getChildren().setAll(newContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
