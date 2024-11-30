@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="185.0" layoutY="14.0" prefHeight="17.0" prefWidth="455.0" style="-fx-pref-width: 534px; -fx-pref-height: 59px;" text="QUẢN LÝ NHÀ CUNG CẤP">
+         <font>
+            <Font name="System Bold" size="42.0" />
+         </font>
+      </Label>
+      <Pane layoutX="230.0" layoutY="76.0" prefHeight="68.0" prefWidth="200.0" style="-fx-background-radius: 20px; -fx-pref-width: 445px; -fx-pref-height: 92px; -fx-background-color: #F4F0F0;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <children>
+            <HBox alignment="CENTER" layoutX="-6.0" layoutY="-4.0" prefHeight="100.0" prefWidth="457.0" spacing="30.0">
+               <children>
+                  <Pane fx:id="containAdd" prefHeight="56.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
+                     <children>
+                        <ImageView fx:id="btnAdd" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnAddClicked" onMouseEntered="#btnAddEntered" onMouseExited="#btnAddExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@../../Assets/Img/addIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Pane>
+                  <Pane fx:id="containDelete" prefHeight="80.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
+                     <children>
+                        <ImageView fx:id="btnDelete" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnDeleteClicked" onMouseEntered="#btnDeleteEntered" onMouseExited="#btnDeleteExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@../../Assets/Img/deleteIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Pane>
+                  <Pane fx:id="containRepair" prefHeight="80.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 80px;">
+                     <children>
+                        <ImageView fx:id="btnRepair" fitHeight="80.0" fitWidth="200.0" layoutX="5.0" onMouseClicked="#btnRepairClicked" onMouseEntered="#btnRepairEntered" onMouseExited="#btnRepairExited" pickOnBounds="true" preserveRatio="true" style="-fx-fit-width: 90px; -fx-fit-height: 80px;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <image>
+                              <Image url="@../../Assets/Img/repairIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <HBox alignment="CENTER" layoutX="172.0" layoutY="183.0" prefHeight="35.0" prefWidth="543.0" style="-fx-pref-height: 35px; -fx-pref-width: 560px; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
+         <children>
+            <TextField fx:id="txtInput" onKeyReleased="#txtInputSearch" promptText="Nhập sđt bạn muốn tìm ..." style="-fx-pref-width: 500px; -fx-pref-height: 35px; -fx-background-color: transparent;">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font>
+            </TextField>
+            <ImageView fitHeight="150.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" style="-fx-fit-height: 30px; -fx-fit-width: 60px;">
+               <image>
+                  <Image url="@../../Assets/Img/searchIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <TableView fx:id="tableNCC" layoutX="1.0" layoutY="242.0" prefHeight="576.0" prefWidth="904.0">
+         <columns>
+            <TableColumn fx:id="colMaNCC" prefWidth="80.80001831054688" sortable="false" text="Mã NCC" />
+            <TableColumn fx:id="colTenNCC" prefWidth="216.80001831054688" sortable="false" text="Tên NCC" />
+            <TableColumn fx:id="colDiaChi" prefWidth="255.20001220703125" sortable="false" text="Địa Chỉ" />
+            <TableColumn fx:id="colSdt" prefWidth="167.20001220703125" sortable="false" text="Số Điện Thoại" />
+            <TableColumn fx:id="colNguoiLH" prefWidth="187.199951171875" sortable="false" text="Người Liên Hệ" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>

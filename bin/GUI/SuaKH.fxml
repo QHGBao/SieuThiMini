@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SuaKHController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="496.0">
+         <center>
+            <AnchorPane prefHeight="482.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="14.0" layoutY="60.0" text="Mã Khách Hàng">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="160.0" text="Tên Khách Hàng">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="260.0" text="SoDienThoai">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="360.0" text="Điểm Tích Lũy">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtMaKH" editable="false" layoutX="11.0" layoutY="87.0" prefHeight="27.0" prefWidth="474.0" style="-fx-background-color: #e8e8e8; -fx-border-color: Black; -fx-border-width: 0 0 2 0;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtTenKH" layoutX="11.0" layoutY="187.0" prefHeight="24.0" prefWidth="474.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0 0 2 0;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="validMaKH" layoutX="11.0" layoutY="126.0" prefHeight="24.0" prefWidth="474.0" textFill="RED" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="validTenKH" layoutX="11.0" layoutY="226.0" prefHeight="24.0" prefWidth="474.0" textFill="RED" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="validSDT" layoutX="11.0" layoutY="326.0" prefHeight="24.0" prefWidth="474.0" textFill="RED" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="validDiemTichLuy" layoutX="11.0" layoutY="426.0" prefHeight="24.0" prefWidth="474.0" textFill="RED" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtSDT" layoutX="11.0" layoutY="287.0" prefHeight="24.0" prefWidth="474.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0 0 2 0;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="txtDiemTichLuy" layoutX="11.0" layoutY="387.0" prefHeight="24.0" prefWidth="474.0" style="-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 0 0 2 0;" text="0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+         </center>
+         <top>
+            <AnchorPane prefHeight="38.0" prefWidth="496.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="496.0" style="-fx-background-color: #acf573;" text="Sửa Khách Hàng" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="btnClosePopUps" alignment="CENTER" contentDisplay="CENTER" layoutX="468.0" onMouseClicked="#closePopUps" prefHeight="25.0" prefWidth="28.0" styleClass="labelClosePopUps" stylesheets="@../../Assets/css/qlnv.css" text="X" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name=".VnArial Bold" size="15.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="2.5" left="2.5" />
+                     </padding>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </top>
+         <bottom>
+            <AnchorPane prefHeight="80.0" prefWidth="505.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="btnSua" alignment="CENTER" layoutX="201.0" layoutY="18.0" onMouseClicked="#Click" prefHeight="27.0" prefWidth="100.0" text="Cập Nhật" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="shadow" />
+                        <String fx:value="labelConfirm" />
+                     </styleClass>
+                     <stylesheets>
+                        <URL value="@../../Assets/css/style.css" />
+                        <URL value="@../../Assets/css/qlnv.css" />
+                     </stylesheets>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
