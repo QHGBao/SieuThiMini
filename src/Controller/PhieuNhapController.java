@@ -1,9 +1,5 @@
 package Controller;
 
-<<<<<<< HEAD
-public class PhieuNhapController {
-    
-=======
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -334,5 +330,4 @@ public class PhieuNhapController implements Initializable {
         dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText()));
         tablePN.setItems(dsTable);
     }
->>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39
 }

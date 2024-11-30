@@ -1,13 +1,7 @@
 package Controller;
 
-<<<<<<< HEAD
-import java.io.IOException;
-
-import DTO.NhanVienDTO;
-=======
 import BUS.PhanQuyenBUS;
 import DTO.CTPhanQuyenDTO;
->>>>>>> f4c9c8c87b45287f920db8b0d68e2ba663d03ea5
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

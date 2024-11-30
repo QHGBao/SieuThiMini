@@ -61,11 +61,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-<<<<<<< HEAD
                               <Button fx:id="btnPhieuNhap" layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePhieuNhapAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
-=======
-                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePNAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
->>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
