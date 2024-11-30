@@ -8,17 +8,24 @@
             "type": "java",
             "name": "App",
             "request": "launch",
-            "vmArgs": " --enable-preview --module-path D:/CodeLearning/Java_QLSieuThiMini/ProjectSieuThiMini/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "App",
-            "projectName": "SieuThiMini_49cdcc9a"
+            "projectName": "SieuThiMini_881e37d0",
+            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src"
         },
         {
             "type": "java",
             "name": "App",
             "request": "launch",
-            "vmArgs": " --enable-preview --module-path D:/Code/SieuThiMini/lib/javafx-sdk-23.0.1/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "App",
-            "projectName": "SieuThiMini_3adf1d5d"
+            "projectName": "SieuThiMini_3adf1d5d",
+            "vmArgs": "--module-path \"D:/Code/SieuThiMini/lib/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src"
         }
     ]
 }

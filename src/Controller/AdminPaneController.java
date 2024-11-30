@@ -14,6 +14,13 @@ import javafx.stage.StageStyle;
 
 public class AdminPaneController {
 
+    private int maNV;
+
+    public void setMaNV(int maNV) {
+        this.maNV = maNV;
+        // Thực hiện các thao tác khởi tạo giao diện hoặc dữ liệu dựa vào mã nhân viên
+    }
+
     @FXML
     private StackPane contentPane;
 
@@ -42,18 +49,47 @@ public class AdminPaneController {
     @FXML
     void handleNCCAction(ActionEvent event) {
         loadContent("NhaCungCapGUI.fxml");
+    }
 
+    @FXML
+    void handlePhanQuyenAction(ActionEvent event) {
+        loadContent("PhanQuyenGUI.fxml");
+    }
+
+    @FXML
+    void HandlePhieuHuyAction(ActionEvent event) {
+        loadContent("CreateCancellationGUI.fxml");
+    }
+
+    @FXML
+    void HandleKhachHangAction(ActionEvent event) {
+        loadContent("QLKHGUI.fxml");
+    }
+
+    @FXML
+    void HandleNhanVienAction(ActionEvent event) {
+        loadContent("QLNVGUI.fxml");
     }
 
     @FXML
     void handleQLBHAction(ActionEvent event) {
         loadContent("QLBHGUI.fxml");
+
     }
 
     private void loadContent(String fxmlFile) {
         try {
-            Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));
-            contentPane.getChildren().setAll(newContent); // Thay thế nội dung hiện tại
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/" + fxmlFile));
+            Pane newContent = loader.load(); // Load FXML
+    
+            // Nếu là QLBHGUI, truyền mã nhân viên qua controller
+            if (fxmlFile.equals("QLBHGUI.fxml")) {
+                QLBHController qlbhController = loader.getController();
+                qlbhController.setMaNV(maNV); // Truyền mã nhân viên
+            }
+    
+            // Thay thế nội dung của contentPane bằng nội dung mới
+            contentPane.getChildren().setAll(newContent);
         } catch (IOException e) {
             e.printStackTrace();
         }

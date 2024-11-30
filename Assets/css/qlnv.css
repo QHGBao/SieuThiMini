@@ -1,0 +1,21 @@
+.labelButton1 {
+    -fx-background-color: Black;
+    -fx-background-radius: 10px;
+}
+.labelButton1:hover {
+    -fx-background-color: rgb(112, 110, 110);
+}
+.labelConfirm {
+    -fx-background-color:  #acf573;
+    -fx-background-radius: 20px;
+}
+.labelConfirm:hover {
+    -fx-background-color:  #64ac2d;
+}
+.labelClosePopUps {
+    -fx-background-color: red;
+    -fx-background-radius: 0 0 0 15;
+}
+.labelClosePopUps:hover {
+    -fx-background-color: rgb(202, 3, 3);
+}

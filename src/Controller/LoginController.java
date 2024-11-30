@@ -1,12 +1,14 @@
 package Controller;
 
 import BUS.LoginBUS;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -14,10 +16,10 @@ import javafx.stage.Stage;
 public class LoginController {
 
     @FXML
-    private TextField passwordLabel;  // Mã người dùng nhập mật khẩu
+    private TextField passwordLabel; // Mã người dùng nhập mật khẩu
 
     @FXML
-    private TextField usernameLabel;  // Mã người dùng nhập tên đăng nhập
+    private TextField usernameLabel; // Mã người dùng nhập tên đăng nhập
 
     private LoginBUS loginBUS; // Đối tượng LoginBUS để kiểm tra đăng nhập
 
@@ -39,36 +41,64 @@ public class LoginController {
             alert.setContentText("Please enter both username and password.");
             alert.showAndWait();
         } else {
-            // Kiểm tra thông tin đăng nhập từ LoginBUS
-            boolean isLoginSuccessful = loginBUS.validateUser(username, password);
+            // Kiểm tra thông tin đăng nhập từ LoginBUS và lấy mã nhân viên
+            Integer maNV = loginBUS.validateUser(username, password);
 
-            if (isLoginSuccessful) {
-                System.out.println("Login successful!");
+            if (maNV != null) {
+                System.out.println("Login successful! MaNV: " + maNV);
                 try {
                     // Tải tệp FXML của AdminPane
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AdminPaneGUI.fxml"));
                     AnchorPane adminPane = loader.load();
 
+                    // Lấy controller của AdminPane
+                    AdminPaneController controller = loader.getController();
+
+                    // Truyền mã nhân viên cho AdminPaneController
+                    controller.setMaNV(maNV);
+
                     // Tạo Scene mới và hiển thị trang AdminPane
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error loading Admin Pane");
-                    alert.setContentText("An error occurred while loading the admin panel.");
+                    alert.setTitle("Lỗi");
+                    alert.setHeaderText("Lỗi tải Admin Pane");
+                    alert.setContentText("Đã xảy ra lỗi khi tải admin panel.");
                     alert.showAndWait();
                 }
             } else {
                 System.out.println("Invalid username or password.");
                 Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Login Failed");
-                alert.setHeaderText("Invalid Credentials");
-                alert.setContentText("The username or password is incorrect.");
+                alert.setTitle("Lỗi đăng nhập");
+                alert.setHeaderText("Thông tin xác thực không hợp lệ");
+                alert.setContentText("Tên người dùng hoặc mật khẩu không chính xác.");
                 alert.showAndWait();
             }
         }
+    }
+
+    @FXML
+    void handleExitClick(MouseEvent event) {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    @FXML
+    public void initialize() {
+        // Xử lý khi nhấn Enter trong usernameLabel
+        usernameLabel.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                passwordLabel.requestFocus(); // Chuyển focus sang passwordLabel
+            }
+        });
+
+        // Xử lý khi nhấn Enter trong passwordLabel
+        passwordLabel.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleLoginClick(null); // Gọi trực tiếp handleLoginClick để đăng nhập
+            }
+        });
     }
 }

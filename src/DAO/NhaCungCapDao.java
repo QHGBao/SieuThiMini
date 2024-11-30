@@ -24,10 +24,10 @@ public class NhaCungCapDao {
             while (rs.next()) {
                 if (rs.getInt(6) != 1) {
                     NhaCungCapDTO ncc = new NhaCungCapDTO();
-                    ncc.setMaNCC(rs.getString(1));
+                    ncc.setMaNCC(rs.getInt(1));
                     ncc.setTenNCC(rs.getString(2));
                     ncc.setDiaChi(rs.getString(3));
-                    ncc.setSdt(rs.getInt(4));
+                    ncc.setSdt(rs.getString(4));
                     ncc.setNguoiLH(rs.getString(5));
                     ncc.setIs_Deleted(rs.getInt(6));
                     dsNCC.add(ncc);
@@ -46,14 +46,13 @@ public class NhaCungCapDao {
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Insert into NhaCungCap values(?,?,?,?,?,?)";
+            String sql = "Insert into NhaCungCap (TenNCC, DiaChi, Sdt, NguoiLH, Is_Deleted) values(?,?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, ncc.getMaNCC());
-            stmt.setString(2, ncc.getTenNCC());
-            stmt.setString(3, ncc.getDiaChi());
-            stmt.setInt(4, ncc.getSdt());
-            stmt.setString(5, ncc.getNguoiLH());
-            stmt.setInt(6, ncc.getIs_Deleted()); 
+            stmt.setString(1, ncc.getTenNCC());
+            stmt.setString(2, ncc.getDiaChi());
+            stmt.setString(3, ncc.getSdt());
+            stmt.setString(4, ncc.getNguoiLH());
+            stmt.setInt(5, ncc.getIs_Deleted()); 
             if (stmt.executeUpdate() >= 1) {
                 check = true;
             }
@@ -65,22 +64,133 @@ public class NhaCungCapDao {
         return check;
     }
 
-    public boolean findNCC(int sdt){
+    public boolean findNCC(String sdt) {
         boolean check = false;
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Select * from NhaCungCap Where Sdt="+sdt;
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            check = rs.next();
+            String sql = "Select * from NhaCungCap Where Sdt=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, sdt);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                check = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             connectManager.closeConnection();
         }
         return check;
     }
 
+    public boolean updateNCC(NhaCungCapDTO ncc){
+        boolean check = false;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "Update NhaCungCap Set TenNCC=?, DiaChi=?, Sdt=?, NguoiLH=? Where MaNCC=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, ncc.getTenNCC());
+            stmt.setString(2, ncc.getDiaChi());
+            stmt.setString(3, ncc.getSdt());
+            stmt.setString(4, ncc.getNguoiLH());
+            stmt.setInt(5, ncc.getMaNCC());
+            if (stmt.executeUpdate() >= 1) {
+                check = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return check;
+    }
 
+    public boolean deleteNCC(NhaCungCapDTO ncc){
+        boolean check = false;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "Update NhaCungCap Set Is_Deleted=? Where MaNCC=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, 1);
+            stmt.setInt(2, ncc.getMaNCC());
+            if (stmt.executeUpdate() >= 1) {
+                check = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return check;
+    }
+
+    public int createCodeNCC(){
+        int codeCreated = -1;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT COALESCE(MAX(MaNCC), 0) + 1 AS newCode FROM NhaCungCap";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                codeCreated = rs.getInt("newCode");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return codeCreated;
+    }
+
+    public int findMaNCC(String sdt){
+        int codeCreated = -1;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT MaNCC FROM NhaCungCap Where Sdt='"+sdt+"'";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            rs.next();
+            codeCreated = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return codeCreated;
+    }
+
+    public ArrayList<NhaCungCapDTO> searchArrayNCC(String keyword){
+        ArrayList<NhaCungCapDTO> dsSearch = new ArrayList<NhaCungCapDTO>();
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT * FROM NhaCungCap WHERE TenNCC LIKE ? OR Sdt LIKE ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, "%" + keyword + "%");
+            stmt.setString(2, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                if(rs.getInt(6) == 0){
+                    NhaCungCapDTO ncc = new NhaCungCapDTO();
+                    ncc.setMaNCC(rs.getInt(1));
+                    ncc.setTenNCC(rs.getString(2));
+                    ncc.setDiaChi(rs.getString(3));
+                    ncc.setSdt(rs.getString(4));
+                    ncc.setNguoiLH(rs.getString(5));
+                    ncc.setIs_Deleted(rs.getInt(6));
+                    dsSearch.add(ncc);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return dsSearch;
+    }
 }

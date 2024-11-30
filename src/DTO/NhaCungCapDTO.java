@@ -1,21 +1,21 @@
 package DTO;
 
 public class NhaCungCapDTO {
-    private String maNCC;
+    private int maNCC;
     private String tenNCC;
     private String diaChi;
-    private int sdt;
+    private String sdt;
     private String nguoiLH;
     private int is_Deleted;
     
     public NhaCungCapDTO() {
     }
 
-    public String getMaNCC() {
+    public int getMaNCC() {
         return maNCC;
     }
 
-    public void setMaNCC(String maNCC) {
+    public void setMaNCC(int maNCC) {
         this.maNCC = maNCC;
     }
 
@@ -35,11 +35,11 @@ public class NhaCungCapDTO {
         this.diaChi = diaChi;
     }
 
-    public int getSdt() {
+    public String getSdt() {
         return sdt;
     }
 
-    public void setSdt(int sdt) {
+    public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 

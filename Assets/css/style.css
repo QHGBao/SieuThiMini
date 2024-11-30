@@ -8,6 +8,15 @@
     
 }
 
+.exit-button {
+    -fx-background-color:  #e15959;
+    -fx-background-radius:  30px;
+}
+
+.exit-button:hover {
+    -fx-background-color:  #fa0606e3;
+}
+
 .logout-button {
     -fx-background-color:  #079073;
     -fx-background-radius:  20px;
@@ -68,4 +77,55 @@
 
 .seller-button {
     -fx-background-color: linear-gradient(to bottom right, #396580,   #000c6e);
+}
+
+.seller-button:hover {
+    cursor: pointer;  
+    -fx-background-color: linear-gradient(to bottom right, #4a7694, #1e1c8e);
+}
+
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: white;  /* Đổi màu nền của ScrollPane */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #ffffff;  /* Màu nền bên trong */
+}
+
+.combo-box {
+    -fx-background-color: white; /* Gradient màu nền */
+    -fx-text-fill: #000c6e; /* Màu chữ là trắng */
+    -fx-font-family: Arial, sans-serif; /* Kiểu chữ Arial */
+    -fx-font-size: 14px; /* Kích thước chữ */
+    -fx-border-color: #000c6e; /* Màu viền */
+    -fx-border-width: 1px; /* Độ dày viền */
+    -fx-border-radius: 20px;
+    -fx-background-radius:20px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent; /* Tùy chỉnh mũi tên thả xuống nếu cần */
+
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color:#000c6e;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: transparent; /* Lý do để phần background của item trong list không bị che phủ */
+    -fx-text-fill: rgb(0, 0, 0); /* Màu chữ cho các item trong danh sách */
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: rgba(0, 12, 110, 0.7); /* Màu nền khi hover */
+}
+
+.combo-box .combo-box-popup .list-cell:selected {
+    -fx-background-color: #000c6e; /* Màu nền khi chọn mục trong danh sách */
+    -fx-text-fill: white; /* Màu chữ trắng sau khi chọn */
 }

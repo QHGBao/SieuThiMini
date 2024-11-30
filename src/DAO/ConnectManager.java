@@ -17,9 +17,7 @@ public class ConnectManager {
     public void openConnection() {
         try {
             this.connect = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Database connected successfully.");
         } catch (SQLException e) {
-            System.out.println("Can't connect to database " + URL);
             e.printStackTrace();
         }
     }
@@ -28,10 +26,8 @@ public class ConnectManager {
         try {
             if (connect != null && !connect.isClosed()) {
                 connect.close();
-                System.out.println("Database connection closed.");
             }
         } catch (SQLException e) {
-            System.out.println("Something went wrong when closing database");
             e.printStackTrace();
         }
     }

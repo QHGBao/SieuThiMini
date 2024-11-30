@@ -12,9 +12,9 @@ public class LoginDAO {
         connectManager = new ConnectManager();
     }
 
-    public boolean checkLogin(String username, String password) {
-        boolean isValid = false;
-        String query = "SELECT * FROM TaiKhoan WHERE TenTK = ? AND MatKhau = ?"; // Giả sử bạn có bảng Users
+    public Integer  checkLogin(String username, String password) {
+        Integer maNV = null; // Biến để lưu mã nhân viên nếu đăng nhập thành công
+        String query = "SELECT MaNV FROM TaiKhoan WHERE TenTK = ? AND MatKhau = ?";
 
         try {
             connectManager.openConnection();
@@ -25,7 +25,7 @@ public class LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                isValid = true; 
+                maNV = resultSet.getInt("MaNV"); // Lấy mã nhân viên nếu đăng nhập thành công
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,6 +33,6 @@ public class LoginDAO {
             connectManager.closeConnection();
         }
 
-        return isValid;
+        return maNV; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
     }
 }
