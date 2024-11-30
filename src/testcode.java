@@ -12,7 +12,7 @@ public class testcode extends Application{
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/NhaCungCapGUI.fxml"));  
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/PhanQuyenGUI.fxml"));  
             Scene scene = new Scene(root);
             primaryStage.setTitle("QL NhaCungCap Page");
             primaryStage.setScene(scene);

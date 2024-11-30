@@ -25,7 +25,7 @@ public class LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                isValid = true; 
+                isValid = true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -34,5 +34,26 @@ public class LoginDAO {
         }
 
         return isValid;
+    }
+
+    public int getUserRole(String username) {
+        int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy
+        String query = "SELECT MaQuyen FROM TaiKhoan WHERE TenTK = ?";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                maQuyen = resultSet.getInt("MaQuyen");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return maQuyen;
     }
 }

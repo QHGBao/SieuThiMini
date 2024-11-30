@@ -32,29 +32,27 @@ public class LoginController {
         String username = usernameLabel.getText();
         String password = passwordLabel.getText();
 
-        // Kiểm tra tên đăng nhập và mật khẩu có trống không
         if (username.isEmpty() || password.isEmpty()) {
-            System.out.println("Please enter username and password.");
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Input Error");
             alert.setHeaderText("Username or Password Missing");
             alert.setContentText("Please enter both username and password.");
             alert.showAndWait();
         } else {
-            // Kiểm tra thông tin đăng nhập từ LoginBUS
             boolean isLoginSuccessful = loginBUS.validateUser(username, password);
 
             if (isLoginSuccessful) {
-                System.out.println("Login successful!");
                 try {
-                    // Tải tệp FXML của AdminPane
+                    int userMaQuyen = loginBUS.getUserRole(username); // Lấy MaQuyen từ LoginBUS
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AdminPaneGUI.fxml"));
                     AnchorPane adminPane = loader.load();
 
-                    // Tạo Scene mới và hiển thị trang AdminPane
+                    AdminPaneController controller = loader.getController();
+                    controller.initialize(userMaQuyen); // Truyền MaQuyen sang AdminPaneController
+
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     Alert alert = new Alert(AlertType.ERROR);
@@ -64,7 +62,6 @@ public class LoginController {
                     alert.showAndWait();
                 }
             } else {
-                System.out.println("Invalid username or password.");
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Login Failed");
                 alert.setHeaderText("Invalid Credentials");
@@ -88,7 +85,7 @@ public class LoginController {
                 passwordLabel.requestFocus(); // Chuyển focus sang passwordLabel
             }
         });
-    
+
         // Xử lý khi nhấn Enter trong passwordLabel
         passwordLabel.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

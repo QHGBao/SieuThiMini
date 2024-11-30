@@ -13,4 +13,8 @@ public class LoginBUS {
         // Bạn có thể thêm logic để kiểm tra các điều kiện khác trước khi gọi đến DAO
         return loginDAO.checkLogin(username, password); // Gọi đến phương thức checkLogin trong DAO
     }
+
+    public int getUserRole(String username) {
+        return loginDAO.getUserRole(username);
+    }
 }
