@@ -59,5 +59,10 @@ public class NhaCungCapDTO {
         this.is_Deleted = is_Deleted;
     }
 
+    @Override
+    public String toString() {
+        return tenNCC;
+    }
 
+    
 }

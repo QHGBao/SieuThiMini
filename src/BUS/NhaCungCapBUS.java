@@ -35,4 +35,16 @@ public class NhaCungCapBUS {
     public int taoMaNCC(){
         return nccDAO.createCodeNCC();
     }
+
+    public int findMaNCC(String sdt){
+        return nccDAO.findMaNCC(sdt);
+    }
+
+    public boolean ktSdt(String sdt){
+        return nccDAO.findNCC(sdt);
+    }
+
+    public ArrayList<NhaCungCapDTO> searchArrayNCC(String keyword){
+        return nccDAO.searchArrayNCC(keyword);
+    }
 }

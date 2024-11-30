@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -36,9 +37,6 @@ public class NhaCungCapController implements Initializable{
 
     @FXML
     private ImageView btnRepair;
-
-    @FXML
-    private ImageView btnSearch;
 
     @FXML
     private Pane containAdd;
@@ -130,16 +128,17 @@ public class NhaCungCapController implements Initializable{
     void btnDeleteClicked(MouseEvent event) {
         if(tableNCC.getSelectionModel().getSelectedItem() != null){
             NhaCungCapDTO ncc = (NhaCungCapDTO) tableNCC.getSelectionModel().getSelectedItem();
-            tableNCC.getSelectionModel().clearSelection();
             formNCCController show = new formNCCController();
-             Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+            Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
             confirmAlert.setTitle("Xác nhận");
             confirmAlert.setHeaderText("Bạn có chắc muốn xóa không?");
             confirmAlert.setContentText("Việc này không thể hoàn tác.");
             ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
             if (result == ButtonType.OK) {
                 show.alertMessage(nccBus.xoaNCC(ncc));
-                tableNCC.getItems().remove(tableNCC.getSelectionModel().getFocusedIndex());
+                int selectedIndex = tableNCC.getSelectionModel().getSelectedIndex();
+                tableNCC.getItems().remove(selectedIndex);
+                tableNCC.getSelectionModel().clearSelection();
             }
         }
     }
@@ -194,8 +193,10 @@ public class NhaCungCapController implements Initializable{
     }
 
     @FXML
-    void btnSearchClicked(MouseEvent event) {
-
+    void txtInputSearch(KeyEvent event) {
+        dsNhaCungCap.clear();
+        dsNhaCungCap.addAll(nccBus.searchArrayNCC(txtInput.getText()));
+        tableNCC.setItems(dsNhaCungCap);
     }
 
 }

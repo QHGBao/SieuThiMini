@@ -10,14 +10,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +22,7 @@ import java.util.stream.Collectors;
 public class CancellationController {
 
     @FXML
-    private Button returnButton;
+    private ImageView btnClose;
 
     @FXML
     private ComboBox<String> cmbProductName;
@@ -45,6 +42,7 @@ public class CancellationController {
     @FXML
     private TableColumn<CancellationProductDTO, Integer> colProductID, colCancellationQuantity,colProductTypeID;
 
+    private Connection connection;
     private CancellationProductBUS cancellationProductBUS = new CancellationProductBUS();
     private CancellationBUS cancellationBUS = new CancellationBUS();
     private ObservableList<CancellationProductDTO> cancellationList = FXCollections.observableArrayList();
@@ -122,24 +120,24 @@ public class CancellationController {
     @FXML
     private void btnAdd_Clicked(MouseEvent event) {
         try{
-        int productID = Integer.parseInt(txtProductID.getText());
-        String productName = cmbProductName.getValue();
-        int productTypeid = Integer.parseInt(txtProductTypeID.getText());
-        String quantityText = txtCancellationQuantity.getText();
-        if (quantityText == null || quantityText.trim().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy không được để trống!");
-            return;
-        }
-        int quantity;
-        try {
-            // Kiểm tra xem người dùng có nhập giá trị hợp lệ cho số lượng không
-            quantity = Integer.parseInt(quantityText.trim());
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy phải là một số nguyên hợp lệ!");
-            return;
-        }
-        cancellationList.add(new CancellationProductDTO(productID, productName, productTypeid, quantity));
-        clearInputs();
+            int productID = Integer.parseInt(txtProductID.getText());
+            String productName = cmbProductName.getValue();
+            int productTypeid = Integer.parseInt(txtProductTypeID.getText());
+            String quantityText = txtCancellationQuantity.getText();
+            if (quantityText == null || quantityText.trim().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy không được để trống!");
+                return;
+            }
+            int quantity;
+            try {
+                // Kiểm tra xem người dùng có nhập giá trị hợp lệ cho số lượng không
+                quantity = Integer.parseInt(quantityText.trim());
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy phải là một số nguyên hợp lệ!");
+                return;
+            }
+            cancellationList.add(new CancellationProductDTO(productID, productName, productTypeid, quantity));
+            clearInputs();
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Có lỗi xảy ra: " + e.getMessage());
@@ -153,8 +151,8 @@ public class CancellationController {
             cancellationList.remove(selectedProduct);
         }
     }
-    
-     @FXML
+
+    @FXML
     private void btnCreate_Clicked(MouseEvent event) {
      if (cancellationList.isEmpty()) {
         showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Danh sách sản phẩm không được để trống!");
@@ -179,25 +177,15 @@ public class CancellationController {
         }
     }
 
-     @FXML
-    private void btnReturn_Clicked (MouseEvent event){
-        openDeleteCancellationScreen();
+    @FXML
+    private void btnClose_Clicked (MouseEvent event){
+        closePopup();
     }
 
-    private void openDeleteCancellationScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/Review+DeleteCancellationGUI.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-            Stage currentStage = (Stage) returnButton.getScene().getWindow();
-            currentStage.close();   
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML
+    private void closePopup() {
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
     }
 
     private void clearInputs() {

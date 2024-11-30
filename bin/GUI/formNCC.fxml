@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="400.0" prefWidth="450.0" style="-fx-border-color: #949494;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.formNCCController">
+<Pane prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: #949494;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.formNCCController">
    <children>
-      <BorderPane layoutX="10.0" layoutY="64.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="90.0" prefHeight="56.0" prefWidth="430.0">
          <center>
             <TextField fx:id="inputTen" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
@@ -36,7 +36,7 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="10.0" layoutY="131.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="150.0" prefHeight="56.0" prefWidth="430.0">
          <center>
             <TextField fx:id="inputSdt" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
@@ -61,7 +61,7 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="10.0" layoutY="200.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="210.0" prefHeight="56.0" prefWidth="430.0">
          <center>
             <TextField fx:id="inputDiaChi" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
@@ -86,7 +86,7 @@
             </Pane>
          </top>
       </BorderPane>
-      <BorderPane layoutX="10.0" layoutY="268.0" prefHeight="56.0" prefWidth="430.0">
+      <BorderPane layoutX="10.0" layoutY="270.0" prefHeight="56.0" prefWidth="430.0">
          <center>
             <TextField fx:id="inputNguoiLH" prefHeight="30.0" prefWidth="440.0" style="-fx-background-color: transparent; -fx-border-color: #949494; -fx-border-width: 0px 0px 2px 0px;" BorderPane.alignment="CENTER">
                <cursor>
@@ -116,7 +116,7 @@
             <Font name="Arial Bold" size="24.0" />
          </font>
       </Label>
-      <Pane fx:id="containSave" layoutX="286.0" layoutY="345.0">
+      <Pane fx:id="containSave" layoutX="287.0" layoutY="383.0">
          <children>
             <Label fx:id="btnSave" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#btnSaveClicked" onMouseEntered="#btnSaveEntered" onMouseExited="#btnSaveExited" prefHeight="38.0" prefWidth="52.0" style="-fx-background-radius: 10px;" text="Lưu" textFill="#69aed8">
                <font>
@@ -126,9 +126,8 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Label>
-         </children>
-      </Pane>
-      <Label fx:id="btnCancel" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="345.0" onMouseClicked="#btnCancelClicked" onMouseEntered="#btnCancelEntered" onMouseExited="#btnCancelExited" prefHeight="38.0" prefWidth="52.0" style="-fx-background-radius: 10px;" text="Hủy">
+         </children></Pane>
+      <Label fx:id="btnCancel" alignment="CENTER" contentDisplay="CENTER" layoutX="106.0" layoutY="383.0" onMouseClicked="#btnCancelClicked" onMouseEntered="#btnCancelEntered" onMouseExited="#btnCancelExited" prefHeight="38.0" prefWidth="52.0" style="-fx-background-radius: 10px;" text="Hủy">
          <font>
             <Font size="18.0" />
          </font>
@@ -141,5 +140,10 @@
             <Image url="@../../Assets/Img/close.png" />
          </image>
       </ImageView>
+      <Label fx:id="labelMaNCC" alignment="CENTER" contentDisplay="CENTER" layoutX="203.0" layoutY="50.0" prefHeight="27.0" prefWidth="44.0" style="-fx-background-radius: 20px; -fx-background-color: #949494;" text="1" textFill="#061640">
+         <font>
+            <Font name="System Bold Italic" size="16.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
