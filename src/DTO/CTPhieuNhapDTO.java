@@ -2,7 +2,7 @@ package DTO;
 
 public class CTPhieuNhapDTO {
     private int maPN;
-    private String maSP;
+    private int maSP;
     private int soLuong;
     private int giaNhap;
     
@@ -17,11 +17,11 @@ public class CTPhieuNhapDTO {
         this.maPN = maPN;
     }
 
-    public String getMaSP() {
+    public int getMaSP() {
         return maSP;
     }
 
-    public void setMaSP(String maSP) {
+    public void setMaSP(int maSP) {
         this.maSP = maSP;
     }
 

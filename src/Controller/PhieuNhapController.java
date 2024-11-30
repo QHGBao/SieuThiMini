@@ -1,9 +1,5 @@
 package Controller;
 
-<<<<<<< HEAD
-public class PhieuNhapController {
-    
-=======
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.PhieuNhapBUS;
+import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -92,6 +89,11 @@ public class PhieuNhapController implements Initializable {
     private Stage popupStage;
     private PhieuNhapBUS pnBUS = new PhieuNhapBUS();
     private ObservableList<PhieuNhapDTO.tablePNDTO> dsTable;
+    private NhanVienDTO nvLogin;
+
+    public void setNV(NhanVienDTO nvLogin){
+        this.nvLogin = nvLogin;
+    }
 
     public void alertMessage(String message){
         if(message.contains("thành công")){
@@ -232,7 +234,10 @@ public class PhieuNhapController implements Initializable {
         try {   
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/NhapHang.fxml"));
             Parent parent = loader.load();
+            NhapHangController formNH = loader.getController();
             Scene scene = new Scene(parent);
+            formNH.setNvLogin(nvLogin);
+            formNH.setSuaPN("Tạo");
             popupStage = new Stage();
             popupStage.setScene(scene);
             popupStage.initStyle(StageStyle.UNDECORATED);
@@ -325,5 +330,4 @@ public class PhieuNhapController implements Initializable {
         dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText()));
         tablePN.setItems(dsTable);
     }
->>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39
 }

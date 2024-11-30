@@ -2,6 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -9,7 +10,9 @@ import BUS.NhaCungCapBUS;
 import BUS.PhieuNhapBUS;
 import DTO.PhieuNhapDTO;
 import DTO.ProductDTO;
+import DTO.CTPhieuNhapDTO;
 import DTO.NhaCungCapDTO;
+import DTO.NhanVienDTO;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -111,6 +115,7 @@ public class NhapHangController implements Initializable {
     private ImageView iconNH;
 
     private Stage popupStage;
+    private NhanVienDTO nvLogin;
     private NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     private PhieuNhapBUS pnBUS = new PhieuNhapBUS();
     private PhieuNhapDTO.tablePNDTO pn;
@@ -126,6 +131,26 @@ public class NhapHangController implements Initializable {
         alert.showAndWait();
     }
 
+    public void alertMessage(String message){
+        if(message.contains("thành công")){
+            Alert alSuccess = new Alert(AlertType.INFORMATION);
+            alSuccess.setTitle("Thông báo");
+            alSuccess.setHeaderText("Thành công");
+            alSuccess.setContentText(message);
+            alSuccess.showAndWait();
+        } else {
+            Alert alFail = new Alert(AlertType.ERROR);
+            alFail.setTitle("Thông báo");
+            alFail.setHeaderText("Thất bại");
+            alFail.setContentText(message);
+            alFail.showAndWait();
+        }
+    }
+
+    public void setNvLogin(NhanVienDTO nvLogin){
+        this.nvLogin = nvLogin;
+    }
+
     public void settinhTong() {
         int total = 0;
         for(PhieuNhapDTO.tableSPchon x : dsSPchon)
@@ -137,7 +162,6 @@ public class NhapHangController implements Initializable {
     public void setSuaPN(String keyWord){
         if(keyWord.equals("Sửa")){
             txtMaPN.setText(String.valueOf(pn.getMaPN()));
-            txtNhanVien.setText("Tên User");
             for(NhaCungCapDTO ncc : dsNCC){
                 if(pn.getTenNCC().equals(ncc.getTenNCC())){
                     cbbNCC.setValue(ncc);
@@ -149,6 +173,9 @@ public class NhapHangController implements Initializable {
             settinhTong();
             btnNhap.setText("Cập Nhật");
             btnNhap.setStyle(btnNhap.getStyle() + "-fx-background-color: #6DCD8C");
+        } else {
+            txtMaPN.setText(String.valueOf(pnBUS.createNewCode()));
+            txtNhanVien.setText(nvLogin.getTenNV());
         }
     }
 
@@ -222,13 +249,38 @@ public class NhapHangController implements Initializable {
     }
 
     @FXML
-    void btnNhapClicked(MouseEvent event) {
-
-    }
-
-    @FXML
     void btnNhapHangClicked(MouseEvent event) {
-
+        if(!dsSPchon.isEmpty()){
+            if(cbbNCC.getSelectionModel().getSelectedItem() != null){
+                PhieuNhapDTO pn = new PhieuNhapDTO();
+                pn.setMaPN(Integer.parseInt(txtMaPN.getText()));
+                pn.setNgayLap(new Timestamp(System.currentTimeMillis()));
+                pn.setMaNV(nvLogin.getMaNV());
+                pn.setMaNCC(cbbNCC.getSelectionModel().getSelectedItem().getMaNCC());
+                pn.setIs_Deleted(0);
+                alertMessage(pnBUS.themPN(pn));
+                for(PhieuNhapDTO.tableSPchon x : dsSPchon){
+                    CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO();
+                    ctpn.setMaPN(pn.getMaPN());
+                    ctpn.setMaSP(x.getMaSP());
+                    ctpn.setSoLuong(x.getSoLuong());
+                    ctpn.setGiaNhap(x.getGiaNhap());
+                    pnBUS.themCTPN(ctpn);
+                }
+            } else{
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Lỗi");
+                errorAlert.setHeaderText("Thất bại");
+                errorAlert.setContentText("Vui lòng chọn nhà cung cấp !!");
+                errorAlert.showAndWait();
+            }
+        } else {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Lỗi");
+            errorAlert.setHeaderText("Thất bại");
+            errorAlert.setContentText("Vui lòng chọn sản phẩm !!");
+            errorAlert.showAndWait();
+        }
     }
 
     @FXML

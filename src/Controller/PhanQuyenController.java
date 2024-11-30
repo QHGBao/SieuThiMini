@@ -7,8 +7,6 @@ import BUS.PhanQuyenBUS;
 import DTO.PhanQuyenDTO;
 import DTO.TaiKhoan_DTO;
 import DTO.CTPhanQuyenDTO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -88,11 +86,7 @@ public class PhanQuyenController {
                 .orElse(null);
     }
 
-    private void loadTaiKhoanByQuyen(int maQuyen) {
-        ArrayList<TaiKhoan_DTO> dsTaiKhoan = phanQuyenBUS.getTaiKhoanByQuyen(maQuyen);
-        ObservableList<TaiKhoan_DTO> observableList = FXCollections.observableArrayList(dsTaiKhoan);
-        tbDS.setItems(observableList);
-    }
+   
 
     private void setupTableColumns() {
         clSTT.setCellFactory(column -> new TableCell<TaiKhoan_DTO, Integer>() {
@@ -135,25 +129,6 @@ public class PhanQuyenController {
         }
     }
 
-    // private void handleCheckBox(int maChucNang, int maHanhDong, boolean
-    // isSelected) {
-    // if (selectedQuyen == null) {
-    // System.out.println("Chưa chọn quyền!");
-    // return;
-    // }
-    // if (isSelected) {
-    // CTPhanQuyenDTO newPermission = new CTPhanQuyenDTO();
-    // newPermission.setMaQuyen(selectedQuyen.getMaQuyen());
-    // newPermission.setMaChucNang(maChucNang);
-    // newPermission.setMaHanhDong(maHanhDong);
-    // selectedPermissions.add(newPermission);
-    // System.out.println("Thêm quyền: " + maChucNang + ", " + maHanhDong);
-    // } else {
-    // selectedPermissions.removeIf(p -> p.getMaChucNang() == maChucNang &&
-    // p.getMaHanhDong() == maHanhDong);
-    // System.out.println("Xóa quyền: " + maChucNang + ", " + maHanhDong);
-    // }
-    // }
 
     @FXML
     void btnSave(ActionEvent event) {
@@ -194,17 +169,6 @@ public class PhanQuyenController {
 
         checkBox.setSelected(isSelected);
     }
-
-    // private CheckBox findCheckBox(int maChucNang, int maHanhDong) {
-    // if (xemCheckBoxes != null && !xemCheckBoxes.isEmpty()) {
-    // for (CheckBox checkBox : xemCheckBoxes) {
-    // if (checkBox.getUserData().equals(maChucNang + "-" + maHanhDong)) {
-    // return checkBox;
-    // }
-    // }
-    // }
-    // return null;
-    // }
 
     @FXML
     private CheckBox thaoTac1, thaoTac2, thaoTac3, thaoTac4, thaoTac5, thaoTac6, thaoTac7, thaoTac8, thaoTac9,

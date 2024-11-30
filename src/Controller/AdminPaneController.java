@@ -1,11 +1,14 @@
+
 package Controller;
 
+import java.io.IOException;
+
+import DTO.NhanVienDTO;
 import BUS.PhanQuyenBUS;
 import DTO.CTPhanQuyenDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -13,15 +16,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
-public class AdminPaneController implements Initializable {
+public class AdminPaneController {
+
+    private NhanVienDTO nv;
+
+    public void setNV(NhanVienDTO nv) {
+        this.nv = nv;
+    }
 
     @FXML
     private Button btnBanHang;
@@ -66,12 +71,8 @@ public class AdminPaneController implements Initializable {
         phanQuyenBUS = new PhanQuyenBUS();
     }
 
-    public void setMaQuyen(int mq) {
-        userMaQuyen = mq;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize(int userMaQuyen) {
         this.userMaQuyen = userMaQuyen; // Lưu mã quyền của người dùng
         setupButtonMap(); // Tạo ánh xạ mã chức năng với các nút
         applyPermissions(); // Áp dụng quyền cho các nút
@@ -117,12 +118,20 @@ public class AdminPaneController implements Initializable {
 
     private void loadContent(String fxmlFile, boolean isReadOnly) {
         try {
-            Pane newContent = FXMLLoader.load(getClass().getResource("/GUI/" + fxmlFile));
-            contentPane.getChildren().setAll(newContent);
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/" + fxmlFile));
+            Pane newContent = loader.load();
+            if(fxmlFile.equals("QLBHGUI.fxml")) {
+                QLBHController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
+            if(fxmlFile.equals("PhieuNhapGUI.fxml")) {
+                PhieuNhapController selected = loader.getController();
+                selected.setNV(nv);;
+            } 
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem
             }
+            contentPane.getChildren().setAll(newContent);
         } catch (IOException e) {
             showErrorAlert("Unable to load content for: " + fxmlFile);
             e.printStackTrace();
@@ -142,13 +151,13 @@ public class AdminPaneController implements Initializable {
             case 3:
                 return "PhieuNhapGUI.fxml";
             case 4:
-                return "Review+DeleteCancellationGUI.fxml";
+                return "DeleteCancellationGUI.fxml";
             case 5:
                 return "QLKHGUI.fxml";
             case 6:
                 return "QLNVGUI.fxml";
             case 7:
-                return "BanHangGUI.fxml";
+                return "QLBHGUI.fxml";
             case 8:
                 return "GiamGiaSPGUI.fxml";
             case 9:
@@ -217,7 +226,7 @@ public class AdminPaneController implements Initializable {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-
+    
     }
 
     @FXML

@@ -168,7 +168,7 @@ public class PhieuNhapDao {
             while (rs.next()) {
                 CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO();
                 ctpn.setMaPN(rs.getInt(1));
-                ctpn.setMaSP(rs.getString(2));
+                ctpn.setMaSP(rs.getInt(2));
                 ctpn.setSoLuong(rs.getInt(3));
                 ctpn.setGiaNhap(rs.getInt(4));
             }
@@ -221,13 +221,14 @@ public class PhieuNhapDao {
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Insert into PhieuNhap values(?,?,?,?,?)";
+            String sql = "Insert into PhieuNhap values(?,?,?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pn.getMaPN());
             stmt.setTimestamp(2, pn.getNgayLap());
             stmt.setInt(3, pn.getMaNV());
             stmt.setInt(4, pn.getMaNCC());
-            stmt.setInt(5, pn.getIs_Deleted());
+            stmt.setInt(5, 0);
+            stmt.setInt(6, pn.getIs_Deleted());
             if (stmt.executeUpdate() >= 1) {
                 check = true;
             }
@@ -247,7 +248,7 @@ public class PhieuNhapDao {
             String sql = "Insert into CTPhieuNhap values(?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, ctpn.getMaPN());
-            stmt.setString(2, ctpn.getMaSP());
+            stmt.setInt(2, ctpn.getMaSP());
             stmt.setInt(3, ctpn.getSoLuong());
             stmt.setInt(4, ctpn.getGiaNhap());
             if (stmt.executeUpdate() >= 1) {
@@ -377,5 +378,24 @@ public class PhieuNhapDao {
             connectManager.closeConnection();
         }
         return check;
+    }
+
+    public int createCodeNCC(){
+        int codeCreated = -1;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT COALESCE(MAX(MaPN), 0) + 1 AS newCode FROM PhieuNhap";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                codeCreated = rs.getInt("newCode");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return codeCreated;
     }
 }

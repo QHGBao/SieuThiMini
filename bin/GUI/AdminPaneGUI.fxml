@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane stylesheets="..\..\Assets\css\style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdminPaneController">
@@ -31,9 +32,9 @@
                         </Button>
                      </children>
                   </HBox>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="740.0" prefWidth="376.0" style="-fx-border-color: #D5F6FD;" vbarPolicy="NEVER">
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="740.0" prefWidth="376.0" style="-fx-background-color: #D5F6FD;" vbarPolicy="NEVER">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="874.0" prefWidth="376.0" style="-fx-background-color: #D5F6FD;">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="874.0" prefWidth="376.0" style="-fx-background-color: #D5F6FD; -fx-border-color: #D5F6FD;">
                            <children>
                               <ImageView fitHeight="127.0" fitWidth="183.0" layoutX="97.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,11 +62,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-<<<<<<< HEAD
                               <Button fx:id="btnPhieuNhap" layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePhieuNhapAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
-=======
-                              <Button layoutX="23.0" layoutY="320.0" mnemonicParsing="false" onAction="#handlePNAction" prefHeight="45.0" prefWidth="332.0" styleClass="management-button" stylesheets="@../../Assets/css/style.css" text="Quản lý Phiếu nhập">
->>>>>>> 7c373f9859b7aae3c1607927e754ca9d12ee1d39
                                  <font>
                                     <Font name="Arial Bold" size="20.0" />
                                  </font>
@@ -141,6 +138,20 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
+                  <VBox alignment="CENTER" prefHeight="181.0" prefWidth="376.0" style="-fx-background-color: #D5F6FD;">
+                     <children>
+                        <ImageView fitHeight="127.0" fitWidth="183.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Assets/Img/Login1.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="ADMIN PAGE" textFill="#f80101">
+                           <font>
+                              <Font name="Arial Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </Pane>
          </left>
