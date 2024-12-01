@@ -53,14 +53,11 @@ public class LoginController {
                     // Lấy controller của AdminPane
                     AdminPaneController controller = loader.getController();
 
-<<<<<<< HEAD
-=======
                     // Truyền mã nhân viên cho AdminPaneController
                     AdminPaneController mainStage = loader.getController();
                     mainStage.setNV(nv);
                     // Tạo Scene mới và hiển thị trang AdminPane
                     controller.initialize(userMaQuyen); // Truyền MaQuyen sang AdminPaneController
->>>>>>> 3cef21bf4402887b21da705335fff513694c6d3b
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
                     stage.setScene(new Scene(adminPane));
                 } catch (Exception e) {
