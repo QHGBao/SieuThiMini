@@ -597,7 +597,7 @@ public class ThongKeController {
                         rs.getString("MaHD"),
                         rs.getString("TenSP"),
                         rs.getInt("SoLuong"),
-                        rs.getDouble("GiaBanThucTe"),
+                        rs.getDouble("GiaBan"),
                         rs.getDouble("TongTienHang"),
                         rs.getDouble("TongDoanhThu")
 				);
@@ -649,7 +649,7 @@ public class ThongKeController {
                         rs.getString("TenSP"),
                         rs.getInt("SoLuong"),
                         rs.getDouble("GiaNhap"),
-                        rs.getDouble("GiaBanThucTe"),
+                        rs.getDouble("GiaBan"),
                         rs.getDouble("LoiNhuan")
 				);
 				loiNhuanData.add(item);
