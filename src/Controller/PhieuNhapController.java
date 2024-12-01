@@ -1,11 +1,17 @@
 package Controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,6 +22,7 @@ import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +40,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -84,19 +92,18 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     private TextField txtSearch;
-    
 
     private Stage popupStage;
     private PhieuNhapBUS pnBUS = new PhieuNhapBUS();
     private ObservableList<PhieuNhapDTO.tablePNDTO> dsTable;
     private NhanVienDTO nvLogin;
 
-    public void setNV(NhanVienDTO nvLogin){
+    public void setNV(NhanVienDTO nvLogin) {
         this.nvLogin = nvLogin;
     }
 
-    public void alertMessage(String message){
-        if(message.contains("thành công")){
+    public void alertMessage(String message) {
+        if (message.contains("thành công")) {
             Alert alSuccess = new Alert(AlertType.INFORMATION);
             alSuccess.setTitle("Thông báo");
             alSuccess.setHeaderText("Thành công");
@@ -111,7 +118,7 @@ public class PhieuNhapController implements Initializable {
         }
     }
 
-    public void refreshTable(){
+    public void refreshTable() {
         dsTable.clear();
         dsTable.addAll(pnBUS.getAllRow());
     }
@@ -129,15 +136,15 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     void btnDeleteClicked(MouseEvent event) {
-        if(tablePN.getSelectionModel().getSelectedItem() !=null){
+        if (tablePN.getSelectionModel().getSelectedItem() != null) {
             PhieuNhapDTO.tablePNDTO selected = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel().getSelectedItem();
-            if(selected.getTrangThai().equals("Chờ Xử Lý")){
+            if (selected.getTrangThai().equals("Chờ Xử Lý")) {
                 Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
                 confirmAlert.setTitle("Xác nhận xóa");
                 confirmAlert.setHeaderText("Bạn có chắc muốn xóa không?");
                 confirmAlert.setContentText("Việc này không thể hoàn tác.");
                 ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
-                if(result == ButtonType.OK){
+                if (result == ButtonType.OK) {
                     alertMessage(pnBUS.xoaPN(selected.getMaPN()));
                     refreshTable();
                 }
@@ -165,9 +172,9 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     void btnDuyetClicked(MouseEvent event) {
-        if(tablePN.getSelectionModel().getSelectedItem() != null){
+        if (tablePN.getSelectionModel().getSelectedItem() != null) {
             PhieuNhapDTO.tablePNDTO selected = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel().getSelectedItem();
-            if(selected.getTrangThai().equals("Chờ Xử Lý")){
+            if (selected.getTrangThai().equals("Chờ Xử Lý")) {
                 Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
                 confirmAlert.setTitle("Xác nhận duyệt");
                 confirmAlert.setHeaderText("Bạn có chắc muốn duyệt không?");
@@ -178,6 +185,12 @@ public class PhieuNhapController implements Initializable {
                     refreshTable();
                 }
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để duyệt !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.showAndWait();
         }
     }
 
@@ -196,48 +209,66 @@ public class PhieuNhapController implements Initializable {
     @FXML
     void btnExcelCliked(MouseEvent event) {
         try {
-            Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("DS Phiếu");
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("Mã PN");
-            headerRow.createCell(1).setCellValue("Ngày Lập");
-            headerRow.createCell(2).setCellValue("Nhân Viên");
-            headerRow.createCell(3).setCellValue("Nhà Cung Cấp");
-            headerRow.createCell(4).setCellValue("Trạng Thái");
-            for (int i = 0; i < tablePN.getItems().size(); i++) {
-                PhieuNhapDTO.tablePNDTO pn = tablePN.getItems().get(i);
-                Row row = sheet.createRow(i + 1);
-                row.createCell(0).setCellValue(pn.getMaPN());
-                row.createCell(1).setCellValue(pn.getNgayLap());
-                row.createCell(2).setCellValue(pn.getTenNV());
-                row.createCell(3).setCellValue(pn.getTenNCC());
-                row.createCell(4).setCellValue(pn.getTrangThai());
-            }
-            try (FileOutputStream fileOut = new FileOutputStream("DanhSachPhieuNhap.xlsx")) {
-                workbook.write(fileOut);
-                workbook.close();
-                Alert alSuccess = new Alert(AlertType.INFORMATION);
-                alSuccess.setTitle("Thông báo");
-                alSuccess.setHeaderText("Thành công");
-                alSuccess.setContentText("Xuất file Excel thành công !!");
-                alSuccess.showAndWait();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                if (!file.getName().endsWith(".xlsx")) {
+                    file = new File(file.getParentFile(), file.getName() + ".xlsx");
+                }
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("DS Phiếu");
+                CellStyle headerStyle = workbook.createCellStyle();
+                Font headerFont = workbook.createFont();
+                headerFont.setBold(true); // Chữ đậm
+                headerFont.setColor(IndexedColors.BLACK.getIndex());
+                headerStyle.setFont(headerFont);
+                Row headerRow = sheet.createRow(0);
+                headerRow.createCell(0).setCellValue("Mã PN");
+                headerRow.createCell(1).setCellValue("Ngày Lập");
+                headerRow.createCell(2).setCellValue("Nhân Viên");
+                headerRow.createCell(3).setCellValue("Nhà Cung Cấp");
+                headerRow.createCell(4).setCellValue("Trạng Thái");
+                for (int i = 0; i < 5; i++) {
+                    headerRow.getCell(i).setCellStyle(headerStyle);
+                }
+                for (int i = 0; i < tablePN.getItems().size(); i++) {
+                    PhieuNhapDTO.tablePNDTO pn = tablePN.getItems().get(i);
+                    Row row = sheet.createRow(i + 1);
+                    row.createCell(0).setCellValue(pn.getMaPN());
+                    row.createCell(1).setCellValue(pn.getNgayLap());
+                    row.createCell(2).setCellValue(pn.getTenNV());
+                    row.createCell(3).setCellValue(pn.getTenNCC());
+                    row.createCell(4).setCellValue(pn.getTrangThai());
+                }
+                try (FileOutputStream fileOut = new FileOutputStream(file)) {
+                    workbook.write(fileOut);
+                    workbook.close();
+                    Alert alSuccess = new Alert(AlertType.INFORMATION);
+                    alSuccess.setTitle("Thông báo");
+                    alSuccess.setHeaderText("Thành công");
+                    alSuccess.setContentText("Xuất file Excel thành công !!");
+                    alSuccess.showAndWait();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @FXML
     void btnNhapClicked(MouseEvent event) {
         if (popupStage != null && popupStage.isShowing())
             return;
-        try {   
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/NhapHang.fxml"));
             Parent parent = loader.load();
             NhapHangController formNH = loader.getController();
             Scene scene = new Scene(parent);
             formNH.setNvLogin(nvLogin);
             formNH.setSuaPN("Tạo");
+            formNH.setPnController(this);
             popupStage = new Stage();
             popupStage.setScene(scene);
             popupStage.initStyle(StageStyle.UNDECORATED);
@@ -249,18 +280,19 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     void btnRepairClicked(MouseEvent event) {
-        if(tablePN.getSelectionModel().getSelectedItems() != null){
+        if (tablePN.getSelectionModel().getSelectedItem() != null) {
             PhieuNhapDTO.tablePNDTO selected = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel().getSelectedItem();
-            if(selected.getTrangThai().equals("Chờ Xử Lý")){
+            if (selected.getTrangThai().equals("Chờ Xử Lý")) {
                 if (popupStage != null && popupStage.isShowing())
                     return;
-                try {   
+                try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/NhapHang.fxml"));
                     Parent parent = loader.load();
                     NhapHangController form = loader.getController();
                     Scene scene = new Scene(parent);
                     form.setPhieuNhap(selected);
                     form.setSuaPN("Sửa");
+                    form.setPnController(this);
                     popupStage = new Stage();
                     popupStage.setScene(scene);
                     popupStage.initStyle(StageStyle.UNDECORATED);
@@ -268,7 +300,19 @@ public class PhieuNhapController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Cảnh báo");
+                alert.setHeaderText("Phiếu nhập đã duyệt");
+                alert.setContentText("Không thể sữa khi đã duyệt phiếu nhập !!");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để sửa !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.showAndWait();
         }
     }
 
@@ -286,17 +330,20 @@ public class PhieuNhapController implements Initializable {
 
     @FXML
     void btnResetClicked(MouseEvent event) {
-        
+        txtNgBD.setValue(null);
+        txtNgKT.setValue(null);
+        searchPhieuNhap();
     }
 
     @FXML
     void btnSeeClicked(MouseEvent event) {
-        if(tablePN.getSelectionModel().getSelectedItem() != null){
-            PhieuNhapDTO.tablePNDTO tableChoice = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel().getSelectedItem();
+        if (tablePN.getSelectionModel().getSelectedItem() != null) {
+            PhieuNhapDTO.tablePNDTO tableChoice = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel()
+                    .getSelectedItem();
             tablePN.getSelectionModel().clearSelection();
             if (popupStage != null && popupStage.isShowing())
                 return;
-            try {   
+            try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ChiTietPN.fxml"));
                 Parent parent = loader.load();
                 ChiTietPNController popUpCTPN = loader.getController();
@@ -309,6 +356,12 @@ public class PhieuNhapController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để sửa !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.showAndWait();
         }
     }
 
@@ -324,10 +377,45 @@ public class PhieuNhapController implements Initializable {
         btnSee.setStyle(currentStyle + "-fx-background-color: transparent;");
     }
 
+    public void searchPhieuNhap() {
+        if (txtNgBD.getValue() == null && txtNgKT.getValue() == null) {
+            dsTable.clear();
+            dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText()));
+        } else {
+            dsTable.clear();
+            LocalDate ngayBDLD = txtNgBD.getValue();
+            LocalDate ngayKTLD = txtNgKT.getValue();
+            LocalDateTime ngayBD = null;
+            LocalDateTime ngayKT = null;
+            if (ngayBDLD != null) {
+                ngayBD = ngayBDLD.atStartOfDay();
+            }
+            if (ngayKTLD != null) {
+                ngayKT = ngayKTLD.atStartOfDay();
+            }
+            if (ngayBD != null && ngayKT != null) {
+                dsTable.addAll(
+                        pnBUS.searchPnArray(txtSearch.getText(), Timestamp.valueOf(ngayBD), Timestamp.valueOf(ngayKT)));
+            } else if (ngayBD != null && ngayKT == null) {
+                dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText(), Timestamp.valueOf(ngayBD), null));
+            } else {
+                dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText(), null, Timestamp.valueOf(ngayKT)));
+            }
+        }
+    }
+
     @FXML
     void searchReleased(KeyEvent event) {
-        dsTable.clear();
-        dsTable.addAll(pnBUS.searchPnArray(txtSearch.getText()));
-        tablePN.setItems(dsTable);
+        searchPhieuNhap();
+    }
+
+    @FXML
+    void selectNgayBD(ActionEvent event) {
+        searchPhieuNhap();
+    }
+
+    @FXML
+    void selectNgayKT(ActionEvent event) {
+        searchPhieuNhap();
     }
 }

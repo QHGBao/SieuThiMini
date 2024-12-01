@@ -122,11 +122,11 @@ public class AdminPaneController {
             Pane newContent = loader.load();
             if(fxmlFile.equals("QLBHGUI.fxml")) {
                 QLBHController selected = loader.getController();
-                selected.setNV(nv);;
+                selected.setNV(nv);
             } 
             if(fxmlFile.equals("PhieuNhapGUI.fxml")) {
                 PhieuNhapController selected = loader.getController();
-                selected.setNV(nv);;
+                selected.setNV(nv);
             } 
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem

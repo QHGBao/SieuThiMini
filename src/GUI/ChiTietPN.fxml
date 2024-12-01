@@ -104,15 +104,7 @@
             <TableColumn fx:id="colThanhTien" minWidth="0.0" prefWidth="182.39996337890625" style="-fx-alignment: center;" text="Thành Tiền" />
          </columns>
       </TableView>
-      <ImageView fx:id="btnPrintPDF" fitHeight="41.0" fitWidth="120.0" layoutX="726.0" layoutY="439.0" onMouseClicked="#btnPrintPDFClicked" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Assets/Img/filePDF.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
-      <Pane layoutX="64.0" layoutY="438.0" prefHeight="42.0" prefWidth="272.0">
+      <Pane layoutX="274.0" layoutY="443.0" prefHeight="42.0" prefWidth="272.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="114.0" text="Tổng Tiền:">
                <font>

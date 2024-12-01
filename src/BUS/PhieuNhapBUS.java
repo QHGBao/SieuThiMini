@@ -4,6 +4,7 @@ import DTO.CTPhieuNhapDTO;
 import DTO.PhieuNhapDTO;
 import DTO.ProductDTO;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import DAO.PhieuNhapDao;
@@ -36,7 +37,15 @@ public class PhieuNhapBUS {
     }
 
     public ArrayList<PhieuNhapDTO.tablePNDTO> searchPnArray(String keyword){
-        return pnDAO.searchArrayNCC(keyword);
+        return pnDAO.searchPnArray(keyword);
+    }
+
+    public ArrayList<PhieuNhapDTO.tablePNDTO> searchPnArray(String keyword, Timestamp ngayBD, Timestamp ngayKT){
+        return pnDAO.searchPnArray(keyword, ngayBD, ngayKT);
+    }
+
+    public ArrayList<ProductDTO> searchSpArray(String keyword){
+        return pnDAO.searchSpArray(keyword);
     }
 
     public PhieuNhapDTO findPn(int maPN){
@@ -67,5 +76,15 @@ public class PhieuNhapBUS {
 
     public int createNewCode(){
         return pnDAO.createCodeNCC();
+    }
+
+    public String capNhatPN(PhieuNhapDTO pn){
+        if(pnDAO.capNhatPN(pn))
+            return "Cập nhật phiếu nhập thành công !!";
+        return "Cập nhật phiếu nhập thất bại !!";
+    }
+
+    public boolean deleteAllCTPN(int maPn){
+        return pnDAO.deletAllCTPN(maPn);
     }
 }
