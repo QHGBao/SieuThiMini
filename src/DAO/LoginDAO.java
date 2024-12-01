@@ -38,11 +38,7 @@ public class LoginDAO {
 
         return nv; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
     }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cef21bf4402887b21da705335fff513694c6d3b
+    
     public int getUserRole(String username) {
         int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy
         String query = "SELECT MaQuyen FROM TaiKhoan WHERE TenTK = ?";

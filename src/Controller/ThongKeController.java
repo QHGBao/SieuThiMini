@@ -689,8 +689,4 @@ public class ThongKeController {
         hidePanel1.setVisible(false);
         hidePanel2.setVisible(false);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 3cef21bf4402887b21da705335fff513694c6d3b
