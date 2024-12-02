@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import DTO.CTPhanQuyenDTO;
-import DTO.ChucNangDTO;
 import DTO.PhanQuyenDTO;
 import DTO.TaiKhoan_DTO;
 
@@ -70,9 +69,9 @@ public class PhanQuyenDao {
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     TaiKhoan_DTO tk = new TaiKhoan_DTO();
-                    tk.setMaTaiKhoan(rs.getInt("MaTaiKhoan"));
-                    tk.setTenTK(rs.getString("TenTaiKhoan"));
-                    tk.setMaQuyen(rs.getInt("MaQuyen"));
+                    tk.setMaTK(rs.getInt(1));
+                    tk.setTenTK(rs.getString(2));
+                    tk.setMaQuyen(rs.getInt(5));
                     dsTaiKhoan.add(tk);
                 }
             }

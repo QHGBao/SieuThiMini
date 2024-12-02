@@ -7,6 +7,8 @@ import BUS.PhanQuyenBUS;
 import DTO.PhanQuyenDTO;
 import DTO.TaiKhoan_DTO;
 import DTO.CTPhanQuyenDTO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -34,6 +36,7 @@ public class PhanQuyenController {
     private final PhanQuyenBUS phanQuyenBUS;
     private PhanQuyenDTO selectedQuyen;
     private ArrayList<CTPhanQuyenDTO> selectedPermissions;
+    private ObservableList<TaiKhoan_DTO> dsTkTheoQuyen = null;
 
     public PhanQuyenController() {
         phanQuyenBUS = new PhanQuyenBUS();
@@ -56,7 +59,6 @@ public class PhanQuyenController {
         for (int i = 0; i < thaoTacCheckBoxes.size(); i++) {
             thaoTacCheckBoxes.get(i).setUserData((i + 1) + "-2"); // Mã chức năng (1, 2, ...) và hành động (2)
         }
-
         loadTenQuyenToComboBox();
         setupTableColumns();
         setupCheckBoxes();
@@ -76,6 +78,15 @@ public class PhanQuyenController {
                 if (selectedQuyen != null) {
                     System.out.println("Chọn chức vụ: " + selectedQuyen.getTenQuyen());
                     loadPermissions();
+                    if(dsTkTheoQuyen == null){
+                        dsTkTheoQuyen = FXCollections.observableArrayList(phanQuyenBUS.getTaiKhoanByQuyen(selectedQuyen.getMaQuyen()));
+                        tbDS.setItems(dsTkTheoQuyen);
+                        tbDS.refresh();
+                    } else {
+                        dsTkTheoQuyen.clear();
+                        dsTkTheoQuyen.addAll(phanQuyenBUS.getTaiKhoanByQuyen(selectedQuyen.getMaQuyen()));
+                        tbDS.refresh();
+                    }
                 }
             } else {
                 selectedQuyen = null;
