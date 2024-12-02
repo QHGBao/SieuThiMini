@@ -9,6 +9,7 @@ import DTO.TaiKhoan_DTO;
 import DTO.CTPhanQuyenDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -62,19 +63,23 @@ public class PhanQuyenController {
     }
 
     private void loadTenQuyenToComboBox() {
+        cbbChucVu.getItems().add("---Chọn chức vụ---");
         ArrayList<PhanQuyenDTO> dsQuyen = phanQuyenBUS.getALLQuyen();
         for (PhanQuyenDTO quyen : dsQuyen) {
             cbbChucVu.getItems().add(quyen.getTenQuyen());
         }
-        if (!dsQuyen.isEmpty()) {
-            cbbChucVu.setValue(dsQuyen.get(0).getTenQuyen());
-        }
+        cbbChucVu.setValue("---Chọn chức vụ---");
         cbbChucVu.setOnAction(event -> {
             String selectedTenQuyen = cbbChucVu.getSelectionModel().getSelectedItem();
-            selectedQuyen = getPhanQuyenByTenQuyen(selectedTenQuyen);
-            if (selectedQuyen != null) {
-                System.out.println("Chọn chức vụ: " + selectedQuyen.getTenQuyen());
-                loadPermissions();
+            if (!"---Chọn chức vụ---".equals(selectedTenQuyen)) {
+                selectedQuyen = getPhanQuyenByTenQuyen(selectedTenQuyen);
+                if (selectedQuyen != null) {
+                    System.out.println("Chọn chức vụ: " + selectedQuyen.getTenQuyen());
+                    loadPermissions();
+                }
+            } else {
+                selectedQuyen = null;
+                System.out.println("Chưa chọn chức vụ.");
             }
         });
     }
@@ -85,8 +90,6 @@ public class PhanQuyenController {
                 .findFirst()
                 .orElse(null);
     }
-
-   
 
     private void setupTableColumns() {
         clSTT.setCellFactory(column -> new TableCell<TaiKhoan_DTO, Integer>() {
@@ -129,17 +132,28 @@ public class PhanQuyenController {
         }
     }
 
-
-    @FXML
-    void btnSave(ActionEvent event) {
-        if (selectedQuyen == null) {
-            System.out.println("Chưa chọn chức vụ!");
-            return;
-        }
-        System.out.println("Lưu quyền cho chức vụ: " + selectedQuyen.getTenQuyen());
-        phanQuyenBUS.savePermissions(selectedPermissions);
-        System.out.println("Lưu quyền thành công!");
+   @FXML
+void btnSave(ActionEvent event) {
+    if (selectedQuyen == null) {
+        System.out.println("Chưa chọn chức vụ!");
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh báo");
+        alert.setHeaderText("Chưa chọn chức vụ!");
+        alert.setContentText("Vui lòng chọn chức vụ trước khi lưu quyền.");
+        alert.showAndWait();
+        return;
     }
+    System.out.println("Lưu quyền cho chức vụ: " + selectedQuyen.getTenQuyen());
+    phanQuyenBUS.savePermissions(selectedPermissions);
+    System.out.println("Lưu quyền thành công!");
+
+    // Hiển thị thông báo khi lưu quyền thành công
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Thông báo");
+    alert.setHeaderText("Lưu quyền thành công");
+    alert.setContentText("Quyền đã được lưu thành công cho chức vụ: " + selectedQuyen.getTenQuyen());
+    alert.showAndWait();
+}
 
     private void loadPermissions() {
         if (selectedQuyen == null)

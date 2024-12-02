@@ -126,7 +126,3 @@
     -fx-background-color: rgba(0, 12, 110, 0.7); /* Màu nền khi hover */
 }
 
-.combo-box .combo-box-popup .list-cell:selected {
-    -fx-background-color: #000c6e; /* Màu nền khi chọn mục trong danh sách */
-    -fx-text-fill: white; /* Màu chữ trắng sau khi chọn */
-}

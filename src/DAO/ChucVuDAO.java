@@ -52,4 +52,26 @@ public class ChucVuDAO {
         }
         return maCV;
     }
+
+    public String getAllTenChucVu() {
+        String s = "";
+        String sql = "SELECT TenChucVu FROM ChucVu";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                s+=rs.getString("TenChucVu");
+                s+=", ";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+
+        return s;
+    }
 }
