@@ -13,8 +13,8 @@ public class NhaCungCapBUS {
     }
 
     public String themNCC(NhaCungCapDTO ncc){
-        if (nccDAO.findNCC(ncc.getSdt()))
-            return "Nhà cung cấp đã sài sđt này rồi !!";
+        if (nccDAO.findNCC(ncc.getSdt(),ncc.getMaNCC()))
+            return "Có nhà cung cấp đã sài sđt này rồi !!";
         if (nccDAO.themNCC(ncc))
             return "Tạo nhà cung cấp thành công !!";
         return "Tạo nhà cung cấp thất bại !!";
@@ -40,8 +40,8 @@ public class NhaCungCapBUS {
         return nccDAO.findMaNCC(sdt);
     }
 
-    public boolean ktSdt(String sdt){
-        return nccDAO.findNCC(sdt);
+    public boolean ktSdt(String sdt, int MaNCC){
+        return nccDAO.findNCC(sdt, MaNCC);
     }
 
     public ArrayList<NhaCungCapDTO> searchArrayNCC(String keyword){

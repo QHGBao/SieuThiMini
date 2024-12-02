@@ -83,7 +83,7 @@ public class NhaCungCapController implements Initializable{
     public void refreshDataNCC(){
         dsNhaCungCap.clear();
         dsNhaCungCap.addAll(nccBus.getAllNCC());
-        tableNCC.setItems(dsNhaCungCap);
+        tableNCC.refresh();
     }
 
     @Override
@@ -136,8 +136,7 @@ public class NhaCungCapController implements Initializable{
             ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
             if (result == ButtonType.OK) {
                 show.alertMessage(nccBus.xoaNCC(ncc));
-                int selectedIndex = tableNCC.getSelectionModel().getSelectedIndex();
-                tableNCC.getItems().remove(selectedIndex);
+                refreshDataNCC();
                 tableNCC.getSelectionModel().clearSelection();
             }
         }

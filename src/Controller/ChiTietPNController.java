@@ -1,19 +1,8 @@
 package Controller;
 
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
-
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import BUS.PhieuNhapBUS;
 import DTO.PhieuNhapDTO;
@@ -25,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -33,9 +21,6 @@ public class ChiTietPNController implements Initializable {
 
     @FXML
     private Label btnClose;
-
-    @FXML
-    private ImageView btnPrintPDF;
 
     @FXML
     private TableColumn<PhieuNhapDTO.tableCtPNDTO, Integer> colGiaNhap;
@@ -74,7 +59,7 @@ public class ChiTietPNController implements Initializable {
     private PhieuNhapBUS pnBUS = new PhieuNhapBUS();
     private ObservableList<PhieuNhapDTO.tableCtPNDTO> dsCTPn;
 
-    public void setPhieuNhap(PhieuNhapDTO.tablePNDTO pn){
+    public void setPhieuNhap(PhieuNhapDTO.tablePNDTO pn) {
         this.pn = pn;
         if (pn != null) {
             dsCTPn = FXCollections.observableArrayList(pnBUS.getAllRowCT(pn.getMaPN()));
@@ -83,7 +68,7 @@ public class ChiTietPNController implements Initializable {
         }
     }
 
-    public void setLayout(){
+    public void setLayout() {
         txtMaPN.setText(String.valueOf(pn.getMaPN()));
         txtNCC.setText(pn.getTenNCC());
         txtUser.setText(pn.getTenNV());
@@ -91,8 +76,8 @@ public class ChiTietPNController implements Initializable {
         String thoigian = sdf.format(pn.getNgayLap());
         txtThoiGian.setText(thoigian);
         int total = 0;
-        for (PhieuNhapDTO.tableCtPNDTO x: pnBUS.getAllRowCT(pn.getMaPN())){
-            total = total+x.getThanhTien();
+        for (PhieuNhapDTO.tableCtPNDTO x : pnBUS.getAllRowCT(pn.getMaPN())) {
+            total = total + x.getThanhTien();
         }
         String TongTien = String.format("%,d", total).replace(',', '.') + "đ";
         txtTongTien.setText(TongTien);
@@ -116,33 +101,4 @@ public class ChiTietPNController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    void btnPrintPDFClicked(MouseEvent event) {
-        try {
-            // Tạo tài liệu PDF
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("PhieuNhap.pdf"));
-            document.open();
-
-            // Tiêu đề "PHIẾU NHẬP"
-            Paragraph title = new Paragraph("PHIẾU NHẬP", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 24));
-            title.setAlignment(Element.ALIGN_CENTER);
-            document.add(title);
-            document.add(Chunk.NEWLINE); // Thêm khoảng cách dòng
-
-            // Thông tin phiếu
-            PdfPTable infoTable = new PdfPTable(2);
-            infoTable.setWidthPercentage(100);
-            infoTable.setSpacingAfter(10);
-            
-            infoTable.addCell(new PdfPCell(new Phrase("Mã Phiếu: 4")));
-            infoTable.addCell(new PdfPCell(new Phrase("Nhà Cung Cấp: Công ty XYZ")));
-            infoTable.addCell(new PdfPCell(new Phrase("Người Tạo: Tran Thi B")));
-            infoTable.addCell(new PdfPCell(new Phrase("Thời Gian: 19/09/2024")));
-            document.add(infoTable);
-            document.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

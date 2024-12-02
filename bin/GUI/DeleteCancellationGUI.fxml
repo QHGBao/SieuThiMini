@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="832.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationDeleteController">
+<Pane prefHeight="832.0" prefWidth="906.0" stylesheets="@../../Assets/css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CancellationDeleteController">
    <children>
-      <SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="974.0" styleClass=".split-pane-divider {    -fx-background-color: transparent;}">
+      <SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" styleClass=".split-pane-divider {    -fx-background-color: transparent;}">
          <items>
             <StackPane prefHeight="832.0" prefWidth="974.0" style="-fx-background-color: #F5F4E8;">
                <children>
@@ -47,38 +47,38 @@
                   </Pane>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="756.0" prefWidth="974.0" style="-fx-background-color: #F5F4E8;" StackPane.alignment="BOTTOM_CENTER">
                      <children>
-                        <TableView fx:id="tblCancellationDetail" layoutX="15.0" layoutY="438.0" prefHeight="320.0" prefWidth="940.0" style="-fx-font-size: 20;">
+                        <TableView fx:id="tblCancellationDetail" layoutX="15.0" layoutY="484.0" prefHeight="274.0" prefWidth="876.0" style="-fx-font-size: 20;">
                           <columns>
-                              <TableColumn fx:id="colCancellationDetailsID" prefWidth="153.33331298828125" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
-                            <TableColumn fx:id="colProductID" minWidth="0.0" prefWidth="146.888916015625" style="-fx-alignment: center;" text="Mã Sản Phẩm" />
-                            <TableColumn fx:id="colProductName" prefWidth="350.2223205566406" style="-fx-alignment: center;" text="Tên Sản Phẩm" />
-                              <TableColumn fx:id="colProductType" prefWidth="146.4444580078125" text="Loại Sản Phẩm" />
-                              <TableColumn fx:id="colCancellationQuantity" minWidth="8.0" prefWidth="145.11114501953125" text="Số Lượng Hủy" />
+                              <TableColumn fx:id="colCancellationDetailsID" prefWidth="141.60000896453857" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
+                            <TableColumn fx:id="colProductID" minWidth="0.0" prefWidth="153.6000213623047" style="-fx-alignment: center;" text="Mã Sản Phẩm" />
+                            <TableColumn fx:id="colProductName" prefWidth="273.6000061035156" style="-fx-alignment: center;" text="Tên Sản Phẩm" />
+                              <TableColumn fx:id="colProductType" prefWidth="172.79998779296875" text="Loại Sản Phẩm" />
+                              <TableColumn fx:id="colCancellationQuantity" minWidth="8.0" prefWidth="139.199951171875" text="Số Lượng" />
                           </columns>
                         </TableView>
-                        <TableView fx:id="tblCancellation" layoutX="15.0" layoutY="170.0" onMouseClicked="#handleCancellationClick" prefHeight="256.0" prefWidth="940.0" style="-fx-font-size: 20;">
+                        <TableView fx:id="tblCancellation" layoutX="12.0" layoutY="182.0" onMouseClicked="#handleCancellationClick" prefHeight="256.0" prefWidth="876.0" style="-fx-font-size: 20;">
                            <columns>
-                              <TableColumn fx:id="colCancellationID" prefWidth="236.66666221618652" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
-                              <TableColumn fx:id="colCancellationDay" prefWidth="450.6667022705078" style="-fx-alignment: center;" text="Ngày Lập" />
-                              <TableColumn fx:id="colEmployeeID" minWidth="0.0" prefWidth="252.66668701171875" style="-fx-alignment: center;" text="Mã Nhân Viên" />
+                              <TableColumn fx:id="colCancellationID" prefWidth="203.2000150680542" style="-fx-alignment: center;" text="Mã Phiếu Hủy" />
+                              <TableColumn fx:id="colCancellationDay" minWidth="0.0" prefWidth="446.40000915527344" style="-fx-alignment: center;" text="Ngày Lập" />
+                              <TableColumn fx:id="colEmployeeID" minWidth="0.0" prefWidth="223.99993896484375" style="-fx-alignment: center;" text="Mã Nhân Viên" />
                            </columns>
                         </TableView>
-                        <HBox alignment="CENTER" layoutX="638.0" layoutY="126.0" prefHeight="35.0" prefWidth="45.0" style="-fx-pref-height: 35px; -fx-pref-width: 45; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" stylesheets="@../../../../Git/Assets/css/dashboardDesign.css">
+                        <HBox alignment="CENTER" layoutX="638.0" layoutY="126.0" prefHeight="35.0" prefWidth="45.0" style="-fx-pref-height: 35px; -fx-pref-width: 45; -fx-background-color: #F4F0F0; -fx-background-radius: 20px;" styleClass="shadow">
                            <children>
                               <ImageView fx:id="btnSearch" fitHeight="150.0" fitWidth="34.0" onMouseClicked="#btnSearch_Clicked" pickOnBounds="true" preserveRatio="true" style="-fx-fit-height: 30px; -fx-fit-width: 60px;">
                                  <image>
-                                    <Image url="@../../../../Git/Assets/Img/searchIcon.png" />
+                                    <Image url="@../../Assets/Img/searchIcon.png" />
                                  </image>
                               </ImageView>
                            </children>
-                           <styleClass>
-                              <String fx:value="white-bg" />
-                              <String fx:value="shadow" />
-                           </styleClass>
+                           <stylesheets>
+                              <URL value="@../../../../Git/Assets/css/dashboardDesign.css" />
+                              <URL value="@../../Assets/css/style.css" />
+                           </stylesheets>
                         </HBox>
                         <Pane layoutX="268.0" layoutY="16.0" prefHeight="68.0" prefWidth="200.0" style="-fx-background-radius: 20px; -fx-pref-width: 445px; -fx-pref-height: 92px; -fx-background-color: #F4F0F0;">
                            <children>
-                              <HBox alignment="CENTER" layoutX="-4.0" layoutY="-4.0" prefHeight="100.0" prefWidth="455.0" spacing="30.0" stylesheets="@../../../../Git/Assets/css/dashboardDesign.css">
+                              <HBox alignment="CENTER" layoutX="-4.0" layoutY="-4.0" prefHeight="100.0" prefWidth="455.0" spacing="30.0" styleClass="shadow" stylesheets="@../../Assets/css/style.css">
                                  <children>
                                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 90px; -fx-pref-height: 90px;">
                                        <children>
@@ -117,10 +117,6 @@
                                        </children>
                                     </Pane>
                                  </children>
-                                 <styleClass>
-                                    <String fx:value="shadow" />
-                                    <String fx:value="white-bg" />
-                                 </styleClass>
                               </HBox>
                            </children>
                         </Pane>
