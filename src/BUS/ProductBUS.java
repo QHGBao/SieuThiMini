@@ -1,19 +1,15 @@
 package BUS;
 
-
 import DAO.ProductDAO;
 import DTO.ProductDTO;
-import java.util.List;
-
-
+import java.util.ArrayList;
 
 public class ProductBUS {
 
-        ProductDAO prDAO = new ProductDAO();
+    ProductDAO prDAO = new ProductDAO();
 
-
-    public List<ProductDTO> getAllProducts() {
-        return prDAO.getAllProducts();
+    public ArrayList<ProductDTO> getAllProducts() {
+        return new ArrayList<>(prDAO.getAllProducts()); 
     }
 
     public ProductDTO getProductById(int id) {
