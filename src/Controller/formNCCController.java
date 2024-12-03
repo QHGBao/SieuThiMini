@@ -61,6 +61,11 @@ public class formNCCController {
     private String option;
     private NhaCungCapDTO ncc;
     private NhaCungCapController nccController;
+    private NhapHangController nhaphang;
+
+    public void setNhapHangController(NhapHangController nhaphang){
+        this.nhaphang = nhaphang;
+    }
 
     public void setNccController(NhaCungCapController nccController){
         this.nccController = nccController;
@@ -99,7 +104,7 @@ public class formNCCController {
         if(inputSdt.getText().isEmpty()){
             warnSdt.setText("Vui lòng nhập số điện thoại *");
             check = false;
-        } else if(!inputSdt.getText().matches("^0[0-9]{9}$")){
+        } else if(!inputSdt.getText().matches("^09[0-9]{8}$")){
             warnSdt.setText("Vui lòng nhập đúng định dạng số điện thoại *");
             check = false;
         }
@@ -159,20 +164,27 @@ public class formNCCController {
         if(option.equals("Tạo")){
             NhaCungCapDTO ncc = new NhaCungCapDTO();
             if(checkInput()){
-                ncc.setTenNCC(inputTen.getText());
-                ncc.setSdt(inputSdt.getText());
-                ncc.setDiaChi(inputDiaChi.getText());
-                ncc.setNguoiLH(inputNguoiLH.getText());
-                ncc.setIs_Deleted(0);
-                alertMessage(nccBUS.themNCC(ncc));
-                nccController.refreshDataNCC();
+                if(nccBUS.ktSdt(inputSdt.getText(), Integer.parseInt(labelMaNCC.getText()))){
+                    warnSdt.setText("Số điện đã tồn tại vui lòng nhập lai");
+                } else {
+                    ncc.setTenNCC(inputTen.getText());
+                    ncc.setSdt(inputSdt.getText());
+                    ncc.setDiaChi(inputDiaChi.getText());
+                    ncc.setNguoiLH(inputNguoiLH.getText());
+                    ncc.setIs_Deleted(0);
+                    alertMessage(nccBUS.themNCC(ncc));
+                    if (nccController != null) {
+                        nccController.refreshDataNCC();
+                    }
+                    if(nhaphang != null){
+                        nhaphang.refreshCbb();
+                    }
+                }
             }
         }
         if(option.equals("Sửa")){
             if(checkInput()){
-                System.out.println(nccBUS.ktSdt(inputSdt.getText()));
-                System.out.println(inputSdt.getText());
-                if(nccBUS.ktSdt(inputSdt.getText())){
+                if(nccBUS.ktSdt(inputSdt.getText(),ncc.getMaNCC())){
                     warnSdt.setText("Số điện đã tồn tại vui lòng nhập lai");
                 } else {
                     ncc.setTenNCC(inputTen.getText());

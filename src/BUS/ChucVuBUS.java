@@ -11,4 +11,8 @@ public class ChucVuBUS {
     public Integer getMaChucVuByTenChucVu(String tenChucVu){
         return cvDAO.getMaChucVuByTenChucVu(tenChucVu);
     }
+
+    public String getAllTenChucVu(){
+        return cvDAO.getAllTenChucVu();
+    }
 }

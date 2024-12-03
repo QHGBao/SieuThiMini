@@ -24,6 +24,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -255,18 +258,25 @@ public class QLNVController {
     void XoaNV(MouseEvent event) {
         int maNV = 0;
         // Kiểm tra nếu có dòng được chọn
-        NhanVienDTO selectedRow = tbBang.getSelectionModel().getSelectedItem();
-        if (selectedRow != null) {
-            // Lấy giá trị của dòng được chọn
-            maNV = selectedRow.getMaNV();
-        }
-        boolean flag = nvBUS.deleteNhanVienDTO(maNV);
-        if(flag){
-            JOptionPane.showMessageDialog(null,"Xóa Nhân Viên Thành Công");
-            hienThiDSNhanVien();
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Xóa Nhân Viên Thất Bại");
+        Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Xác nhận");
+        confirmAlert.setHeaderText("Bạn có chắc muốn xóa không?");
+        confirmAlert.setContentText("Việc này không thể hoàn tác.");
+        ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
+        if (result == ButtonType.OK) {
+            NhanVienDTO selectedRow = tbBang.getSelectionModel().getSelectedItem();
+            if (selectedRow != null) {
+                // Lấy giá trị của dòng được chọn
+                maNV = selectedRow.getMaNV();
+            }
+            boolean flag = nvBUS.deleteNhanVienDTO(maNV);
+            if(flag){
+                JOptionPane.showMessageDialog(null,"Xóa Nhân Viên Thành Công");
+                hienThiDSNhanVien();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Xóa Nhân Viên Thất Bại");
+            }
         }
     }
 

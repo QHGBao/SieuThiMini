@@ -28,4 +28,7 @@ public class NhanVienBUS {
     public boolean kiemTraSoDienThoai(String soDienThoai){
         return nvDAO.kiemTraSoDienThoai(soDienThoai);
     }
+    public String getTenNVByMaNV(int maNV){
+        return nvDAO.getTenNVByMaNV(maNV);
+    }
 }

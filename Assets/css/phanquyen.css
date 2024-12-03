@@ -1,0 +1,77 @@
+
+
+.titled-pane > .title {
+    -fx-background-color: linear-gradient(to bottom left, #396580,   #000c6e);
+    -fx-text-fill: white; /* Chữ trắng */
+    -fx-font-weight: bold; /* Chữ đậm */
+    -fx-padding: 5px; /* Khoảng cách chữ */
+    -fx-alignment: center; /* Căn giữa chữ */
+    -fx-font-size: 14px; /* Kích thước chữ */
+    -fx-border-color: white; /* Viền trắng */
+    -fx-border-width: 2px; /* Độ dày của viền */
+    -fx-border-radius: 5px; /* Bo tròn viền */
+}
+
+.titled-pane > .title .text {
+    -fx-fill: white; /* Màu chữ trắng */
+}
+
+/* Style cho nút bấm */
+.button {
+    -fx-background-color: #189e28; /* Màu nền */
+    -fx-border-color: white; /* Viền trắng */
+    -fx-border-width: 2px; /* Độ dày của viền */
+    -fx-border-radius: 5px; /* Bo tròn viền */
+    -fx-text-fill: white; /* Màu chữ */
+}
+
+/* Hiệu ứng khi di chuột qua nút */
+.button:hover {
+    -fx-background-color: #38f54f; /* Màu nền khi hover */
+    -fx-border-color: white; /* Viền trắng khi hover */
+}  
+    
+
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: white;  /* Đổi màu nền của ScrollPane */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #ffffff;  /* Màu nền bên trong */
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-color: linear-gradient(to bottom right, #396580,   #000c6e);
+    -fx-border-radius: 5px;
+    -fx-border-width: 1.5px;
+
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom right, #396580,   #000c6e);
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .fillter {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #fff;
+}
+.scroll-pane {
+    -fx-background-color: white;  /* Đổi màu nền của ScrollPane */
+    
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: #ffffff;  /* Màu nền bên trong */
+}
+

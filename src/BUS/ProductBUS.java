@@ -7,9 +7,14 @@ import java.util.ArrayList;
 public class ProductBUS {
 
     ProductDAO prDAO = new ProductDAO();
+    ProductDAO prDAO = new ProductDAO();
 
     public ArrayList<ProductDTO> getAllProducts() {
         return new ArrayList<>(prDAO.getAllProducts()); 
+    }
+
+    public List<ProductDTO> searchProductsByName(String keyword) {
+        return prDAO.searchProductsByName(keyword);
     }
 
     public ProductDTO getProductById(int id) {

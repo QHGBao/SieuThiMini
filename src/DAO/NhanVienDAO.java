@@ -188,5 +188,27 @@ public class NhanVienDAO {
         }
         return result;
     }
+
+    public String getTenNVByMaNV(int maNV) {
+        String tenNhanVien = null;
+        String sql = "SELECT TenNV FROM NhanVien WHERE MaNV = ?";
+
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setInt(1, maNV);
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                tenNhanVien = rs.getString("TenNV");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tenNhanVien;
+    }
 }
 

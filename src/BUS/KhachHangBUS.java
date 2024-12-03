@@ -28,4 +28,11 @@ public class KhachHangBUS {
     public boolean kiemTraSoDienThoai(String soDienThoai){
         return khDAO.kiemTraSoDienThoai(soDienThoai);
     }
+    public int getDiemTichLuyBySoDienThoai(String phoneNumber) {
+        return khDAO.getDiemTichLuyBySoDienThoai(phoneNumber);
+    }
+
+    public int getMaKHBySDT(String sdt) {
+        return khDAO.getMaKHBySDT(sdt);
+    }
 }

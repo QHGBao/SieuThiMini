@@ -45,9 +45,9 @@ public class DAO_ThongKe {
     public ResultSet thongkeDoanhThu(Timestamp startDate, Timestamp endDate) {
     	ResultSet rs = null;
         try {
-            String sql = "SELECT hd.NgayLap, hd.MaHD, sp.TenSP, cthd.SoLuong, cthd.GiaBanThucTe, " +
-                    	"(cthd.SoLuong * cthd.GiaBanThucTe) AS TongTienHang, " +
-                    	"SUM(cthd.SoLuong * cthd.GiaBanThucTe) OVER() AS TongDoanhThu " +
+            String sql = "SELECT hd.NgayLap, hd.MaHD, sp.TenSP, cthd.SoLuong, cthd.GiaBan, " +
+                    	"(cthd.SoLuong * cthd.GiaBan) AS TongTienHang, " +
+                    	"SUM(cthd.SoLuong * cthd.GiaBan) OVER() AS TongDoanhThu " +
                     	"FROM HoaDon hd " +
                     	"JOIN CTHoaDon cthd ON hd.MaHD = cthd.MaHD " +
                     	"JOIN SanPham sp ON cthd.MaSP = sp.MaSP " +
@@ -66,8 +66,8 @@ public class DAO_ThongKe {
     public ResultSet thongkeLoiNhuan(Timestamp startDate, Timestamp endDate) {
         ResultSet rs = null;
         try {
-			String sql ="SELECT hd.NgayLap, hd.MaHD, sp.TenSP, cthd.SoLuong, ctpn.GiaNhap, cthd.GiaBanThucTe, " +
-						"((cthd.SoLuong * cthd.GiaBanThucTe) - (cthd.SoLuong * ctpn.GiaNhap)) AS LoiNhuan " +
+			String sql ="SELECT hd.NgayLap, hd.MaHD, sp.TenSP, cthd.SoLuong, ctpn.GiaNhap, cthd.GiaBan, " +
+						"((cthd.SoLuong * cthd.GiaBan) - (cthd.SoLuong * ctpn.GiaNhap)) AS LoiNhuan " +
 						"FROM HoaDon hd " +
 						"JOIN CTHoaDon cthd ON hd.MaHD = cthd.MaHD " +
 						"JOIN SanPham sp ON cthd.MaSP = sp.MaSP " +

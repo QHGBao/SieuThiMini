@@ -46,7 +46,7 @@ public class NhaCungCapDao {
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Insert into NhaCungCap (TenNCC, DiaChi, Sdt, NguoiLH, Is_Deleted) values(?,?,?,?,?)";
+            String sql = "Insert into NhaCungCap (TenNCC, DiaChi, Sdt, NguoiLienHe, Is_Deleted) values(?,?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, ncc.getTenNCC());
             stmt.setString(2, ncc.getDiaChi());
@@ -64,17 +64,22 @@ public class NhaCungCapDao {
         return check;
     }
 
-    public boolean findNCC(String sdt) {
+    public boolean findNCC(String sdt, int MaNCC) {
         boolean check = false;
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Select * from NhaCungCap Where Sdt=?";
+            String sql = "SELECT COUNT(*) " + 
+                          "FROM NhaCungCap " +
+                          "WHERE Sdt = ? AND MaNCC != ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, sdt);
+            stmt.setInt(2, MaNCC);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                check = true;
+                if (rs.getInt(1) > 0) {
+                    check = true;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +94,7 @@ public class NhaCungCapDao {
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
-            String sql = "Update NhaCungCap Set TenNCC=?, DiaChi=?, Sdt=?, NguoiLH=? Where MaNCC=?";
+            String sql = "Update NhaCungCap Set TenNCC=?, DiaChi=?, Sdt=?, NguoiLienHe=? Where MaNCC=?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, ncc.getTenNCC());
             stmt.setString(2, ncc.getDiaChi());
