@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.QuanLyGiamGiaSpController">
+   <children>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="832.0" prefWidth="904.0">
+         <children>
+            <Label layoutX="311.0" layoutY="43.0" text="QUẢN LÝ GIẢM GIÁ SẢN PHẨM" textFill="#e81414">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tblSP" layoutY="88.0" prefHeight="207.0" prefWidth="904.0">
+               <columns>
+                  <TableColumn fx:id="colMaSP1" prefWidth="43.0" text="Mã SP" />
+                  <TableColumn fx:id="colTenSP1" prefWidth="107.0" text="Tên SP" />
+                  <TableColumn fx:id="colMoTa1" prefWidth="123.0" text="Mô tả" />
+                  <TableColumn fx:id="colSoLuong1" prefWidth="73.0" text="Số lượng" />
+                  <TableColumn fx:id="colHinhAnh1" prefWidth="303.33331298828125" text="Hình ảnh" />
+                  <TableColumn fx:id="colGiaBan1" prefWidth="123.66668701171875" text="Giá bán" />
+                  <TableColumn fx:id="colMaLoai1" prefWidth="130.3333740234375" text="Mã loại" />
+               </columns>
+            </TableView>
+            <Pane layoutX="-1.0" layoutY="284.0" prefHeight="114.0" prefWidth="600.0">
+               <children>
+                  <AnchorPane layoutX="1.0" minHeight="0.0" minWidth="0.0" prefHeight="96.0" prefWidth="598.0">
+                     <children>
+                        <Label layoutX="330.0" layoutY="13.0" text="Danh sách sản phẩm được chọn" textFill="#e81414">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </Pane>
+            <TableView fx:id="tblQLGgSP" layoutX="375.0" layoutY="520.0" prefHeight="195.0" prefWidth="529.0">
+               <columns>
+                  <TableColumn fx:id="colMaKM" prefWidth="100.00003051757812" text="Mã khuyến mãi" />
+                  <TableColumn fx:id="colTenKM" prefWidth="138.33331298828125" text="Tên khuyến mãi" />
+                  <TableColumn fx:id="colNgayBD" prefWidth="105.0" text="Ngày BĐ" />
+                  <TableColumn fx:id="colNgayKT" prefWidth="113.0" text="Ngày KT" />
+                  <TableColumn fx:id="colPhanTramGiam" prefWidth="71.3333740234375" text="\% giảm" />
+               </columns>
+            </TableView>
+            <Label layoutX="52.0" layoutY="487.0" text="Tạo chương trình giảm giá" textFill="#eb1d10">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="608.0" text="Ngày bắt đầu" />
+            <Label layoutX="16.0" layoutY="648.0" text="Ngày kết thúc" />
+            <Label layoutX="16.0" layoutY="687.0" text="Phần trăm giảm" />
+            <Button fx:id="btnTao" layoutX="322.0" layoutY="590.0" mnemonicParsing="false" onAction="#btnTaoKm" text="Tạo" />
+            <Label layoutX="546.0" layoutY="485.0" text="Bảng chương trình giảm giá" textFill="#eb1d10">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnThem" layoutX="620.0" layoutY="61.0" mnemonicParsing="false" onAction="#btnThemSP" text="THÊM" textFill="#ff1111" />
+            <Label layoutX="18.0" layoutY="568.0" text="Mã khuyến mãi" />
+            <Label layoutX="18.0" layoutY="524.0" text="Tên chương trình" />
+            <TableView fx:id="tblSPchon" layoutY="333.0" prefHeight="155.0" prefWidth="904.0">
+               <columns>
+                  <TableColumn fx:id="colMaSP" prefWidth="43.0" text="Mã SP" />
+                  <TableColumn fx:id="colTenSP" prefWidth="107.0" text="Tên SP" />
+                  <TableColumn fx:id="colMoTa" prefWidth="123.0" text="Mô tả" />
+                  <TableColumn fx:id="colSoLuong" prefWidth="73.0" text="Số lượng" />
+                  <TableColumn fx:id="colHinhAnh" prefWidth="306.0" text="Hình ảnh" />
+                  <TableColumn fx:id="colGiaBan" prefWidth="124.0" text="Giá bán" />
+                  <TableColumn fx:id="colMaLoai" prefWidth="127.6666259765625" text="Mã loại" />
+               </columns>
+            </TableView>
+            <TextField fx:id="txtTenCTTao" layoutX="141.0" layoutY="520.0" prefHeight="25.0" prefWidth="139.0" />
+            <TextField fx:id="txtMaKMTao" layoutX="141.0" layoutY="564.0" prefHeight="25.0" prefWidth="139.0" />
+            <DatePicker fx:id="dpNgayBDTao" layoutX="143.0" layoutY="605.0" prefHeight="25.0" prefWidth="139.0" />
+            <DatePicker fx:id="dpNgayKTTao" layoutX="144.0" layoutY="644.0" prefHeight="25.0" prefWidth="139.0" />
+            <TextField fx:id="txtPhanTramGiamTao" layoutX="144.0" layoutY="683.0" prefHeight="25.0" prefWidth="139.0" />
+         </children>
+      </AnchorPane>
+      
+   </children>
+</Pane>
