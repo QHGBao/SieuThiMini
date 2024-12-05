@@ -106,9 +106,81 @@ public class ProductDAO {
         return null;
     }
 
+    public List<ProductDTO> searchProductsByNameAndType(String productName, String productType) {
+        List<ProductDTO> products = new ArrayList<>();
+        String sql = "SELECT * FROM SanPham sp " +
+                     "JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai " +
+                     "WHERE (sp.TenSP LIKE ? OR ? = '') " +
+                     (productType.equals("Tat ca") ? "" : "AND lsp.TenLoai = ? ") +  // Bỏ điều kiện nếu là "Tất cả"
+                     "AND sp.Is_Deleted = 0";
+    
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + productName + "%");  // Điều kiện tìm theo tên
+            preparedStatement.setString(2, productName);              // Điều kiện nếu tên trống
+    
+            if (!productType.equals("Tat ca")) {
+                preparedStatement.setString(3, productType);  // Điều kiện tìm theo loại khi không phải "Tất cả"
+            }
+    
+            ResultSet rs = preparedStatement.executeQuery();
+    
+            while (rs.next()) {
+                products.add(new ProductDTO(
+                    rs.getInt("MaSP"),
+                    rs.getString("TenSP"),
+                    rs.getInt("MaLoai"),
+                    rs.getString("MoTa"),
+                    rs.getInt("GiaBan"),
+                    rs.getInt("SoLuong"),
+                    rs.getString("HinhAnh"),
+                    rs.getInt("Is_Deleted")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+    
+        return products;
+    }
+    
+    
     public List<ProductDTO> searchProductsByName(String keyword) {
         List<ProductDTO> products = new ArrayList<>();
         String query = "SELECT * FROM SanPham WHERE TenSP LIKE ? AND Is_Deleted = 0";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + keyword + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                products.add(new ProductDTO(
+                        rs.getInt("MaSP"),
+                        rs.getString("TenSP"),
+                        rs.getInt("MaLoai"),
+                        rs.getString("MoTa"),
+                        rs.getInt("GiaBan"),
+                        rs.getInt("SoLuong"),
+                        rs.getString("HinhAnh"),
+                        rs.getInt("Is_Deleted")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return products;
+    }
+
+    public List<ProductDTO> searchProductsByType(String keyword) {
+        List<ProductDTO> products = new ArrayList<>();
+        String query = "SELECT sp.* FROM SanPham sp, LoaiSanPham lsp WHERE TenLoai LIKE ? AND sp.Is_Deleted = 0 AND sp.MaLoai = lsp.MaLoai";
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
@@ -161,4 +233,46 @@ public class ProductDAO {
         }
         return products;
     }
+
+    public String getTenSanPhamByMaSP(int maSP) {
+        String tenSP = "";
+        String sql = "SELECT TenSP FROM SanPham WHERE MaSP = ?";
+    
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, maSP); // Gán maSP vào câu lệnh SQL
+            ResultSet rs = preparedStatement.executeQuery();
+    
+            if (rs.next()) {
+                tenSP = rs.getString("TenSP");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return tenSP;
+    }
+
+    public boolean updateProductQuantity(int maSP, int soLuongBan) {
+        // Cập nhật số lượng sản phẩm trong cơ sở dữ liệu
+        String query = "UPDATE SanPham SET SoLuong = SoLuong - ? WHERE MaSP = ?";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, soLuongBan);
+            preparedStatement.setInt(2, maSP);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;  // Trả về true nếu số lượng sản phẩm được cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            connectManager.closeConnection();
+        }
+    }
+    
 }

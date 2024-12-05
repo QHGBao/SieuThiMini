@@ -29,4 +29,19 @@ public class HoaDonBUS {
         return hoaDonDAO.addCTHoaDon(cthd);
     }
 
+    public Integer getMaHD() {
+        return hoaDonDAO.getMaHD();
+    }
+
+    public ArrayList<HoaDonDTO> searchHoaDon(int maKH, int maHD, java.sql.Date startDate, java.sql.Date endDate) {
+        return hoaDonDAO.searchHoaDon(maKH, maHD, startDate, endDate);
+    }
+
+    public ArrayList<CTHoaDonDTO> getChiTietHoaDonByMaHD(int maHD) {
+        return hoaDonDAO.getChiTietHoaDonByMaHD(maHD);
+    }
+
+    public HoaDonDTO getHoaDonByMaHD(int maHD) {
+        return hoaDonDAO.getHoaDonByMaHD(maHD);
+    }
 }

@@ -100,7 +100,7 @@
     -fx-background-color: white; /* Gradient màu nền */
     -fx-text-fill: #000c6e; /* Màu chữ là trắng */
     -fx-font-family: Arial, sans-serif; /* Kiểu chữ Arial */
-    -fx-font-size: 14px; /* Kích thước chữ */
+    /* -fx-font-size: 14px; Kích thước chữ */
     -fx-border-color: #000c6e; /* Màu viền */
     -fx-border-width: 1px; /* Độ dày viền */
     -fx-border-radius: 20px;
@@ -118,7 +118,7 @@
 
 .combo-box .list-cell {
     -fx-background-color: transparent; /* Lý do để phần background của item trong list không bị che phủ */
-    -fx-text-fill: rgb(0, 0, 0); /* Màu chữ cho các item trong danh sách */
+    -fx-text-fill: #000c6e(0, 0, 0); /* Màu chữ cho các item trong danh sách */
 }
 
 .combo-box .list-cell:hover {
@@ -129,3 +129,78 @@
     -fx-background-color: #000c6e; /* Màu nền khi chọn mục trong danh sách */
     -fx-text-fill: white; /* Màu chữ trắng sau khi chọn */
 }
+
+.font-size14px {
+    -fx-font-size: 14px;
+}
+
+* {
+	-fx-primary-color: linear-gradient(to bottom right, #396580,   #000c6e);
+	-fx-secondary-color: #000c6e;
+
+	-fx-focus-color: -fx-secondary-color;
+}
+
+.tab-header-area .tab-header-background {
+ 	-fx-background-color: -fx-primary-color;
+    
+}
+.tab-pane .tab:selected {
+    -fx-text-fill: white;
+	-fx-background-color: -fx-secondary-color;
+	-fx-background-insets: 0 0 0 0;
+	-fx-background-radius: 0 0 0 0;
+}
+
+.tab-pane .tab:hover {
+	-fx-background-color: -fx-secondary-color;
+	-fx-background-insets: 0 0 0 0;
+	-fx-background-radius: 0 0 0 0;
+}
+
+
+.tab .tab-label { 
+ 	-fx-alignment: CENTER;
+	-fx-text-fill: white;
+	-fx-padding: 0 10 0 10;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-underline: true
+}
+
+.tab-pane:top *.tab-header-area {
+	-fx-padding: 0 0 0 30;
+
+}
+.tab-pane {
+	-fx-background-color: transparent;
+	-fx-tab-min-width: 100px;
+	-fx-tab-min-height: 30px;
+	-fx-tab-max-height: 30px;
+}
+.tab-pane .tab {
+	-fx-background-color: transparent;
+    
+}
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+ 	-fx-border-width: 0;
+	-fx-border-insets: 0 0 0 0;
+	-fx-border-radius: 0;
+}
+
+
+
+.date-picker .arrow-button {
+	-fx-background-color: -fx-primary-color;
+	-fx-background-radius: 0;
+}
+.date-picker .arrow-button:hover {
+	-fx-background-color: -fx-secondary-color;
+}
+.date-picker .arrow-button .arrow {
+	-fx-background-color: white;
+}
+
+

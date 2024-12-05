@@ -5,6 +5,15 @@ public class CTHoaDonDTO {
     private int maSP;
     private int soLuong;
     private int giaBan;
+    private String tenSP;
+    private int thanhTien;
+
+    public CTHoaDonDTO(int soLuong, int giaBan, String tenSP) {
+        this.soLuong = soLuong;
+        this.giaBan = giaBan;
+        this.tenSP = tenSP;
+        this.thanhTien = soLuong * giaBan;
+    }
 
     public CTHoaDonDTO(int maHD, int maSP, int soLuong, int giaBan) {
         this.maHD = maHD;
@@ -15,6 +24,22 @@ public class CTHoaDonDTO {
 
     public CTHoaDonDTO() {
         
+    }
+
+    public int getThanhTien() {
+        return thanhTien;
+    }
+
+    public void setThanhTien(int thanhTien) {
+        this.thanhTien = thanhTien;
+    }
+
+    public String getTenSP() {
+        return tenSP;
+    }
+
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
     }
 
     public int getMaHD() {

@@ -1,47 +1,157 @@
 package Controller;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.print.PrinterJob;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.converter.LocalDateStringConverter;
 import javafx.collections.ListChangeListener;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-//import java.util.Date;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import DAO.*;
 import DTO.*;
 import BUS.*;
 
 public class QLBHController implements javafx.fxml.Initializable {
+
+    @FXML
+    private TextField sellSearchLSBar;
+
+    @FXML
+    private DatePicker startLSDatePicker;
+
+    @FXML
+    private DatePicker endLSDatePicker;
+
+    @FXML
+    private ComboBox<String> searchLichSuCB;
+
+    @FXML
+    private TableView<LichSuDiemDTO> LichSuDiemTable;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, Integer> colLSDiem;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, String> colLSLoaiGiaoDich;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, Integer> colLSMaDD;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, Integer> colLSMaHD;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, Integer> colLSMaKH;
+
+    @FXML
+    private TableColumn<LichSuDiemDTO, Date> colLSNgayTichLuy;
+
+    @FXML
+    private DatePicker startHDDatePicker;
+
+    @FXML
+    private DatePicker endHDDatePicker;
+
+    @FXML
+    private TextField sellSearchHDBar;
+
+    @FXML
+    private ComboBox<String> sellSearchHoaDonCB;
+
+    @FXML
+    private TableView<HoaDonDTO> HoaDonTable;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colMaHD;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Date> colNgayLap;
+
+    @FXML
+    private TableColumn<HoaDonDTO, String> colHinhThuc;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colTongTien;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colTienGiam;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colThanhTien;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colTienKhachDua;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colTienTraLai;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colMaNV;
+
+    @FXML
+    private TableColumn<HoaDonDTO, Integer> colMaKH;
+
+    @FXML
+    private TableView<DoiTienThanhDiemDTO> tienToDiemTable;
+
+    @FXML
+    private TableColumn<DoiTienThanhDiemDTO, Integer> colMaDT;
+
+    @FXML
+    private TableColumn<DoiTienThanhDiemDTO, Integer> colMucTienMin;
+
+    @FXML
+    private TableColumn<DoiTienThanhDiemDTO, Integer> colMucDiemDT;
+
+    @FXML
+    private TableColumn<DoiDiemThanhTienDTO, Integer> colMaDD;
+
+    @FXML
+    private TableColumn<DoiDiemThanhTienDTO, Integer> colMucDiemDD;
+
+    @FXML
+    private TableColumn<DoiDiemThanhTienDTO, Integer> colMucTienMax;
+
+    @FXML
+    private TableView<DoiDiemThanhTienDTO> diemToTienTable;
 
     @FXML
     private TableColumn<ProductDTO, Integer> sellColPrice;
@@ -109,24 +219,559 @@ public class QLBHController implements javafx.fxml.Initializable {
     @FXML
     private Label sellTenNV;
 
+    @FXML
+    private TextField ddttDiemTF;
+
+    @FXML
+    private TextField ddttTienTF;
+
+    @FXML
+    private TextField ddttDiemApDungTF;
+
+    @FXML
+    private TextField ddttTienApDungTF;
+
+    @FXML
+    private TextField dttdTienTF;
+
+    @FXML
+    private TextField dttdDiemTF;
+
+    @FXML
+    private TextField dttdTienApDungTF;
+
+    @FXML
+    private TextField dttdDiemApDungTF;
+
     private ObservableList<ProductDTO> sellItems = FXCollections.observableArrayList();
 
-    private ProductTypeDAO productTypeDAO = new ProductTypeDAO();
+    private ProductTypeBUS productTypeBUS = new ProductTypeBUS();
 
-    private ProductDAO productDAO = new ProductDAO();
+    private ProductBUS productBUS = new ProductBUS();
 
     private KhachHangBUS khachhangBUS = new KhachHangBUS();
 
-    private HoaDonDAO hoadonDAO = new HoaDonDAO();
-
     private HoaDonBUS hoaDonBUS = new HoaDonBUS();
 
-    private NhanVienBUS nhanVienBUS = new NhanVienBUS();
+    private LichSuDiemBUS lichSuDiemBUS = new LichSuDiemBUS();
+
+    private DoiDiemThanhTienBUS doiDiemThanhTienBUS = new DoiDiemThanhTienBUS();
+
+    private DoiTienThanhDiemBUS doiTienThanhDiemBUS = new DoiTienThanhDiemBUS();
+
+    private TempDataBUS tempDataBUS = new TempDataBUS();
+
+    // private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
     private NhanVienDTO nv;
 
+    private ObservableList<DoiDiemThanhTienDTO> dataDoiDiemThanhTien; // Khai báo data cho bảng đổi điểm thành tiền
+
+    private ObservableList<DoiTienThanhDiemDTO> dataDoiTienThanhDiem;
+
+    private ObservableList<HoaDonDTO> dataHoaDon;
+
+    private int lastInvoiceId = -1; // -1 để xác định không có hóa đơn
+
+    @FXML
+    void handlleSearchLSBTN(ActionEvent event) {
+        int maHD = -1; // Khởi tạo mã hóa đơn mặc định
+        int maKH = -1; // Khởi tạo mã khách hàng mặc định
+
+        // Lấy giá trị từ TextField
+        String searchValue = sellSearchLSBar.getText().trim();
+
+        // Kiểm tra lựa chọn tìm kiếm từ ComboBox
+        String selectedOption = searchLichSuCB.getValue(); // Lấy giá trị từ ComboBox
+        if (selectedOption != null) {
+            if (selectedOption.equals("Mã hóa đơn")) {
+                try {
+                    if (!searchValue.isEmpty()) {
+                        maHD = Integer.parseInt(searchValue);
+                    }
+                } catch (NumberFormatException e) {
+                    maHD = -1; // Nếu không phải số hợp lệ, đặt maHD = -1
+                }
+            } else if (selectedOption.equals("Mã khách hàng")) {
+                try {
+                    if (!searchValue.isEmpty()) {
+                        maKH = Integer.parseInt(searchValue);
+                    }
+                } catch (NumberFormatException e) {
+                    maKH = -1; // Nếu không phải số hợp lệ, đặt maKH = -1
+                }
+            }
+        }
+
+        // Lấy ngày bắt đầu và kết thúc từ DatePicker
+        java.sql.Date startDate = null;
+        java.sql.Date endDate = null;
+
+        if ((startLSDatePicker.getValue() != null && endLSDatePicker.getValue() == null) ||
+                (startLSDatePicker.getValue() == null && endLSDatePicker.getValue() != null)) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", "Vui lòng nhập cả ngày bắt đầu và ngày kết thúc.");
+            return;
+        }
+
+        if (startLSDatePicker.getValue() != null && endLSDatePicker.getValue() != null) {
+            startDate = java.sql.Date.valueOf(startLSDatePicker.getValue());
+            endDate = java.sql.Date.valueOf(endLSDatePicker.getValue());
+        }
+
+        // Gọi hàm tìm kiếm với các tham số mã hóa đơn và mã khách hàng
+        List<LichSuDiemDTO> results = lichSuDiemBUS.searchLichSuDiem(maKH, maHD, startDate, endDate);
+
+        // Hiển thị danh sách kết quả trong TableView
+        loadDataLichSuDiem(results);
+    }
+
+    @FXML
+    void handlleOpenChiTietHoaDonBTN(ActionEvent event) {
+        HoaDonDTO selectedHoaDon = HoaDonTable.getSelectionModel().getSelectedItem();
+
+        if (selectedHoaDon != null) {
+            int maHD = selectedHoaDon.getMaHD(); // Lấy Mã Hóa Đơn từ hàng được chọn
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ChiTietHoaDonGUI.fxml"));
+                Parent root = loader.load();
+
+                // Truyền dữ liệu vào controller
+                ChiTietHoaDonController controller = loader.getController();
+                controller.loadChiTietHoaDon(maHD); // Gọi hàm load chi tiết hóa đơn
+
+                Stage stage = new Stage();
+                stage.setTitle("Chi Tiết Hóa Đơn");
+
+                // Tạo scene và áp dụng nền trong suốt
+                Scene scene = new Scene(root);
+                scene.setFill(Color.TRANSPARENT); // Đặt nền trong suốt cho scene
+
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.initStyle(StageStyle.TRANSPARENT); // Cửa sổ không có viền
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Chưa hóa đơn", "Vui lòng chọn hóa đơn cần xem.");
+        }
+    }
+
+    @FXML
+    void handlleSearchHDBTN(ActionEvent event) {
+        String selectedOption = sellSearchHoaDonCB.getValue();
+        int maHD = -1;
+        int maKH = -1;
+
+        // Lấy giá trị từ TextField
+        String searchValue = sellSearchHDBar.getText().trim();
+
+        if (selectedOption != null) {
+            if (selectedOption.equals("Mã hóa đơn")) {
+                try {
+                    if (!searchValue.isEmpty()) {
+                        maHD = Integer.parseInt(searchValue);
+                    }
+                } catch (NumberFormatException e) {
+                    maHD = -1; // Nếu không phải số hợp lệ, đặt maHD = -1
+                }
+            } else if (selectedOption.equals("Mã khách hàng")) {
+                try {
+                    if (!searchValue.isEmpty()) {
+                        maKH = Integer.parseInt(searchValue);
+                    }
+                } catch (NumberFormatException e) {
+                    maKH = -1; // Nếu không phải số hợp lệ, đặt maKH = -1
+                }
+            }
+        }
+
+        // Lấy ngày bắt đầu và kết thúc từ DatePicker
+        java.sql.Date startDate = null;
+        java.sql.Date endDate = null;
+
+        if ((startHDDatePicker.getValue() != null && endHDDatePicker.getValue() == null) ||
+                (startHDDatePicker.getValue() == null && endHDDatePicker.getValue() != null)) {
+            showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", "Vui lòng nhập cả ngày bắt đầu và ngày kết thúc.");
+            return;
+        }
+
+        if (startHDDatePicker.getValue() != null && endHDDatePicker.getValue() != null) {
+            startDate = java.sql.Date.valueOf(startHDDatePicker.getValue());
+            endDate = java.sql.Date.valueOf(endHDDatePicker.getValue());
+        }
+        System.out.println(maHD);
+        System.out.println(maHD);
+        System.out.println(startDate);
+        System.out.println(endDate);
+
+        // Gọi hàm tìm kiếm với các tham số đã lấy
+        ArrayList<HoaDonDTO> results = hoaDonBUS.searchHoaDon(maKH, maHD, startDate, endDate);
+        loadDataHoaDon(results);
+
+    }
+
+    @FXML
+    void handleApDungDTBTN(ActionEvent event) {
+        DoiTienThanhDiemDTO selectedItem = tienToDiemTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert(Alert.AlertType.WARNING, "Chưa chọn mục", "Vui lòng chọn mục cần áp dụng.");
+            return;
+        }
+
+        dttdTienApDungTF.setText(String.valueOf(selectedItem.getMucTienMin()));
+        dttdDiemApDungTF.setText(String.valueOf(selectedItem.getMucDiem()));
+
+        int dttdDiemApDung = Integer.parseInt(dttdDiemApDungTF.getText());
+        int dttdTienApDung = Integer.parseInt(dttdTienApDungTF.getText());
+
+        tempDataBUS.updateTienThanhDiem(dttdTienApDung, dttdDiemApDung);
+    }
+
+    @FXML
+    void handleThemDTBTN(ActionEvent event) {
+        try {
+            // Lấy dữ liệu từ các trường nhập liệu (TextField)
+
+            if (dttdTienTF.getText().isEmpty() || dttdDiemTF.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Các trường không được để trống.");
+                return; // Thoát khỏi hàm nếu có trường bị trống
+            }
+
+            int mucTienMin = Integer.parseInt(dttdTienTF.getText());
+
+            int mucDiem = Integer.parseInt(dttdDiemTF.getText());
+
+            if (mucDiem <= 0 || mucTienMin <= 0) {
+                showAlert(Alert.AlertType.WARNING, "Dữ liệu không hợp lệ", "Điểm và tiền tối thiểu phải lớn hơn 0.");
+                return; // Thoát khỏi hàm nếu dữ liệu không hợp lệ
+            }
+
+            // Tạo đối tượng DTO và gọi phương thức add để thêm
+            DoiTienThanhDiemDTO newDTTD = new DoiTienThanhDiemDTO();
+
+            newDTTD.setMucTienMin(mucTienMin);
+            newDTTD.setMucDiem(mucDiem);
+
+            // Thực hiện thêm dữ liệu vào database thông qua BUS
+            boolean success = doiTienThanhDiemBUS.addDoiTienThanhDiem(newDTTD);
+
+            if (success) {
+                // Cập nhật bảng dữ liệu sau khi thêm
+                tienToDiemTable.getItems().clear();
+
+                loadDataDoiTienThanhDiem();
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm thành công.");
+            } else {
+                showAlert(Alert.AlertType.WARNING, "Thất bại", "Thêm không thành công.");
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý khi nhập dữ liệu không phải số
+            showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập số hợp lệ.");
+        }
+    }
+
+    @FXML
+    void handleXoaDTBTN(ActionEvent event) {
+        // Kiểm tra xem có dòng nào được chọn không
+        DoiTienThanhDiemDTO selectedDTTD = tienToDiemTable.getSelectionModel().getSelectedItem();
+        if (selectedDTTD == null) {
+            showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn mục cần xóa.");
+            return;
+        }
+
+        // Xác nhận trước khi xóa
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Xác nhận");
+        confirmAlert.setHeaderText("Bạn có chắc chắn muốn xóa không?");
+        confirmAlert.setContentText("Dữ liệu sẽ bị xóa khỏi hệ thống.");
+
+        if (confirmAlert.showAndWait().get() == ButtonType.OK) {
+            // Thực hiện xóa dữ liệu thông qua BUS
+            boolean success = doiTienThanhDiemBUS.deleteDoiTienThanhDiem(selectedDTTD.getMaDT());
+
+            if (success) {
+                // Cập nhật lại dữ liệu trên bảng
+                tienToDiemTable.getItems().clear();
+                loadDataDoiTienThanhDiem();
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Xóa thành công.");
+            } else {
+                showAlert(Alert.AlertType.WARNING, "Thất bại", "Xóa không thành công.");
+            }
+        }
+    }
+
+    @FXML
+    void handleSuaDTBTN(ActionEvent event) {
+        try {
+            // Kiểm tra xem có dòng nào được chọn không
+            DoiTienThanhDiemDTO selectedDTTD = tienToDiemTable.getSelectionModel().getSelectedItem();
+            if (selectedDTTD == null) {
+                showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn mục cần sửa.");
+                return;
+            }
+
+            // Kiểm tra dữ liệu nhập
+            if (dttdTienTF.getText().isEmpty() || dttdDiemTF.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Các trường không được để trống.");
+                return;
+            }
+
+            int mucTienMin = Integer.parseInt(dttdTienTF.getText());
+            int mucDiem = Integer.parseInt(dttdDiemTF.getText());
+
+            if (mucDiem <= 0 || mucTienMin <= 0) {
+                showAlert(Alert.AlertType.WARNING, "Dữ liệu không hợp lệ", "Điểm và tiền tối thiểu phải lớn hơn 0.");
+                return;
+            }
+
+            // Cập nhật đối tượng DTO
+            selectedDTTD.setMucTienMin(mucTienMin);
+            selectedDTTD.setMucDiem(mucDiem);
+
+            // Thực hiện cập nhật dữ liệu vào database thông qua BUS
+            boolean success = doiTienThanhDiemBUS.updateDoiTienThanhDiem(selectedDTTD);
+
+            if (success) {
+                // Cập nhật lại dữ liệu trên bảng
+                tienToDiemTable.getItems().clear();
+                loadDataDoiTienThanhDiem();
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Sửa thành công.");
+                dttdTienTF.clear();
+                dttdDiemTF.clear();
+            } else {
+                showAlert(Alert.AlertType.WARNING, "Thất bại", "Sửa không thành công.");
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập số hợp lệ.");
+        }
+    }
+
+    @FXML
+    void handleApDungDDBTN(ActionEvent event) {
+        // Lấy mục được chọn từ bảng
+        DoiDiemThanhTienDTO selectedItem = diemToTienTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert(Alert.AlertType.WARNING, "Chưa chọn mục", "Vui lòng chọn mục cần áp dụng.");
+            return;
+        }
+
+        ddttDiemApDungTF.setText(String.valueOf(selectedItem.getMucDiem()));
+        ddttTienApDungTF.setText(String.valueOf(selectedItem.getMucTienMax()));
+
+        int ddttDiemApDung = Integer.parseInt(ddttDiemApDungTF.getText());
+        int ddttTienApDung = Integer.parseInt(ddttTienApDungTF.getText());
+
+        tempDataBUS.updateDiemThanhTien(ddttDiemApDung, ddttTienApDung);
+
+    }
+
+    @FXML
+    void handleThemDDBTN(ActionEvent event) {
+        try {
+
+            if (ddttDiemTF.getText().isEmpty() || ddttTienTF.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Các trường không được để trống.");
+                return; // Thoát khỏi hàm nếu có trường bị trống
+            }
+
+            // Lấy dữ liệu từ các trường nhập liệu (TextField)
+            int mucDiem = Integer.parseInt(ddttDiemTF.getText()); // Kiểm tra trường nhập liệu là TextField chứ không
+                                                                  // phải Label
+            int mucTienMax = Integer.parseInt(ddttTienTF.getText());
+
+            if (mucDiem <= 0 || mucTienMax <= 0) {
+                showAlert(Alert.AlertType.WARNING, "Dữ liệu không hợp lệ", "Điểm và tiền tối đa phải lớn hơn 0.");
+                return; // Thoát khỏi hàm nếu dữ liệu không hợp lệ
+            }
+
+            // Tạo đối tượng DTO và gọi phương thức add để thêm
+            DoiDiemThanhTienDTO newDDTT = new DoiDiemThanhTienDTO();
+            newDDTT.setMucDiem(mucDiem);
+            newDDTT.setMucTienMax(mucTienMax);
+
+            // Thực hiện thêm dữ liệu vào database thông qua BUS
+            boolean success = doiDiemThanhTienBUS.addDoiDiemThanhTien(newDDTT);
+
+            if (success) {
+                // Cập nhật bảng dữ liệu sau khi thêm
+                diemToTienTable.getItems().clear();
+
+                loadDataDoiDiemThanhTien();
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm thành công.");
+            } else {
+                showAlert(Alert.AlertType.WARNING, "Thất bại", "Thêm không thành công.");
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý khi nhập dữ liệu không phải số
+            showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập số hợp lệ.");
+        }
+    }
+
+    @FXML
+    void handleXoaDDBTN(ActionEvent event) {
+        // Lấy mục được chọn từ bảng
+        DoiDiemThanhTienDTO selectedItem = diemToTienTable.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert(Alert.AlertType.WARNING, "Chưa chọn mục", "Vui lòng chọn mục cần xóa.");
+            return;
+        }
+
+        // Hiển thị thông báo xác nhận
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Xác nhận xóa");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Bạn có chắc chắn muốn xóa mục này?");
+
+        // Nếu người dùng đồng ý xóa
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // Thực hiện xóa dữ liệu qua BUS
+                boolean success = doiDiemThanhTienBUS.deleteDoiDiemThanhTien(selectedItem.getMaDD());
+
+                if (success) {
+                    diemToTienTable.getItems().remove(selectedItem); // Xóa khỏi TableView
+                    showAlert(Alert.AlertType.INFORMATION, "Thành công", "Xóa thành công.");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Thất bại", "Xóa không thành công.");
+                }
+            }
+        });
+    }
+
+    @FXML
+    void handleSuaDDBTN(ActionEvent event) {
+        try {
+
+            DoiDiemThanhTienDTO selectedItem = diemToTienTable.getSelectionModel().getSelectedItem();
+
+            if (selectedItem == null) {
+                showAlert(Alert.AlertType.WARNING, "Chưa chọn mục", "Vui lòng chọn mục cần sửa.");
+                return;
+            }
+
+            // Kiểm tra dữ liệu nhập
+            if (ddttTienTF.getText().isEmpty() || ddttDiemTF.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Các trường không được để trống.");
+                return;
+            }
+
+            int mucDiem = Integer.parseInt(ddttDiemTF.getText());
+            int mucTienMax = Integer.parseInt(ddttTienTF.getText());
+
+            if (mucDiem <= 0 || mucTienMax <= 0) {
+                showAlert(Alert.AlertType.WARNING, "Dữ liệu không hợp lệ", "Điểm và tiền tối đa phải lớn hơn 0.");
+                return;
+            }
+
+            // Cập nhật dữ liệu trong đối tượng DTO
+            selectedItem.setMucDiem(mucDiem);
+            selectedItem.setMucTienMax(mucTienMax);
+
+            // Gọi BUS để cập nhật trong database
+            boolean success = doiDiemThanhTienBUS.updateDoiDiemThanhTien(selectedItem);
+
+            if (success) {
+                // Cập nhật lại dữ liệu trong TableView
+                diemToTienTable.refresh();
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Sửa thành công.");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Thất bại", "Sửa không thành công.");
+            }
+        } catch (NumberFormatException e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập số hợp lệ.");
+        }
+    }
+
+    public void loadDataLichSuDiem(List<LichSuDiemDTO> lichSuDiemList) {
+        // Chuyển đổi danh sách thành ObservableList để hiển thị trên TableView
+        ObservableList<LichSuDiemDTO> lichSuDiemObservableList = FXCollections.observableArrayList(lichSuDiemList);
+
+        // Thiết lập giá trị cho từng cột trong TableView
+        colLSMaDD.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaGiaoDich()).asObject());
+        colLSMaKH.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaKH()).asObject());
+        colLSMaHD.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaHD()).asObject());
+        colLSDiem.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getDiem()).asObject());
+        colLSNgayTichLuy.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getNgayTichLuy()));
+        colLSLoaiGiaoDich.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLoaiGD()));
+
+        // Đưa dữ liệu vào TableView
+        LichSuDiemTable.setItems(lichSuDiemObservableList);
+    }
+
+    private void loadDataHoaDon(ArrayList<HoaDonDTO> hoaDonList) {
+        if (dataHoaDon == null) {
+            dataHoaDon = FXCollections.observableArrayList();
+        } else {
+            dataHoaDon.clear(); // Clear danh sách hiện tại
+        }
+
+        // Thêm dữ liệu tìm được vào ObservableList
+        dataHoaDon.addAll(hoaDonList);
+
+        // Gán dữ liệu vào TableView
+        HoaDonTable.setItems(dataHoaDon);
+
+        // Liên kết các cột với dữ liệu trong HoaDonDTO
+        colMaHD.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMaHD()).asObject());
+        colNgayLap.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getNgayLap()));
+        colHinhThuc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHinhThuc()));
+        colTongTien.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getTongTien()).asObject());
+        colTienGiam.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getTienGiam()).asObject());
+        colThanhTien.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getThanhTien()).asObject());
+        colTienKhachDua.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getTienKhachDua()).asObject());
+        colTienTraLai.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getTienTraLai()).asObject());
+        colMaNV.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMaNV()).asObject());
+        colMaKH.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMaKH()).asObject());
+    }
+
+    private void loadDataDoiTienThanhDiem() {
+        // Khởi tạo ObservableList nếu chưa
+        if (dataDoiTienThanhDiem == null) {
+            dataDoiTienThanhDiem = FXCollections.observableArrayList();
+        }
+
+        // Liên kết cột với các thuộc tính trong DoiDiemThanhTienDTO
+        colMaDT.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMaDT()).asObject());
+        colMucDiemDT.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getMucDiem()).asObject());
+        colMucTienMin.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getMucTienMin()).asObject());
+
+        dataDoiTienThanhDiem.addAll(doiTienThanhDiemBUS.getAllDoiTienThanhDiem()); // Lấy dữ liệu từ DAO
+        tienToDiemTable.setItems(dataDoiTienThanhDiem); // Đặt dữ liệu vào TableView
+    }
+
+    private void loadDataDoiDiemThanhTien() {
+        // Khởi tạo ObservableList nếu chưa
+        if (dataDoiDiemThanhTien == null) {
+            dataDoiDiemThanhTien = FXCollections.observableArrayList();
+        }
+
+        // Liên kết cột với các thuộc tính trong DoiDiemThanhTienDTO
+        colMaDD.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMaDD()).asObject());
+        colMucDiemDD.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getMucDiem()).asObject());
+        colMucTienMax.setCellValueFactory(
+                cellData -> new SimpleIntegerProperty(cellData.getValue().getMucTienMax()).asObject());
+
+        dataDoiDiemThanhTien.addAll(doiDiemThanhTienBUS.getAllDoiDiemThanhTien()); // Lấy dữ liệu từ DAO
+        diemToTienTable.setItems(dataDoiDiemThanhTien); // Đặt dữ liệu vào TableView
+    }
+
     public void setNV(NhanVienDTO nv) {
-        sellMaNV.setText(String.valueOf(nv.getMaNV())); 
+        this.nv = nv;
+        sellMaNV.setText(String.valueOf(nv.getMaNV()));
         sellTenNV.setText(nv.getTenNV());
     }
 
@@ -171,16 +816,12 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     @FXML
     void handleSearchBTN(ActionEvent event) {
-        String keyword = sellSearchBar.getText().trim(); // Lấy từ khóa tìm kiếm từ thanh nhập liệu
-        List<ProductDTO> searchedProducts = productDAO.searchProductsByName(keyword); // Tìm sản phẩm theo tên
-
-        // Gọi phương thức để hiển thị các sản phẩm tìm được lên GridPane
-        showProduct(searchedProducts);
+        performSearch();
     }
 
     @FXML
     void handleSearchCB(ActionEvent event) {
-
+        performSearch();
     }
 
     @FXML
@@ -192,16 +833,32 @@ public class QLBHController implements javafx.fxml.Initializable {
 
         java.util.Date today = new java.util.Date();
         Date sqlDate = new Date(today.getTime());
-        // 1. Lấy thông tin từ các trường nhập liệu
-        String sdt = sellSoDienThoai.getText(); // hoặc bất kỳ thông tin khách hàng nào bạn cần
+
+        // Lấy thông tin từ các trường nhập liệu
+        String sdt = sellSoDienThoai.getText().trim(); // Số điện thoại khách hàng
         int tongTien = (int) Double.parseDouble(sellTongTien.getText().replace(" VNĐ", "").replace(",", ""));
         int thanhTien = (int) Double.parseDouble(sellThanhTien.getText().replace(" VNĐ", "").replace(",", ""));
         int tienGiam = (int) Double.parseDouble(sellTienGiam.getText().replace(" VNĐ", "").replace(",", ""));
-        int tienKhachTra = (int) Double.parseDouble(sellTienKhachTra.getText().replace(" VNĐ", "").replace(",", ""));
         int tienTraLai = (int) Double.parseDouble(sellTienTraLai.getText().replace(" VNĐ", "").replace(",", ""));
-        int maKH = khachhangBUS.getMaKHBySDT(sdt);
         int maNV = Integer.parseInt(sellMaNV.getText());
-        // 2. Tạo đối tượng hóa đơn
+
+        if (tongTien == 0) {
+            showAlert(Alert.AlertType.WARNING, "Chưa chọn sản phẩm", "Vui lòng chọn sản phẩm.");
+            return;
+        }
+
+        if (sellTienKhachTra.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Chưa trả tiền", "Vui lòng nhập tiền khách trả.");
+            return;
+        }
+        int tienKhachTra = (int) Double.parseDouble(sellTienKhachTra.getText().replace(" VNĐ", "").replace(",", ""));
+
+        if (tienTraLai < 0) {
+            showAlert(Alert.AlertType.WARNING, "Chưa trả đủ", "Khách hàng chưa trả đủ tiền.");
+            return;
+        }
+
+        // Khởi tạo hóa đơn
         HoaDonDTO hoaDon = new HoaDonDTO();
         hoaDon.setNgayLap(sqlDate);
         hoaDon.setHinhThuc(sellHinhThucCB.getSelectionModel().getSelectedItem());
@@ -211,33 +868,86 @@ public class QLBHController implements javafx.fxml.Initializable {
         hoaDon.setTienKhachDua(tienKhachTra);
         hoaDon.setTienTraLai(tienTraLai);
         hoaDon.setMaNV(maNV);
-        hoaDon.setMaKH(maKH);
-        // 3. Gọi hàm thêm hóa đơn vào database
-        int invoiceId = hoadonDAO.addHoaDon(hoaDon); // Hàm này trả về ID của hóa đơn đã được tạo trong DB
+        hoaDon.setMaKH(0);
 
-        // 4. Thêm chi tiết hóa đơn vào database
+        // Gọi hàm thêm hóa đơn vào database
+        hoaDonBUS.addHoaDon(hoaDon); // Lấy mã hóa đơn sau khi thêm
+        int invoiceId = hoaDonBUS.getMaHD();
+        lastInvoiceId = invoiceId; // Lưu mã hóa đơn vừa tạo
+        // Thêm chi tiết hóa đơn vào database
         for (ProductDTO product : sellItems) {
-            // Tạo đối tượng chi tiết hóa đơn cho mỗi sản phẩm
             CTHoaDonDTO ctHoaDon = new CTHoaDonDTO();
-            ctHoaDon.setMaHD(invoiceId); // Mã hóa đơn từ bước trước
-            ctHoaDon.setMaSP(product.getMaSP()); // ID sản phẩm
-            ctHoaDon.setSoLuong(product.getSoLuong()); // Số lượng sản phẩm
-            ctHoaDon.setGiaBan(product.getGia()); // Giá sản phẩm
-
-            // Gọi hàm thêm chi tiết hóa đơn vào database
-            hoaDonBUS.addCTHoaDon(ctHoaDon);
+            ctHoaDon.setMaHD(invoiceId);
+            ctHoaDon.setMaSP(product.getMaSP());
+            ctHoaDon.setSoLuong(product.getSoLuong());
+            ctHoaDon.setGiaBan(product.getGia());
+            hoaDonBUS.addCTHoaDon(ctHoaDon); // Thêm chi tiết hóa đơn vào CSDL
+            boolean success = productBUS.updateProductQuantity(product.getMaSP(), product.getSoLuong());
+            if (!success) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể trừ số lượng sản phẩm trong kho.");
+                return; // Dừng lại nếu không trừ được sản phẩm
+            }
         }
 
-        // 5. Thông báo hoàn thành và reset bảng thanh toán
+        if (!sdt.isEmpty()) {
+            int maKH = khachhangBUS.getMaKHBySDT(sdt);
+
+            if (maKH != -1) { // Khách hàng tồn tại
+                if (dttdDiemApDungTF.getText().isEmpty() || dttdTienApDungTF.getText().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Vui lòng áp dụng tỷ lệ quy đổi tiền thành điểm.");
+                    return;
+                }
+
+                int tien = Integer.parseInt(dttdTienApDungTF.getText().trim());
+                int diem = Integer.parseInt(dttdDiemApDungTF.getText().trim());
+
+                int diemTichLuy = (thanhTien / tien) * diem; // Quy đổi điểm
+                int diemHienTai = khachhangBUS.getDiemTichLuyBySoDienThoai(sdt); // Điểm hiện tại của khách hàng
+
+                // Cập nhật điểm tích lũy vào bảng KhachHang và thêm lịch sử tích lũy điểm
+                if (diemTichLuy > 0) {
+                    LichSuDiemDTO lichSuTichLuy = new LichSuDiemDTO();
+                    lichSuTichLuy.setMaKH(maKH);
+                    lichSuTichLuy.setMaHD(invoiceId);
+                    lichSuTichLuy.setDiem(diemTichLuy);
+                    lichSuTichLuy.setNgayTichLuy(sqlDate);
+                    lichSuTichLuy.setLoaiGD("Tích lũy");
+
+                    lichSuDiemBUS.addLichSuDiem(lichSuTichLuy);
+                    khachhangBUS.updateDiemTichLuy(maKH, diemTichLuy, sdt);
+                }
+
+                // Trừ điểm tích lũy nếu có áp dụng đổi điểm
+                int diemCanTru = diemHienTai;
+                if (diemHienTai > 0) {
+                    LichSuDiemDTO lichSuDoiDiem = new LichSuDiemDTO();
+                    lichSuDoiDiem.setMaKH(maKH);
+                    lichSuDoiDiem.setMaHD(invoiceId);
+                    lichSuDoiDiem.setDiem(-diemCanTru); // Điểm âm thể hiện đổi điểm
+                    lichSuDoiDiem.setNgayTichLuy(sqlDate);
+                    lichSuDoiDiem.setLoaiGD("Đổi điểm");
+
+                    // Thêm lịch sử đổi điểm vào bảng LichSuDiem
+                    lichSuDiemBUS.addLichSuDiem(lichSuDoiDiem);
+
+                    // Trừ điểm tích lũy của khách hàng trong bảng KhachHang
+                    khachhangBUS.subtractPoints(maKH, diemCanTru);
+                }
+            }
+        }
+
+        // Hiển thị thông báo hoàn thành
         showAlert(Alert.AlertType.INFORMATION, "Thông báo", "Thanh toán thành công!");
 
         // Reset thông tin sau thanh toán
         sellItems.clear(); // Xóa danh sách sản phẩm trong bảng
         updateTotalPrice(); // Cập nhật lại tổng tiền về 0
-        sellTienKhachTra.clear(); // Xóa trường tiền khách trả
-        sellTienTraLai.setText("0 VNĐ"); // Xóa trường tiền trả lại
-        sellTienGiam.setText("0 VNĐ"); // Xóa trường tiền giảm
-        sellThanhTien.setText("0 VNĐ"); // Xóa trường thành tiền
+        sellTienKhachTra.clear();
+        sellTienTraLai.setText("0 VNĐ");
+        sellTienGiam.setText("0 VNĐ");
+        sellThanhTien.setText("0 VNĐ");
+        showProduct(productBUS.getAllProducts());
+
     }
 
     @FXML
@@ -264,75 +974,133 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     @FXML
     void handleInBTN(ActionEvent event) {
-        // Tạo nội dung hóa đơn cần in
-        String invoiceContent = createInvoiceContent();
-
-        // Hiển thị hộp thoại in
-        PrinterJob printerJob = PrinterJob.createPrinterJob();
-        if (printerJob != null && printerJob.showPrintDialog(sellForm.getScene().getWindow())) {
-            // Tạo đối tượng Node (Label) chứa nội dung hóa đơn
-            Label invoiceLabel = new Label(invoiceContent);
-            invoiceLabel.setPadding(new Insets(20));
-            invoiceLabel.setStyle("-fx-font-size: 12px; -fx-font-family: Arial;");
-
-            // Thực hiện in
-            boolean success = printerJob.printPage(invoiceLabel);
-            if (success) {
-                printerJob.endJob();
-                showAlert(Alert.AlertType.INFORMATION, "In hóa đơn", "Hóa đơn đã được in thành công!");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "In hóa đơn", "Không thể in hóa đơn.");
-            }
+        if (lastInvoiceId == -1) {
+            showAlert(Alert.AlertType.WARNING, "Thông báo", "Chưa có hóa đơn để in.");
+            return;
         }
+
+        // Lấy thông tin hóa đơn từ database
+        HoaDonDTO hoaDon = hoaDonBUS.getHoaDonByMaHD(lastInvoiceId);
+        List<CTHoaDonDTO> chiTietHoaDonList = hoaDonBUS.getChiTietHoaDonByMaHD(lastInvoiceId);
+
+        if (hoaDon == null || chiTietHoaDonList == null) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không tìm thấy hóa đơn.");
+            return;
+        }
+
+        // Tạo nội dung hóa đơn để in
+        String noiDungHoaDon = createInvoiceContent(hoaDon, chiTietHoaDonList);
+
+        // In hóa đơn (in ra console hoặc tích hợp máy in thực tế)
+        inHoaDon(noiDungHoaDon);
+
+        // Reset lastInvoiceId sau khi in để tránh in lại
+        lastInvoiceId = -1;
     }
 
     @FXML
     void handleSoDienThoaiBTN(ActionEvent event) {
         String phoneNumber = sellSoDienThoai.getText().trim();
-        if (isValidPhoneNumber(phoneNumber)) {
-            int Points = khachhangBUS.getDiemTichLuyBySoDienThoai(phoneNumber);
-            // showAlert(AlertType.INFORMATION, "Thông báo", "Số điện thoại hợp lệ!");
-            if (Points >= 0) {
-                // Nếu tìm thấy khách hàng, quy đổi điểm thưởng thành tiền giảm giá
-                int discountAmount = convertPointsToDiscount(Points);
-                sellTienGiam.setText(String.format("%,d VNĐ", discountAmount));
 
-                showAlert(Alert.AlertType.INFORMATION, "Thông báo",
-                        "Khách hàng có " + Points + " điểm thưởng.\nGiảm giá: " + discountAmount + " VNĐ");
-            } else {
-                // Không tìm thấy khách hàng
-                sellTienGiam.setText("0 VNĐ");
-                showAlert(Alert.AlertType.WARNING, "Thông báo", "Không tìm thấy khách hàng với số điện thoại này.");
-            }
-        } else {
+        if (!isValidPhoneNumber(phoneNumber)) {
             sellTienGiam.setText("0 VNĐ");
             showAlert(AlertType.ERROR, "Lỗi", "Số điện thoại không hợp lệ!");
+            return; // Nếu số điện thoại không hợp lệ thì thoát khỏi hàm
         }
+
+        if (!khachhangBUS.kiemTraSoDienThoai(phoneNumber)) {
+            sellTienGiam.setText("0 VNĐ");
+            showAlert(AlertType.ERROR, "Lỗi", "Số điện thoại không tồn tại!");
+            return;
+        }
+
+        int Points = khachhangBUS.getDiemTichLuyBySoDienThoai(phoneNumber);
+        int discountAmount = convertPointsToDiscount(Points);
+        if (discountAmount == 0) {
+            return;
+        }
+        Alert confirmAlert = new Alert(AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Bạn có muốn giảm giá không");
+        confirmAlert.setContentText("Khách hàng có " + Points + " điểm thưởng.\nGiảm giá: " + discountAmount + " VNĐ");
+        ButtonType result = confirmAlert.showAndWait().orElse(ButtonType.CANCEL);
+        if (result == ButtonType.OK) {
+            sellTienGiam.setText(String.format("%,d VNĐ", discountAmount));
+
+        }
+        if (result == ButtonType.CANCEL) {
+            return;
+        }
+
     }
 
-    private String createInvoiceContent() {
+    private void performSearch() {
+        String productName = sellSearchBar.getText().trim(); // Lấy từ khóa tìm kiếm từ thanh nhập liệu
+        String productType = sellSearchCB.getValue(); // Lấy loại sản phẩm từ ComboBox
+
+        // Gọi phương thức tìm kiếm trong BUS
+        List<ProductDTO> searchedProducts = productBUS.searchProducts(productName, productType);
+
+        // Hiển thị các sản phẩm tìm được lên GridPane
+        showProduct(searchedProducts);
+    }
+
+    private String createInvoiceContent(HoaDonDTO hoaDon, List<CTHoaDonDTO> chiTietHoaDonList) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("======= HÓA ĐƠN BÁN HÀNG =======\n");
-        sb.append("Số điện thoại: ").append(sellSoDienThoai.getText()).append("\n");
+        sb.append("Mã hóa đơn: ").append(hoaDon.getMaHD()).append("\n");
+        sb.append("Tên nhân viên: ").append(nv.getTenNV()).append("\n");
+        sb.append("Mã khách hàng: ").append(hoaDon.getMaKH()).append("\n");
+        sb.append("Ngày lập: ").append(hoaDon.getNgayLap()).append("\n");
+        sb.append("Hình thức thanh toán: ").append(hoaDon.getHinhThuc()).append("\n");
         sb.append("--------------------------------\n");
         sb.append(String.format("%-20s %-10s %-10s\n", "Sản phẩm", "SL", "Giá (VNĐ)"));
         sb.append("--------------------------------\n");
 
-        for (ProductDTO product : sellItems) {
-            sb.append(String.format("%-20s %-10d %,.0d\n", product.getTenSP(), product.getSoLuong(), product.getGia()));
+        for (CTHoaDonDTO ctHoaDon : chiTietHoaDonList) {
+            // String product = productBUS.getTenSanPhamByMaSP(ctHoaDon.getMaSP());
+            sb.append(String.format("%-20s %-10d %,10d\n",
+                    ctHoaDon.getTenSP(),
+                    ctHoaDon.getSoLuong(),
+                    ctHoaDon.getGiaBan() * ctHoaDon.getSoLuong()));
         }
 
         sb.append("--------------------------------\n");
-        sb.append("Tổng tiền: ").append(sellTongTien.getText()).append("\n");
-        sb.append("Tiền giảm: ").append(sellTienGiam.getText()).append("\n");
-        sb.append("Thành tiền: ").append(sellThanhTien.getText()).append("\n");
-        sb.append("Tiền khách trả: ").append(sellTienKhachTra.getText()).append("\n");
-        sb.append("Tiền trả lại: ").append(sellTienTraLai.getText()).append("\n");
+        sb.append("Tổng tiền: ").append(String.format("%,d VNĐ", hoaDon.getTongTien())).append("\n");
+        sb.append("Tiền giảm: ").append(String.format("%,d VNĐ", hoaDon.getTienGiam())).append("\n");
+        sb.append("Thành tiền: ").append(String.format("%,d VNĐ", hoaDon.getThanhTien())).append("\n");
+        sb.append("Tiền khách đưa: ").append(String.format("%,d VNĐ", hoaDon.getTienKhachDua())).append("\n");
+        sb.append("Tiền trả lại: ").append(String.format("%,d VNĐ", hoaDon.getTienTraLai())).append("\n");
         sb.append("================================\n");
         sb.append("Cảm ơn Quý khách đã mua hàng!\n");
 
         return sb.toString();
+    }
+
+    private void inHoaDon(String noiDungHoaDon) {
+
+        System.out.println(noiDungHoaDon);
+        // Tạo PrinterJob để bắt đầu in
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+
+        // Kiểm tra nếu PrinterJob không phải là null và hộp thoại in được hiển thị
+        if (printerJob != null && printerJob.showPrintDialog(sellForm.getScene().getWindow())) {
+            // Tạo Label để chứa nội dung hóa đơn
+            Label invoiceLabel = new Label(noiDungHoaDon); // Đảm bảo dùng noiDungHoaDon được truyền vào
+            invoiceLabel.setPadding(new Insets(20)); // Đặt khoảng cách giữa các dòng
+            invoiceLabel.setStyle("-fx-font-size: 12px; -fx-font-family: Arial;"); // Đặt kiểu font và kích thước chữ
+
+            // In hóa đơn
+            boolean success = printerJob.printPage(invoiceLabel);
+
+            // Kiểm tra kết quả in
+            if (success) {
+                printerJob.endJob(); // Kết thúc công việc in
+                showAlert(Alert.AlertType.INFORMATION, "In hóa đơn", "Hóa đơn đã được in thành công!");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "In hóa đơn", "Không thể in hóa đơn.");
+            }
+        }
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
@@ -342,7 +1110,23 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     // Hàm quy đổi điểm thưởng thành tiền giảm giá
     private int convertPointsToDiscount(int points) {
-        int conversionRate = 1000; // Ví dụ: 1 điểm = 1000 VNĐ
+
+        if (ddttDiemApDungTF.getText().isEmpty() || ddttTienApDungTF.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Vui lòng áp dụng tỷ lệ quy đổi điểm thành tiền.");
+            return 0;
+        }
+
+        int Diem = Integer.parseInt(ddttDiemApDungTF.getText());
+        int Tien = Integer.parseInt(ddttTienApDungTF.getText());
+
+        if (points < Diem) {
+            String message = String.format(
+                    "Khách chỉ có %d điểm.\nKhông đủ điểm để quy đổi.\nTỉ lệ quy đổi là %d điểm = %d VNĐ", points, Diem,
+                    Tien);
+            showAlert(Alert.AlertType.ERROR, "Cảnh báo", message);
+            return 0;
+        }
+        int conversionRate = Tien / Diem;
         return points * conversionRate;
     }
 
@@ -354,12 +1138,18 @@ public class QLBHController implements javafx.fxml.Initializable {
     }
 
     private void loadProductTypes() {
-        List<String> productTypes = productTypeDAO.getAllProductTypesName(); // Gọi đến Service để lấy danh sách loại
+        List<String> productTypes = productTypeBUS.getAllProductTypesName(); // Gọi đến Service để lấy danh sách loại
                                                                              // sản phẩm
+
+        productTypes.add(0, "Tat ca");
+
         ObservableList<String> observableProductTypes = FXCollections.observableArrayList(productTypes); // Chuyển đổi
                                                                                                          // thành
                                                                                                          // ObservableList
+
         sellSearchCB.setItems(observableProductTypes); // Đưa danh sách vào ComboBox
+
+        sellSearchCB.setValue("Tat ca");
     }
 
     public void addProductToTable(ProductDTO product, int quantity) {
@@ -409,7 +1199,8 @@ public class QLBHController implements javafx.fxml.Initializable {
             // Lấy giá trị từ label sellTongTien và sellTienGiam, loại bỏ ký tự VNĐ, chuyển
             // sang số thực (double)
             int thanhTien = (int) Double.parseDouble(sellThanhTien.getText().replace(" VNĐ", "").replace(",", ""));
-            int tienKhachTra = (int) Double.parseDouble(sellTienKhachTra.getText().replace(" VNĐ", "").replace(",", ""));
+            int tienKhachTra = (int) Double
+                    .parseDouble(sellTienKhachTra.getText().replace(" VNĐ", "").replace(",", ""));
 
             // Tính toán thành tiền sau khi giảm
             int tienTraLai = tienKhachTra - thanhTien;
@@ -425,8 +1216,44 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        showProduct(productDAO.getAllProducts());
-        sellHinhThucCB.setItems(FXCollections.observableArrayList("Tien mat", "Chuyen khoan"));
+        List<LichSuDiemDTO> lichSuDiemList = lichSuDiemBUS.getLichSuDiemList();
+        loadDataLichSuDiem(lichSuDiemList);
+        searchLichSuCB.getItems().addAll("Mã hóa đơn", "Mã khách hàng");
+        searchLichSuCB.setValue("Mã hóa đơn");
+
+        // Thiết lập Locale cho tiếng Việt
+        Locale vietnameseLocale = new Locale("vi", "VN");
+
+        // Cài đặt Locale cho DatePicker và định dạng ngày tháng
+        DateTimeFormatter vietnameseFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", vietnameseLocale);
+
+        // Cài đặt cho startHDDatePicker
+        startHDDatePicker.setConverter(new LocalDateStringConverter(vietnameseFormatter, vietnameseFormatter));
+        startHDDatePicker.setPromptText("Chọn ngày bắt đầu");
+
+        // Cài đặt cho endHDDatePicker
+        endHDDatePicker.setConverter(new LocalDateStringConverter(vietnameseFormatter, vietnameseFormatter));
+        endHDDatePicker.setPromptText("Chọn ngày kết thúc");
+
+        // Lấy tất cả dữ liệu hóa đơn từ cơ sở dữ liệu
+        ArrayList<HoaDonDTO> hoaDonList = hoaDonBUS.getAllHoaDon();
+
+        // Truyền dữ liệu vào hàm loadDataHoaDon để hiển thị
+        loadDataHoaDon(hoaDonList);
+        sellSearchHoaDonCB.getItems().addAll("Mã hóa đơn", "Mã khách hàng");
+        sellSearchHoaDonCB.setValue("Mã hóa đơn");
+        showProduct(productBUS.getAllProducts());
+
+        ArrayList<TempDataDTO> dataList = tempDataBUS.getAllTempData();
+
+        for (TempDataDTO tempData : dataList) {
+            ddttDiemApDungTF.setText(String.valueOf(tempData.getDdttDiemApDung()));
+            ddttTienApDungTF.setText(String.valueOf(tempData.getDdttTienApDung()));
+            dttdTienApDungTF.setText(String.valueOf(tempData.getDttdTienApDung()));
+            dttdDiemApDungTF.setText(String.valueOf(tempData.getDttdDiemApDung()));
+        }
+
+        sellHinhThucCB.setItems(FXCollections.observableArrayList("Tiền mặt", "Chuyển khoản"));
         sellSearchBar.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 handleSearchBTN(null);
@@ -456,6 +1283,32 @@ public class QLBHController implements javafx.fxml.Initializable {
         sellTienGiam.textProperty().addListener((observable, oldValue, newValue) -> updateThanhTien());
         sellTienKhachTra.textProperty().addListener((observable, oldValue, newValue) -> updateTienTraLai());
         sellThanhTien.textProperty().addListener((observable, oldValue, newValue) -> updateThanhTien());
+
+        loadDataDoiDiemThanhTien();
+        loadDataDoiTienThanhDiem();
+
+        // Lắng nghe sự kiện chọn hàng trên TableView
+        diemToTienTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                ddttDiemTF.setText(String.valueOf(newSelection.getMucDiem())); // Hiển thị điểm
+                ddttTienTF.setText(String.valueOf(newSelection.getMucTienMax())); // Hiển thị tiền
+            } else {
+                ddttDiemTF.clear(); // Xóa nội dung TextField
+                ddttTienTF.clear(); // Xóa nội dung TextField
+            }
+        });
+
+        // Lắng nghe sự kiện chọn hàng trên TableView
+        tienToDiemTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                dttdTienTF.setText(String.valueOf(newSelection.getMucTienMin())); // Hiển thị điểm
+                dttdDiemTF.setText(String.valueOf(newSelection.getMucDiem())); // Hiển thị tiền
+            } else {
+                ddttDiemTF.clear(); // Xóa nội dung TextField
+                ddttTienTF.clear(); // Xóa nội dung TextField
+            }
+        });
+
     }
 
 }

@@ -31,4 +31,17 @@ public class ProductBUS {
     public boolean deleteProduct(int id) {
         return prDAO.deleteProduct(id);
     }
+
+    public List<ProductDTO> searchProducts(String productName, String productType) {
+        return prDAO.searchProductsByNameAndType(productName, productType);
+    }
+
+    public String getTenSanPhamByMaSP(int maSP) {
+        return prDAO.getTenSanPhamByMaSP(maSP);
+    }
+
+    public boolean updateProductQuantity(int maSP, int soLuongBan) {
+        return prDAO.updateProductQuantity(maSP, soLuongBan);
+    }
+
 }

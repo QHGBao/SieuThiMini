@@ -35,4 +35,23 @@ public class KhachHangBUS {
     public int getMaKHBySDT(String sdt) {
         return khDAO.getMaKHBySDT(sdt);
     }
+
+    public boolean updateDiemTichLuy(int maKH, int diemMoi, String phoneNumber) {
+        try {
+            // Lấy điểm tích lũy hiện tại của khách hàng
+            int diemHienTai = khDAO.getDiemTichLuyBySoDienThoai(phoneNumber);
+            int tongDiem = diemHienTai + diemMoi;  // Cộng thêm điểm mới
+    
+            // Cập nhật lại điểm tích lũy trong cơ sở dữ liệu
+            return khDAO.updateDiemTichLuy(maKH, tongDiem);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean subtractPoints(int maKH, int pointsToSubtract) {
+        return khDAO.subtractPoints(maKH, pointsToSubtract);
+    }
+    
 }

@@ -216,4 +216,48 @@ public class KhachHangDAO {
         }
         return maKH;  // Trả về mã khách hàng (nếu tìm thấy) hoặc -1 nếu không tìm thấy
     }
+
+    public boolean updateDiemTichLuy(int maKH, int diemMoi) {
+        String sql = "UPDATE KhachHang SET DiemTichLuy = ? WHERE MaKH = ?";
+    
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, diemMoi);
+            preparedStatement.setInt(2, maKH);
+            int rowsUpdated = preparedStatement.executeUpdate();
+    
+            return rowsUpdated > 0;  // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            connectManager.closeConnection();
+        }
+    }
+
+    public boolean subtractPoints(int maKH, int pointsToSubtract) {
+        String sql = "UPDATE KhachHang SET DiemTichLuy = DiemTichLuy - ? WHERE MaKH = ? AND DiemTichLuy >= ?";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, pointsToSubtract);  // Số điểm cần trừ
+            preparedStatement.setInt(2, maKH);  // Mã khách hàng
+            preparedStatement.setInt(3, pointsToSubtract);  // Đảm bảo khách hàng có đủ điểm để trừ
+    
+            int rowsAffected = preparedStatement.executeUpdate();
+    
+            // Nếu có ít nhất một dòng bị ảnh hưởng, có nghĩa là điểm đã được trừ thành công
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;  // Trả về false nếu có lỗi xảy ra
+        } finally {
+            connectManager.closeConnection();
+        }
+    }
+    
+
 }
