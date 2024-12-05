@@ -161,4 +161,30 @@ public class ProductDAO {
         }
         return products;
     }
+
+    public boolean updateProductStatus(int maSP, int status) {
+        String query = "UPDATE SanPham SET Is_Deleted = ? WHERE MaSP = ?";
+        boolean success = false;
+        
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            
+            preparedStatement.setInt(1, status);
+            preparedStatement.setInt(2, maSP);
+            
+            int rowsAffected = preparedStatement.executeUpdate();
+            success = rowsAffected > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            success = false;
+        } finally {
+            connectManager.closeConnection();
+        }
+        
+        return success;
+    }
+    
 }
