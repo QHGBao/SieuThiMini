@@ -148,7 +148,7 @@ public class AdminPaneController {
     private String getFXMLFile(int maChucNang) {
         switch (maChucNang) {
             case 1:
-                return "QLSPGUI.fxml";
+                return "CardProductGUI.fxml";
             case 2:
                 return "NhaCungCapGUI.fxml";
             case 3:
@@ -162,7 +162,7 @@ public class AdminPaneController {
             case 7:
                 return "QLBHGUI.fxml";
             case 8:
-                return "GiamGiaSPGUI.fxml";
+                return "QuanLyGiamGiaSpGUI.fxml";
             case 9:
                 return "TaiKhoanGUI.fxml";
             case 10:
