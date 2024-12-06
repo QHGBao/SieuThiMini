@@ -25,7 +25,7 @@ public class CancellationBUS {
 
     public void createCancellation(CancellationDTO cancellationDTO, List<CancellationProductDTO> products) throws SQLException {
         try{
-            createCancellation(cancellationDTO, products);} catch (Exception e){System.out.println("error" + e);}
+            dao.createCancellation(cancellationDTO, products);} catch (Exception e){System.out.println("error" + e);}
     }
 
     public boolean updateCancellation(int cancellationID, List<CancellationProductDTO> updatedProducts) {

@@ -49,7 +49,7 @@ public class QuanLyGiamGiaSpDAO {
     }
 
     public boolean addGiamGiaSP(QuanLyGiamGiaSpDTO khuyenMai) {
-        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam ) VALUES (?, ?, ?, ?, ?)";
+        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam, Is_Deleted ) VALUES (?, ?, ?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
     
@@ -65,6 +65,7 @@ public class QuanLyGiamGiaSpDAO {
             preparedStatement.setDate(3, khuyenMai.getNgayBD());
             preparedStatement.setDate(4, khuyenMai.getNgayKT());
             preparedStatement.setInt(5, khuyenMai.getPtGiam());
+            preparedStatement.setInt(6, 0);
     
             // Thực thi câu lệnh
             int rowsInserted = preparedStatement.executeUpdate();
