@@ -42,6 +42,7 @@
 
 .shadow {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);  
+    -fx-background-color: #FFFFFF;
 }
 
 .white-bg {
@@ -125,6 +126,7 @@
     -fx-background-color: rgba(0, 12, 110, 0.7); /* Màu nền khi hover */
 }
 
+<<<<<<< HEAD
 .combo-box .combo-box-popup .list-cell:selected {
     -fx-background-color: #000c6e; /* Màu nền khi chọn mục trong danh sách */
     -fx-text-fill: white; /* Màu chữ trắng sau khi chọn */
@@ -204,3 +206,5 @@
 }
 
 
+=======
+>>>>>>> 99aa1eefa94bd0a170493732369f58feaa36b4ac

@@ -115,6 +115,7 @@ public class NhapHangController implements Initializable {
     private ImageView iconNH;
 
     private Stage popupStage;
+    private String thaotac = "Tạo";
     private NhanVienDTO nvLogin;
     private NhaCungCapBUS nccBUS = new NhaCungCapBUS();
     private PhieuNhapBUS pnBUS = new PhieuNhapBUS();
@@ -122,6 +123,11 @@ public class NhapHangController implements Initializable {
     private ObservableList<NhaCungCapDTO> dsNCC;
     private ObservableList<ProductDTO> dsSP;
     private ObservableList<PhieuNhapDTO.tableSPchon> dsSPchon;
+    private PhieuNhapController pnController;
+
+    public void setPnController(PhieuNhapController pnController){
+        this.pnController = pnController;
+    }
 
     public void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
@@ -161,7 +167,9 @@ public class NhapHangController implements Initializable {
 
     public void setSuaPN(String keyWord){
         if(keyWord.equals("Sửa")){
+            thaotac = keyWord;
             txtMaPN.setText(String.valueOf(pn.getMaPN()));
+            txtNhanVien.setText(pn.getTenNV());
             for(NhaCungCapDTO ncc : dsNCC){
                 if(pn.getTenNCC().equals(ncc.getTenNCC())){
                     cbbNCC.setValue(ncc);
@@ -202,35 +210,52 @@ public class NhapHangController implements Initializable {
 
     @FXML
     void btnAddClicked(MouseEvent event) {
-        try {
-            String quantityText = txtQuatity.getText();
-            String priceText = txtGiaNHap.getText();
-            int quantity = Integer.parseInt(quantityText);
-            if (quantity <= 0) {
-                showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Số lượng phải là số nguyên dương!");
-                return;
+        if(tableSP.getSelectionModel().getSelectedItem() != null){
+            try {
+                String quantityText = txtQuatity.getText();
+                String priceText = txtGiaNHap.getText();
+                int quantity = Integer.parseInt(quantityText);
+                if (quantity <= 0) {
+                    showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Số lượng phải là số nguyên dương!");
+                    return;
+                }
+                int price = Integer.parseInt(priceText);
+                if (price <= 0) {
+                    showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Giá phải là số nguyên dương!");
+                    return;
+                }
+                boolean checkSp = true;
+                ProductDTO sp = (ProductDTO) tableSP.getSelectionModel().getSelectedItem();
+                for(PhieuNhapDTO.tableSPchon x : dsSPchon){
+                    if(sp.getTenSP().equals(x.getTenSP())){
+                        checkSp = false;
+                        break;
+                    }
+                }
+                if(checkSp){
+                    PhieuNhapDTO pn = new PhieuNhapDTO();
+                    PhieuNhapDTO.tableSPchon newRowSP = pn.new tableSPchon();
+                    newRowSP.setTenSP(sp.getTenSP());
+                    newRowSP.setMaSP(sp.getMaSP());
+                    newRowSP.setSoLuong(quantity);
+                    newRowSP.setGiaNhap(price);
+                    dsSPchon.add(newRowSP);
+                    txtGiaNHap.setEditable(false);
+                    txtGiaNHap.setText("");
+                    txtQuatity.setEditable(false);
+                    txtQuatity.setText("");
+                    tableSP.getSelectionModel().clearSelection();
+                    settinhTong();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Thông báo");
+                    alert.setHeaderText("Sản phẩm đã được thêm");
+                    alert.setContentText("Vui lòng chọn sản phẩm khác !");
+                    alert.showAndWait();
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập đúng định dạng số!");
             }
-            int price = Integer.parseInt(priceText);
-            if (price <= 0) {
-                showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Giá phải là số nguyên dương!");
-                return;
-            }
-            PhieuNhapDTO pn = new PhieuNhapDTO();
-            ProductDTO sp = (ProductDTO) tableSP.getSelectionModel().getSelectedItem();
-            PhieuNhapDTO.tableSPchon newRowSP = pn.new tableSPchon();
-            newRowSP.setTenSP(sp.getTenSP());
-            newRowSP.setMaSP(sp.getMaSP());
-            newRowSP.setSoLuong(quantity);
-            newRowSP.setGiaNhap(price);
-            dsSPchon.add(newRowSP);
-            txtGiaNHap.setEditable(false);
-            txtGiaNHap.setText("");
-            txtQuatity.setEditable(false);
-            txtQuatity.setText("");
-            tableSP.getSelectionModel().clearSelection();
-            settinhTong();
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi nhập liệu", "Vui lòng nhập đúng định dạng số!");
         }
     }
 
@@ -250,36 +275,77 @@ public class NhapHangController implements Initializable {
 
     @FXML
     void btnNhapHangClicked(MouseEvent event) {
-        if(!dsSPchon.isEmpty()){
-            if(cbbNCC.getSelectionModel().getSelectedItem() != null){
-                PhieuNhapDTO pn = new PhieuNhapDTO();
-                pn.setMaPN(Integer.parseInt(txtMaPN.getText()));
-                pn.setNgayLap(new Timestamp(System.currentTimeMillis()));
-                pn.setMaNV(nvLogin.getMaNV());
-                pn.setMaNCC(cbbNCC.getSelectionModel().getSelectedItem().getMaNCC());
-                pn.setIs_Deleted(0);
-                alertMessage(pnBUS.themPN(pn));
-                for(PhieuNhapDTO.tableSPchon x : dsSPchon){
-                    CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO();
-                    ctpn.setMaPN(pn.getMaPN());
-                    ctpn.setMaSP(x.getMaSP());
-                    ctpn.setSoLuong(x.getSoLuong());
-                    ctpn.setGiaNhap(x.getGiaNhap());
-                    pnBUS.themCTPN(ctpn);
+        if(!thaotac.equals("Sửa")){
+            if(!dsSPchon.isEmpty()){
+                if(cbbNCC.getSelectionModel().getSelectedItem() != null){
+                    PhieuNhapDTO pn = new PhieuNhapDTO();
+                    pn.setMaPN(Integer.parseInt(txtMaPN.getText()));
+                    pn.setNgayLap(new Timestamp(System.currentTimeMillis()));
+                    pn.setMaNV(nvLogin.getMaNV());
+                    pn.setMaNCC(cbbNCC.getSelectionModel().getSelectedItem().getMaNCC());
+                    pn.setIs_Deleted(0);
+                    alertMessage(pnBUS.themPN(pn));
+                    for(PhieuNhapDTO.tableSPchon x : dsSPchon){
+                        CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO();
+                        ctpn.setMaPN(pn.getMaPN());
+                        ctpn.setMaSP(x.getMaSP());
+                        ctpn.setSoLuong(x.getSoLuong());
+                        ctpn.setGiaNhap(x.getGiaNhap());
+                        pnBUS.themCTPN(ctpn);
+                    }
+                    pnController.refreshTable();
+                    Stage stage = (Stage) btnNhapHang.getScene().getWindow();
+                    stage.close();
+                } else{
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Lỗi");
+                    errorAlert.setHeaderText("Thất bại");
+                    errorAlert.setContentText("Vui lòng chọn nhà cung cấp !!");
+                    errorAlert.showAndWait();
                 }
-            } else{
+            } else {
                 Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                 errorAlert.setTitle("Lỗi");
                 errorAlert.setHeaderText("Thất bại");
-                errorAlert.setContentText("Vui lòng chọn nhà cung cấp !!");
+                errorAlert.setContentText("Vui lòng chọn sản phẩm !!");
                 errorAlert.showAndWait();
             }
         } else {
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-            errorAlert.setTitle("Lỗi");
-            errorAlert.setHeaderText("Thất bại");
-            errorAlert.setContentText("Vui lòng chọn sản phẩm !!");
-            errorAlert.showAndWait();
+            if(!dsSPchon.isEmpty()){
+                if(cbbNCC.getSelectionModel().getSelectedItem() != null){
+                    PhieuNhapDTO pn = new PhieuNhapDTO();
+                    pn.setMaPN(Integer.parseInt(txtMaPN.getText()));
+                    pn.setNgayLap(new Timestamp(System.currentTimeMillis()));
+                    pn.setMaNCC(cbbNCC.getSelectionModel().getSelectedItem().getMaNCC());
+                    pn.setIs_Deleted(0);
+                    alertMessage(pnBUS.capNhatPN(pn));
+                    if(pnBUS.deleteAllCTPN(pn.getMaPN())){
+                        for(PhieuNhapDTO.tableSPchon x : dsSPchon){
+                            CTPhieuNhapDTO ctpn = new CTPhieuNhapDTO();
+                            ctpn.setMaPN(pn.getMaPN());
+                            ctpn.setMaSP(x.getMaSP());
+                            ctpn.setSoLuong(x.getSoLuong());
+                            ctpn.setGiaNhap(x.getGiaNhap());
+                            pnBUS.themCTPN(ctpn);
+                        }
+                    }
+                    pnController.refreshTable();
+                    Stage stage = (Stage) btnNhapHang.getScene().getWindow();
+                    stage.close();
+                } else{
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Lỗi");
+                    errorAlert.setHeaderText("Thất bại");
+                    errorAlert.setContentText("Vui lòng chọn nhà cung cấp !!");
+                    errorAlert.showAndWait();
+                }
+            } else {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Lỗi");
+                errorAlert.setHeaderText("Thất bại");
+                errorAlert.setContentText("Vui lòng chọn sản phẩm !!");
+                errorAlert.showAndWait();
+            }
         }
     }
 
@@ -349,6 +415,11 @@ public class NhapHangController implements Initializable {
         }
     }
 
+    public void refreshCbb(){
+        cbbNCC.getItems().clear();
+        cbbNCC.getItems().addAll(nccBUS.getAllNCC());
+    }
+
     @FXML
     void btnThemNCCnew(ActionEvent event) {
         if (popupStage != null && popupStage.isShowing())
@@ -360,6 +431,7 @@ public class NhapHangController implements Initializable {
             Scene scene = new Scene(parent);
             popupStage = new Stage();
             popAdd.setOption("Tạo");
+            popAdd.setNhapHangController(this);
             popupStage.setScene(scene);
             popupStage.initStyle(StageStyle.UNDECORATED);
             popupStage.show();
@@ -370,7 +442,8 @@ public class NhapHangController implements Initializable {
 
     @FXML
     void searchNameSanPham(KeyEvent event) {
-
+        dsSP.clear();
+        dsSP.addAll(pnBUS.searchSpArray(txtSearch.getText()));
     }
 
     @FXML

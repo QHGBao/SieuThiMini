@@ -75,29 +75,34 @@ public class SuaNVController {
     @FXML
     private Label btnClosePopUps;
     String SDT = "";
+
     // Setter để nhận callback từ controller bên ngoài
     public void setOnSuaSuccessCallback(Runnable callback) {
         this.onAddSuccessCallback = callback;
     }
+
     public void setMaNV(int maNV) {
         txtMaNV.setText(String.valueOf(maNV));
         loadDuLieuTuBang();
     }
+
     private void closePopup() {
         // Lấy đối tượng Stage của cửa sổ hiện tại và đóng nó
         Stage stage = (Stage) btnSua.getScene().getWindow();
         stage.close();
     }
+
     @FXML
     void closePopUps(MouseEvent event) {
         Stage stage = (Stage) btnClosePopUps.getScene().getWindow();
         stage.close();
     }
-    public void loadDuLieuTuBang(){
+
+    public void loadDuLieuTuBang() {
         ChucVuBUS cvBUS = new ChucVuBUS();
         NhanVienBUS nv = new NhanVienBUS();
         int maNhanVien = Integer.parseInt(txtMaNV.getText());
-        
+
         NhanVienDTO nvDTO = nv.getNhanVienByMaNV(maNhanVien);
         txtTenNV.setText(nvDTO.getTenNV());
         txtSDT.setText(nvDTO.getSoDienThoai());
@@ -106,8 +111,7 @@ public class SuaNVController {
         boolean gioiTinh = nvDTO.isGioiTinh();
         if (gioiTinh) {
             rbtnNam.setSelected(true);
-        }
-        else{
+        } else {
             rbtnNu.setSelected(true);
         }
         String tenChucVu = cvBUS.getTenChucVuByMaChucVu(nvDTO.getMaChucVu());
@@ -119,21 +123,19 @@ public class SuaNVController {
         SDT = txtSDT.getText();
         System.out.println(SDT);
     }
-    
-    public void initialize() {
-        
-        
-        // Gọi phương thức để cập nhật dữ liệu cho TableView
-        ObservableList<String> chucVuList = FXCollections.observableArrayList(
-             "Quan ly","Nhan vien ban hang"
-        );
 
+    public void initialize() {
+
+        ChucVuBUS cvBUS = new ChucVuBUS();
+        String chucVuList = cvBUS.getAllTenChucVu();
+        String[] chucVuArray = chucVuList.split(", ");
+        ObservableList<String> chucVuCBB = FXCollections.observableArrayList(chucVuArray);
         // Gán danh sách các chức vụ vào ComboBox
-        cbbChucVu.setItems(chucVuList);
+        cbbChucVu.setItems(chucVuCBB);
         ToggleGroup toggleGroup = new ToggleGroup();
         rbtnNam.setToggleGroup(toggleGroup);
         rbtnNu.setToggleGroup(toggleGroup);
-        
+
     }
 
     @FXML
@@ -153,58 +155,52 @@ public class SuaNVController {
         String soDienThoai = txtSDT.getText();
         String mail = txtMail.getText();
         boolean gioiTinh = false;
-        if(rbtnNam.isSelected()){
+        if (rbtnNam.isSelected()) {
             gioiTinh = true;
         }
-        if(flag){
-            if(ten.isEmpty()){
+        if (flag) {
+            if (ten.isEmpty()) {
                 validTen.setText("Không Được Bỏ Trống");
                 flag = false;
-            }
-            else if(!ten.matches("^[A-ZĐÁÀÂÃẢẠẶĂẦẬÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*([\\s][A-ZĐÁÀÂÃẢẠẶĂẬẦÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
+            } else if (!ten.matches(
+                    "^[A-ZĐÁÀÂÃẢẠẶĂẦẬÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*([\\s][A-ZĐÁÀÂÃẢẠẶĂẬẦÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")) {
                 validTen.setText("Tên Nhân Viên Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: Nguyễn Văn A).");
                 flag = false;
             }
-            if(mail.isEmpty()){
+            if (mail.isEmpty()) {
                 validMail.setText("Không Được Bỏ Trống");
                 flag = false;
-            }
-            else if(!mail.matches("^[a-zA-Z0-9]*@gmail\\.com$")){
+            } else if (!mail.matches("^[a-zA-Z0-9]*@gmail\\.com$")) {
                 validMail.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: abc@gmail.com hoặc 123@gmail.com).");
                 flag = false;
             }
-            if(diaChi.isEmpty()){
+
+            if (diaChi.isEmpty()) {
                 validDiaChi.setText("Không Được Bỏ Trống");
                 flag = false;
             }
-            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sDuong*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
-                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Duong ABC hoặc 123 Duong ABC).");
-                flag = false;
-            }
-            
-            if(soDienThoai.isEmpty()){
+
+            if (soDienThoai.isEmpty()) {
                 validSDT.setText("Không Được Bỏ Trống.");
                 flag = false;
-            }
-            else if(!soDienThoai.matches("^0[0-9]{9}$")){
+            } else if (!soDienThoai.matches("^0[0-9]{9}$")) {
                 validSDT.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 0987654321).");
                 flag = false;
-            }
-            else if(!SDT.equals(soDienThoai)  && nvBUS.kiemTraSoDienThoai(soDienThoai)){
+            } else if (!SDT.equals(soDienThoai) && nvBUS.kiemTraSoDienThoai(soDienThoai)) {
                 validSDT.setText("Đã Có Số Điện Thoại " + soDienThoai + "! Hãy Nhập Lại.");
                 flag = false;
             }
-            if(dpNgaySinh.getValue() == null){
+            if (dpNgaySinh.getValue() == null) {
                 validNgaySinh.setText("Chưa Chọn Ngày Sinh.");
                 flag = false;
             }
-            if(cbbChucVu.getSelectionModel().getSelectedItem() == null){
+            if (cbbChucVu.getSelectionModel().getSelectedItem() == null) {
                 validChucVu.setText("Chưa Chọn Chức Vụ.");
                 flag = false;
             }
         }
-        if(flag){
-            
+        if (flag) {
+
             int maChucVu = cv.getMaChucVuByTenChucVu(cbbChucVu.getSelectionModel().getSelectedItem().toString());
             NhanVienDTO nv = new NhanVienDTO();
             nv.setMaNV(Integer.parseInt(txtMaNV.getText()));
@@ -216,17 +212,16 @@ public class SuaNVController {
             nv.setEmail(mail);
             nv.setMaChucVu(maChucVu);
             boolean check = nvBUS.updateNhanVienDTO(nv);
-            if(check){
-                JOptionPane.showMessageDialog(null,"Sửa Nhân Viên Thành Công.");
+            if (check) {
+                JOptionPane.showMessageDialog(null, "Sửa Nhân Viên Thành Công.");
                 if (onAddSuccessCallback != null) {
                     onAddSuccessCallback.run(); // Gọi callback
                 }
                 closePopup();
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Sửa Nhân Viên Thất Bại.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Sửa Nhân Viên Thất Bại.");
             }
         }
     }
-    
+
 }

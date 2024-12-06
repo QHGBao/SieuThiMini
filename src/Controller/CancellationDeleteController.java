@@ -11,19 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import Controller.CancellationEditController;
 import DTO.CancellationDTO;
 import DTO.CancellationDetailsDTO;
-import DTO.CancellationProductDTO;
 import DTO.SessionManager;
 import BUS.CancellationBUS;
 import BUS.CancellationDetailsBUS;

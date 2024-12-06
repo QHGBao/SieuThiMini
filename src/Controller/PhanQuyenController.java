@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
@@ -35,6 +36,7 @@ public class PhanQuyenController {
     private final PhanQuyenBUS phanQuyenBUS;
     private PhanQuyenDTO selectedQuyen;
     private ArrayList<CTPhanQuyenDTO> selectedPermissions;
+    private ObservableList<TaiKhoan_DTO> dsTkTheoQuyen = null;
 
     public PhanQuyenController() {
         phanQuyenBUS = new PhanQuyenBUS();
@@ -57,26 +59,38 @@ public class PhanQuyenController {
         for (int i = 0; i < thaoTacCheckBoxes.size(); i++) {
             thaoTacCheckBoxes.get(i).setUserData((i + 1) + "-2"); // Mã chức năng (1, 2, ...) và hành động (2)
         }
-
         loadTenQuyenToComboBox();
         setupTableColumns();
         setupCheckBoxes();
     }
 
     private void loadTenQuyenToComboBox() {
+        cbbChucVu.getItems().add("---Chọn chức vụ---");
         ArrayList<PhanQuyenDTO> dsQuyen = phanQuyenBUS.getALLQuyen();
         for (PhanQuyenDTO quyen : dsQuyen) {
             cbbChucVu.getItems().add(quyen.getTenQuyen());
         }
-        if (!dsQuyen.isEmpty()) {
-            cbbChucVu.setValue(dsQuyen.get(0).getTenQuyen());
-        }
+        cbbChucVu.setValue("---Chọn chức vụ---");
         cbbChucVu.setOnAction(event -> {
             String selectedTenQuyen = cbbChucVu.getSelectionModel().getSelectedItem();
-            selectedQuyen = getPhanQuyenByTenQuyen(selectedTenQuyen);
-            if (selectedQuyen != null) {
-                System.out.println("Chọn chức vụ: " + selectedQuyen.getTenQuyen());
-                loadPermissions();
+            if (!"---Chọn chức vụ---".equals(selectedTenQuyen)) {
+                selectedQuyen = getPhanQuyenByTenQuyen(selectedTenQuyen);
+                if (selectedQuyen != null) {
+                    System.out.println("Chọn chức vụ: " + selectedQuyen.getTenQuyen());
+                    loadPermissions();
+                    if(dsTkTheoQuyen == null){
+                        dsTkTheoQuyen = FXCollections.observableArrayList(phanQuyenBUS.getTaiKhoanByQuyen(selectedQuyen.getMaQuyen()));
+                        tbDS.setItems(dsTkTheoQuyen);
+                        tbDS.refresh();
+                    } else {
+                        dsTkTheoQuyen.clear();
+                        dsTkTheoQuyen.addAll(phanQuyenBUS.getTaiKhoanByQuyen(selectedQuyen.getMaQuyen()));
+                        tbDS.refresh();
+                    }
+                }
+            } else {
+                selectedQuyen = null;
+                System.out.println("Chưa chọn chức vụ.");
             }
         });
     }
@@ -86,12 +100,6 @@ public class PhanQuyenController {
                 .filter(quyen -> quyen.getTenQuyen().equals(tenQuyen))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private void loadTaiKhoanByQuyen(int maQuyen) {
-        ArrayList<TaiKhoan_DTO> dsTaiKhoan = phanQuyenBUS.getTaiKhoanByQuyen(maQuyen);
-        ObservableList<TaiKhoan_DTO> observableList = FXCollections.observableArrayList(dsTaiKhoan);
-        tbDS.setItems(observableList);
     }
 
     private void setupTableColumns() {
@@ -135,36 +143,28 @@ public class PhanQuyenController {
         }
     }
 
-    // private void handleCheckBox(int maChucNang, int maHanhDong, boolean
-    // isSelected) {
-    // if (selectedQuyen == null) {
-    // System.out.println("Chưa chọn quyền!");
-    // return;
-    // }
-    // if (isSelected) {
-    // CTPhanQuyenDTO newPermission = new CTPhanQuyenDTO();
-    // newPermission.setMaQuyen(selectedQuyen.getMaQuyen());
-    // newPermission.setMaChucNang(maChucNang);
-    // newPermission.setMaHanhDong(maHanhDong);
-    // selectedPermissions.add(newPermission);
-    // System.out.println("Thêm quyền: " + maChucNang + ", " + maHanhDong);
-    // } else {
-    // selectedPermissions.removeIf(p -> p.getMaChucNang() == maChucNang &&
-    // p.getMaHanhDong() == maHanhDong);
-    // System.out.println("Xóa quyền: " + maChucNang + ", " + maHanhDong);
-    // }
-    // }
-
-    @FXML
-    void btnSave(ActionEvent event) {
-        if (selectedQuyen == null) {
-            System.out.println("Chưa chọn chức vụ!");
-            return;
-        }
-        System.out.println("Lưu quyền cho chức vụ: " + selectedQuyen.getTenQuyen());
-        phanQuyenBUS.savePermissions(selectedPermissions);
-        System.out.println("Lưu quyền thành công!");
+   @FXML
+void btnSave(ActionEvent event) {
+    if (selectedQuyen == null) {
+        System.out.println("Chưa chọn chức vụ!");
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Cảnh báo");
+        alert.setHeaderText("Chưa chọn chức vụ!");
+        alert.setContentText("Vui lòng chọn chức vụ trước khi lưu quyền.");
+        alert.showAndWait();
+        return;
     }
+    System.out.println("Lưu quyền cho chức vụ: " + selectedQuyen.getTenQuyen());
+    phanQuyenBUS.savePermissions(selectedPermissions);
+    System.out.println("Lưu quyền thành công!");
+
+    // Hiển thị thông báo khi lưu quyền thành công
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Thông báo");
+    alert.setHeaderText("Lưu quyền thành công");
+    alert.setContentText("Quyền đã được lưu thành công cho chức vụ: " + selectedQuyen.getTenQuyen());
+    alert.showAndWait();
+}
 
     private void loadPermissions() {
         if (selectedQuyen == null)
@@ -194,17 +194,6 @@ public class PhanQuyenController {
 
         checkBox.setSelected(isSelected);
     }
-
-    // private CheckBox findCheckBox(int maChucNang, int maHanhDong) {
-    // if (xemCheckBoxes != null && !xemCheckBoxes.isEmpty()) {
-    // for (CheckBox checkBox : xemCheckBoxes) {
-    // if (checkBox.getUserData().equals(maChucNang + "-" + maHanhDong)) {
-    // return checkBox;
-    // }
-    // }
-    // }
-    // return null;
-    // }
 
     @FXML
     private CheckBox thaoTac1, thaoTac2, thaoTac3, thaoTac4, thaoTac5, thaoTac6, thaoTac7, thaoTac8, thaoTac9,

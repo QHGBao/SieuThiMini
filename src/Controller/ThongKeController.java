@@ -22,8 +22,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import javafx.scene.control.Label;
-
-
+import javafx.scene.control.TabPane;
 import BUS.BUS_ThongKe;
 import DTO.DTO_ThongKe_ChiTieu;
 import DTO.DTO_ThongKe_DoanhThu;
@@ -36,6 +35,9 @@ public class ThongKeController {
 	private ObservableList<DTO_ThongKe_ChiTieu> chiTieuData;
 	private ObservableList<DTO_ThongKe_DoanhThu> doanhThuData;
 	private ObservableList<DTO_ThongKe_LoiNhuan> loiNhuanData;
+	
+	@FXML
+	private TabPane mainTabPane;
 	
 	@FXML private TableView<DTO_ThongKe_ChiTieu> chiTieuTable;
     @FXML private TableColumn<DTO_ThongKe_ChiTieu, String> colNgayLap;
@@ -74,8 +76,8 @@ public class ThongKeController {
 	@FXML
     private VBox chiTieuPanel, doanhThuPanel, loiNhuanPanel;
 
-    @FXML
-    private Button btn_thongkeChiTieu, btn_thongkeDoanhThu, btn_thongkeLoiNhuan;
+	@FXML
+	private Button btnQuanLyThongKe;
 
     @FXML
     private StackPane mainPane;
@@ -90,6 +92,8 @@ public class ThongKeController {
         }
         
         hienThiDSChiTieu();
+        hienThiDSDoanhThu();
+        hienThiDSLoiNhuan();
         
         if (btnSearch != null) {
             VBox.setMargin(btnSearch, new Insets(30, 0, 40, 0));
@@ -509,27 +513,8 @@ public class ThongKeController {
         loiNhuanTable.getColumns().addAll(colNgayLapLN, colMaHoaDonLN, colTenSanPhamLN, colSoLuongLN, colGiaNhapLN, colGiaBanLN,colLoiNhuan);
     }
     @FXML
-    private void handleThongKeChiTieu() {
-    	chiTieuPanel.setVisible(true); 
-        doanhThuPanel.setVisible(false);
-        loiNhuanPanel.setVisible(false);
-        hienThiDSChiTieu(); 
-    }
-    
-    @FXML
-    private void handleThongKeDaonhThu() {
-    	chiTieuPanel.setVisible(false);
-        doanhThuPanel.setVisible(true);
-        loiNhuanPanel.setVisible(false);
-        hienThiDSDoanhThu();
-    }
-    
-    @FXML
-    private void handleThongKeLoiNhuan() {
-    	chiTieuPanel.setVisible(false); 
-        doanhThuPanel.setVisible(false);
-        loiNhuanPanel.setVisible(true);
-        hienThiDSLoiNhuan(); 
+    private void handleOpenTabPane() {
+        mainTabPane.setVisible(true);
     }
     @FXML
     private void handleSearch() {
@@ -612,7 +597,7 @@ public class ThongKeController {
                         rs.getString("MaHD"),
                         rs.getString("TenSP"),
                         rs.getInt("SoLuong"),
-                        rs.getDouble("GiaBanThucTe"),
+                        rs.getDouble("GiaBan"),
                         rs.getDouble("TongTienHang"),
                         rs.getDouble("TongDoanhThu")
 				);
@@ -664,7 +649,7 @@ public class ThongKeController {
                         rs.getString("TenSP"),
                         rs.getInt("SoLuong"),
                         rs.getDouble("GiaNhap"),
-                        rs.getDouble("GiaBanThucTe"),
+                        rs.getDouble("GiaBan"),
                         rs.getDouble("LoiNhuan")
 				);
 				loiNhuanData.add(item);

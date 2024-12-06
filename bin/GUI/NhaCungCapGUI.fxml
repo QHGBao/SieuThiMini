@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-width: 904px; -fx-pref-height: 832px; -fx-background-color: #cfd6e6;" stylesheets="@../../Assets/css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.NhaCungCapController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="185.0" layoutY="14.0" prefHeight="17.0" prefWidth="455.0" style="-fx-pref-width: 534px; -fx-pref-height: 59px;" text="QUẢN LÝ NHÀ CUNG CẤP">
          <font>
@@ -86,13 +86,13 @@
             </ImageView>
          </children>
       </HBox>
-      <TableView fx:id="tableNCC" layoutX="1.0" layoutY="242.0" prefHeight="576.0" prefWidth="904.0">
+      <TableView fx:id="tableNCC" layoutX="1.0" layoutY="242.0" prefHeight="589.0" prefWidth="904.0">
          <columns>
-            <TableColumn fx:id="colMaNCC" prefWidth="80.80001831054688" sortable="false" text="Mã NCC" />
+            <TableColumn fx:id="colMaNCC" prefWidth="80.80001831054688" sortable="false" style="-fx-alignment: center;" text="Mã NCC" />
             <TableColumn fx:id="colTenNCC" prefWidth="216.80001831054688" sortable="false" text="Tên NCC" />
             <TableColumn fx:id="colDiaChi" prefWidth="255.20001220703125" sortable="false" text="Địa Chỉ" />
-            <TableColumn fx:id="colSdt" prefWidth="167.20001220703125" sortable="false" text="Số Điện Thoại" />
-            <TableColumn fx:id="colNguoiLH" prefWidth="187.199951171875" sortable="false" text="Người Liên Hệ" />
+            <TableColumn fx:id="colSdt" prefWidth="167.20001220703125" sortable="false" style="-fx-alignment: center;" text="Số Điện Thoại" />
+            <TableColumn fx:id="colNguoiLH" prefWidth="187.199951171875" sortable="false" style="-fx-alignment: center;" text="Người Liên Hệ" />
          </columns>
       </TableView>
    </children>

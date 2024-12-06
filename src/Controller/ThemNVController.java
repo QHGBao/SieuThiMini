@@ -70,31 +70,34 @@ public class ThemNVController {
 
     @FXML
     private Label validTen;
-    public void initialize() {
-        // Gọi phương thức để cập nhật dữ liệu cho TableView
-        ObservableList<String> chucVuList = FXCollections.observableArrayList(
-             "Quan ly","Nhan vien ban hang"
-        );
 
+    public void initialize() {
+        ChucVuBUS cvBUS = new ChucVuBUS();
+        String chucVuList = cvBUS.getAllTenChucVu();
+        String[] chucVuArray = chucVuList.split(", ");
+        ObservableList<String> chucVuCBB = FXCollections.observableArrayList(chucVuArray);
         // Gán danh sách các chức vụ vào ComboBox
-        cbbChucVu.setItems(chucVuList);
+        cbbChucVu.setItems(chucVuCBB);
         ToggleGroup toggleGroup = new ToggleGroup();
         rbtnNam.setToggleGroup(toggleGroup);
         rbtnNu.setToggleGroup(toggleGroup);
         NhanVienBUS nv = new NhanVienBUS();
-        txtMaNV.setText(""+nv.getMaNV());
+        txtMaNV.setText("" + nv.getMaNV());
     }
+
     private Runnable onAddSuccessCallback; // Callback khi thêm thành công
 
     // Setter để nhận callback từ controller bên ngoài
     public void setOnAddSuccessCallback(Runnable callback) {
         this.onAddSuccessCallback = callback;
     }
+
     private void closePopup() {
         // Lấy đối tượng Stage của cửa sổ hiện tại và đóng nó
         Stage stage = (Stage) btnThem.getScene().getWindow();
         stage.close();
     }
+
     @FXML
     void closePopUps(MouseEvent event) {
         Stage stage = (Stage) btnClosePopUps.getScene().getWindow();
@@ -118,58 +121,52 @@ public class ThemNVController {
         String soDienThoai = txtSDT.getText();
         String mail = txtMail.getText();
         boolean gioiTinh = false;
-        if(rbtnNam.isSelected()){
+        if (rbtnNam.isSelected()) {
             gioiTinh = true;
         }
-        
-        if(flag){
-            if(ten.isEmpty()){
+
+        if (flag) {
+            if (ten.isEmpty()) {
                 validTen.setText("Không Được Bỏ Trống");
                 flag = false;
-            }
-            else if(!ten.matches("^[A-ZĐÁÀÂÃẢẠẶĂẦẬÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*([\\s][A-ZĐÁÀÂÃẢẠẶĂẬẦÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
+            } else if (!ten.matches(
+                    "^[A-ZĐÁÀÂÃẢẠẶĂẦẬÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*([\\s][A-ZĐÁÀÂÃẢẠẶĂẬẦÉÈÊẺẼỂỄỆẸÌĨỈỊÍÓÒÔỜỞỌỘỒỔÕƠỚỜỞỠÚÙŨỦỤƯỨỪỮỬỰÝỲỸỶỴ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")) {
                 validTen.setText("Tên Nhân Viên Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: Nguyễn Văn A).");
                 flag = false;
             }
-            if(mail.isEmpty()){
+            if (mail.isEmpty()) {
                 validMail.setText("Không Được Bỏ Trống");
                 flag = false;
-            }
-            else if(!mail.matches("^[a-zA-Z0-9]*@gmail\\.com$")){
+            } else if (!mail.matches("^[a-zA-Z0-9]*@gmail\\.com$")) {
                 validMail.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: abc@gmail.com hoặc 123@gmail.com).");
                 flag = false;
             }
-            if(diaChi.isEmpty()){
+
+            if (diaChi.isEmpty()) {
                 validDiaChi.setText("Không Được Bỏ Trống");
                 flag = false;
             }
-            else if(!diaChi.matches("^\\d+(\\/\\d+)?\\sDuong*([\\s][A-ZĐ][a-záàâãảạặăầéèêẻẽểễệẹìĩỉịíóòôờởọộồổõơớờởỡúùũủụưứừữửựýỳỹỷỵ]*)+$")){
-                validDiaChi.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 123/32 Duong ABC hoặc 123 Duong ABC).");
-                flag = false;
-            }
-            if(soDienThoai.isEmpty()){
+            if (soDienThoai.isEmpty()) {
                 validSDT.setText("Không Được Bỏ Trống.");
                 flag = false;
-            }
-            else if(!soDienThoai.matches("^0[0-9]{9}$")){
+            } else if (!soDienThoai.matches("^0[0-9]{9}$")) {
                 validSDT.setText("Không Đúng Định Dạng! Hãy Nhập Lại (Ví dụ: 0987654321).");
                 flag = false;
-            }
-            else if(nvBUS.kiemTraSoDienThoai(soDienThoai)){
+            } else if (nvBUS.kiemTraSoDienThoai(soDienThoai)) {
                 validSDT.setText("Đã Có Số Điện Thoại " + soDienThoai + "! Hãy Nhập Lại.");
                 flag = false;
             }
-            if(dpNgaySinh.getValue() == null){
+            if (dpNgaySinh.getValue() == null) {
                 validNgaySinh.setText("Chưa Chọn Ngày Sinh.");
                 flag = false;
             }
-            if(cbbChucVu.getSelectionModel().getSelectedItem() == null){
+            if (cbbChucVu.getSelectionModel().getSelectedItem() == null) {
                 validChucVu.setText("Chưa Chọn Chức Vụ.");
                 flag = false;
             }
         }
-        if(flag){
-            
+        if (flag) {
+
             int maChucVu = cv.getMaChucVuByTenChucVu(cbbChucVu.getSelectionModel().getSelectedItem().toString());
             NhanVienDTO nv = new NhanVienDTO();
             nv.setTenNV(ten);
@@ -180,18 +177,17 @@ public class ThemNVController {
             nv.setEmail(mail);
             nv.setMaChucVu(maChucVu);
             boolean check = nvBUS.addNhanVienDTO(nv);
-            if(check){
-                JOptionPane.showMessageDialog(null,"Thêm Nhân Viên Thành Công.");
+            if (check) {
+                JOptionPane.showMessageDialog(null, "Thêm Nhân Viên Thành Công.");
                 if (onAddSuccessCallback != null) {
                     onAddSuccessCallback.run(); // Gọi callback
                 }
                 closePopup();
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Thêm Nhân Viên Thất Bại.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Thêm Nhân Viên Thất Bại.");
             }
         }
-        
+
     }
-    
+
 }

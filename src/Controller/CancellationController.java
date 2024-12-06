@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +41,7 @@ public class CancellationController {
     @FXML
     private TableColumn<CancellationProductDTO, Integer> colProductID, colCancellationQuantity,colProductTypeID;
 
-    private Connection connection;
+
     private CancellationProductBUS cancellationProductBUS = new CancellationProductBUS();
     private CancellationBUS cancellationBUS = new CancellationBUS();
     private ObservableList<CancellationProductDTO> cancellationList = FXCollections.observableArrayList();

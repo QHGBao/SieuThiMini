@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" style="-fx-background-color: #F5F4E8;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AccountController">
+   <top>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F5F4E8;" BorderPane.alignment="CENTER">
+         <top>
+            <Label text="Quản Lý Tài Khoản" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="42.0" />
+               </font>
+            </Label>
+         </top>
+         <left>
+            <Label fx:id="btnThem" onMouseClicked="#ThemTK" prefHeight="46.0" prefWidth="193.0" text="Thêm Tài Khoản" textFill="#ffd51a" BorderPane.alignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="53.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/Img/addIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <BorderPane.margin>
+                  <Insets left="10.0" />
+               </BorderPane.margin>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="labelButton1" />
+               </styleClass>
+               <stylesheets>
+                  <URL value="@../../Assets/css/qlnv.css" />
+                  <URL value="@../../Assets/css/style.css" />
+               </stylesheets>
+            </Label>
+         </left>
+         <center>
+            <Label fx:id="btnSua" onMouseClicked="#SuaTK" prefHeight="46.0" prefWidth="193.0" text="Sửa Tài Khoản" textFill="#ffd51a" BorderPane.alignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="53.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/Img/icons8-fix-90%201.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="labelButton1" />
+               </styleClass>
+               <stylesheets>
+                  <URL value="@../../Assets/css/qlnv.css" />
+                  <URL value="@../../Assets/css/style.css" />
+               </stylesheets>
+            </Label>
+         </center>
+         <right>
+            <Label fx:id="btnXoa" alignment="CENTER" onMouseClicked="#XoaTK" prefHeight="46.0" prefWidth="193.0" text="Xoá Tài Khoản" textFill="#ffd51a" BorderPane.alignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="53.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/Img/deleteIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="labelButton1" />
+               </styleClass>
+               <stylesheets>
+                  <URL value="@../../Assets/css/qlnv.css" />
+                  <URL value="@../../Assets/css/style.css" />
+               </stylesheets>
+            </Label>
+         </right>
+         <bottom>
+            <AnchorPane prefHeight="44.0" prefWidth="813.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="txtTimKiem" layoutX="168.0" layoutY="3.0" prefHeight="46.0" prefWidth="477.0" promptText="Tìm kiếm theo Mã TK hoặc Tên TK" styleClass="shadow" stylesheets="@../../Assets/css/style.css" text="Tìm kiếm theo Mã TK hoặc Tên TK" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="168.0" />
+                  <ImageView fitHeight="33.0" fitWidth="73.0" layoutX="562.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="9.550724029541016" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="13.0">
+                     <image>
+                        <Image url="@../../Assets/Img/Rectangle%2043.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="18.0" layoutX="590.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="17.0">
+                     <image>
+                        <Image url="@../../Assets/Img/Search.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </top>
+   <bottom>
+      <TableView fx:id="tbBang" prefHeight="605.0" prefWidth="904.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="tbMATK" prefWidth="88.80001831054688" text="Mã TK" />
+            <TableColumn fx:id="tbTENTK" prefWidth="213.60000610351562" text="Tên TK" />
+            <TableColumn fx:id="tbMATKHAU" minWidth="0.0" prefWidth="208.0" text="Mật Khẩu" />
+            <TableColumn fx:id="tbMANV" minWidth="0.0" prefWidth="138.4000244140625" text="Mã NV" />
+            <TableColumn fx:id="tbMAQUYEN" prefWidth="128.0" text="Mã Quyền" />
+            <TableColumn fx:id="tbTRANGTHAI" prefWidth="130.4000244140625" text="Trạng Thái" />
+         </columns>
+      </TableView>
+   </bottom>
+</BorderPane>

@@ -1,3 +1,4 @@
+
 package Controller;
 
 import java.io.IOException;
@@ -15,8 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -121,14 +120,16 @@ public class AdminPaneController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/" + fxmlFile));
             Pane newContent = loader.load();
-            if(fxmlFile.equals("QLBHGUI.fxml")) {
+            if (fxmlFile.equals("QLBHGUI.fxml")) {
                 QLBHController selected = loader.getController();
-                selected.setNV(nv);;
-            } 
-            if(fxmlFile.equals("PhieuNhapGUI.fxml")) {
+                selected.setNV(nv);
+                ;
+            }
+            if (fxmlFile.equals("PhieuNhapGUI.fxml")) {
                 PhieuNhapController selected = loader.getController();
-                selected.setNV(nv);;
-            } 
+                selected.setNV(nv);
+                ;
+            }
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem
             }
@@ -140,19 +141,20 @@ public class AdminPaneController {
     }
 
     private void disableAllControls(Pane pane) {
-        pane.setDisable(true); // Khóa toàn bộ nội dung
+        pane.setMouseTransparent(true); // Khóa toàn bộ nội dung
+        pane.setOpacity(1);
     }
 
     private String getFXMLFile(int maChucNang) {
         switch (maChucNang) {
             case 1:
-                return "QLSPGUI.fxml";
+                return "ProductManage.fxml";
             case 2:
                 return "NhaCungCapGUI.fxml";
             case 3:
                 return "PhieuNhapGUI.fxml";
             case 4:
-                return "Review+DeleteCancellationGUI.fxml";
+                return "DeleteCancellationGUI.fxml";
             case 5:
                 return "QLKHGUI.fxml";
             case 6:
@@ -160,9 +162,9 @@ public class AdminPaneController {
             case 7:
                 return "QLBHGUI.fxml";
             case 8:
-                return "GiamGiaSPGUI.fxml";
+                return "QuanLyGiamGiaSpGUI.fxml";
             case 9:
-                return "TaiKhoanGUI.fxml";
+                return "AccountManage.fxml";
             case 10:
                 return "ThongKeGUI.fxml";
             case 11:
@@ -227,7 +229,7 @@ public class AdminPaneController {
 
     @FXML
     void handlePNAction(ActionEvent event) {
-    
+
     }
 
     @FXML

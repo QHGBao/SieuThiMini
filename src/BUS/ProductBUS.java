@@ -2,18 +2,18 @@ package BUS;
 
 import DAO.ProductDAO;
 import DTO.ProductDTO;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ProductBUS {
 
     ProductDAO prDAO = new ProductDAO();
 
-    public List<ProductDTO> getAllProducts() {
-        return prDAO.getAllProducts();
+    public ArrayList<ProductDTO> getAllProducts() {
+        return new ArrayList<>(prDAO.getAllProducts()); 
     }
 
-    public List<ProductDTO> searchProductsByName(String keyword) {
-        return prDAO.searchProductsByName(keyword);
+    public ArrayList<ProductDTO> searchProductsByName(String keyword) {
+        return new ArrayList<>(prDAO.searchProductsByName(keyword));
     }
 
     public ProductDTO getProductById(int id) {
@@ -32,7 +32,7 @@ public class ProductBUS {
         return prDAO.deleteProduct(id);
     }
 
-    public List<ProductDTO> searchProducts(String productName, String productType) {
+    public ArrayList<ProductDTO> searchProducts(String productName, String productType) {
         return prDAO.searchProductsByNameAndType(productName, productType);
     }
 

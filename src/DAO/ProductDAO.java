@@ -106,8 +106,8 @@ public class ProductDAO {
         return null;
     }
 
-    public List<ProductDTO> searchProductsByNameAndType(String productName, String productType) {
-        List<ProductDTO> products = new ArrayList<>();
+    public ArrayList<ProductDTO> searchProductsByNameAndType(String productName, String productType) {
+        ArrayList<ProductDTO> products = new ArrayList<>();
         String sql = "SELECT * FROM SanPham sp " +
                      "JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai " +
                      "WHERE (sp.TenSP LIKE ? OR ? = '') " +
