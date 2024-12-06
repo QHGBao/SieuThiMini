@@ -1,12 +1,17 @@
 package Controller;
 
 import BUS.ProductBUS;
+import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ProductFormController {
@@ -22,15 +27,27 @@ public class ProductFormController {
     private ComboBox<String> cmbLoaiSanPham;
     @FXML
     private ImageView btnClose;
-    
+
     private ProductBUS prBUS = new ProductBUS();
+    private ProductTypeBUS productTypeBUS = new ProductTypeBUS();
     private String mode = "ADD"; // or "EDIT"
     private ProductDTO currentProduct;
     private Runnable onSuccessCallback;
 
     @FXML
     public void initialize() {
+        loadProductTypes();
         setupControls();
+    }
+
+    private void loadProductTypes() {
+        List<String> productTypes = productTypeBUS.getAllProductTypesName(); // Gọi đến Service để lấy danh sách loại
+                                                                             // sản phẩm
+        ObservableList<String> observableProductTypes = FXCollections.observableArrayList(productTypes); 
+
+        cmbLoaiSanPham.setItems(observableProductTypes); // Đưa danh sách vào ComboBox
+
+        //cmbLoaiSanPham.setValue("Tat ca");
     }
 
     private void setupControls() {
@@ -38,7 +55,7 @@ public class ProductFormController {
         txtTenSanPham.setEditable(true);
         txtMoTa.setEditable(true);
         txtGiaBan.setEditable(true);
-        
+
         // Setup numeric validation for price
         txtGiaBan.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {

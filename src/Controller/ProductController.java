@@ -1,6 +1,7 @@
 package Controller;
 
 import BUS.ProductBUS;
+import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -50,6 +51,7 @@ public class ProductController {
 
     @FXML
     public void initialize() {
+
         setupTableColumns();
         loadProductData();
         setupSearch();
@@ -202,7 +204,7 @@ public class ProductController {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/ProductFormGUI.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ProductForm.fxml"));
             Parent root = loader.load();
             
             ProductFormController formController = loader.getController();
