@@ -71,7 +71,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <Button alignment="CENTER" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: FF4646;" text="THÊM" textFill="WHITE">
+                  <Button alignment="CENTER" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: FF4646;" text="HOÀN TẤT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
