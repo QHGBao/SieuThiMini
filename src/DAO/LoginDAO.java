@@ -15,7 +15,7 @@ public class LoginDAO {
     }
 
     public NhanVienDTO checkLogin(String username, String password) {
-        NhanVienDTO nv = new NhanVienDTO();
+        NhanVienDTO nv = null;
         String query = "SELECT tk.MaNV, nv.TenNV FROM TaiKhoan tk, NhanVien nv WHERE TenTK = ? AND MatKhau = ? AND tk.MaNV = nv.MaNV";
 
         try {
@@ -27,6 +27,7 @@ public class LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                nv = new NhanVienDTO();
                 nv.setMaNV(resultSet.getInt(1));
                 nv.setTenNV(resultSet.getString(2));
             }
@@ -38,7 +39,7 @@ public class LoginDAO {
 
         return nv; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
     }
-    
+
     public int getUserRole(String username) {
         int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy
         String query = "SELECT MaQuyen FROM TaiKhoan WHERE TenTK = ?";
