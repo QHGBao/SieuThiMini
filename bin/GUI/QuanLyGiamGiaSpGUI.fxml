@@ -32,13 +32,16 @@
             </TableView>
             <Pane layoutX="-1.0" layoutY="284.0" prefHeight="114.0" prefWidth="600.0">
                <children>
-                  <AnchorPane layoutX="1.0" minHeight="0.0" minWidth="0.0" prefHeight="96.0" prefWidth="598.0">
+                  <AnchorPane layoutX="1.0" minHeight="0.0" minWidth="0.0" prefHeight="220.0" prefWidth="600.0">
                      <children>
                         <Label layoutX="330.0" layoutY="13.0" text="Danh sách sản phẩm được chọn" textFill="#e81414">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
+                        <AnchorPane layoutX="413.0" layoutY="-86.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Button fx:id="btnXoaSPchon" layoutX="218.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnXoaSPchon" text="Xoá" textFill="#ee0a0a" />
+                        <Button fx:id="btnXoaCT" layoutX="444.0" layoutY="207.0" mnemonicParsing="false" onAction="#btnXoaCT" text="Xoá" textFill="#ee0a0a" />
                      </children>
                   </AnchorPane>
                </children>
@@ -85,6 +88,8 @@
             <DatePicker fx:id="dpNgayBDTao" layoutX="143.0" layoutY="605.0" prefHeight="25.0" prefWidth="139.0" />
             <DatePicker fx:id="dpNgayKTTao" layoutX="144.0" layoutY="644.0" prefHeight="25.0" prefWidth="139.0" />
             <TextField fx:id="txtPhanTramGiamTao" layoutX="144.0" layoutY="683.0" prefHeight="25.0" prefWidth="139.0" />
+            <Button fx:id="btnSuaCT" layoutX="812.0" layoutY="491.0" mnemonicParsing="false" onAction="#btnSuaCT" text="Sửa" textFill="#f80707" />
+            <Button fx:id="btnCapNhatCT" layoutX="632.0" layoutY="302.0" mnemonicParsing="false"  text="Cập nhật" textFill="#f20707" /> 
          </children>
       </AnchorPane>
       

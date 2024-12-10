@@ -2,9 +2,16 @@ package BUS;
 import java.util.List;
 
 import DAO.QuanLyGiamGiaSpDAO;
+import DAO.SanPhamDAO;
 import DTO.QuanLyGiamGiaSpDTO;
+import DTO.SanPhamDTO;
 import DTO.SanPhamKmDTO;
+import javafx.scene.control.Alert;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class QuanLyGiamGiaSpBUS {
@@ -49,6 +56,19 @@ public class QuanLyGiamGiaSpBUS {
         return false;
     }
     
-}
+    }
 
+
+
+    public ArrayList<SanPhamKmDTO> getSanPhamKmByMaKM(int maKM) {
+        return QuanLyGiamGiaSpDAO.getSanPhamKmByMaKM(maKM); // Gọi hàm từ DAO
+    }
+
+    public SanPhamDTO getSanPhamByMaSP(int maSP) {
+        return SanPhamDAO.getSanPhamByMaSP(maSP); // Gọi hàm từ DAO
+    }
+
+
+    
+    
 }

@@ -139,6 +139,12 @@ public class NhaCungCapController implements Initializable{
                 refreshDataNCC();
                 tableNCC.getSelectionModel().clearSelection();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để xóa !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để xóa.");
+            alert.showAndWait();
         }
     }
 
@@ -176,6 +182,12 @@ public class NhaCungCapController implements Initializable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để sửa !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.showAndWait();
         }
     }
 

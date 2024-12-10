@@ -11,6 +11,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import DTO.CancellationDTO;
 import DTO.CancellationDetailsDTO;
+import DTO.NhanVienDTO;
 import DTO.SessionManager;
 import BUS.CancellationBUS;
 import BUS.CancellationDetailsBUS;
@@ -74,13 +77,18 @@ public class CancellationDeleteController {
     private ObservableList<CancellationDTO> listCancellation;
     private ObservableList<CancellationDetailsDTO> listCancellationDetails;
     private Stage popupStage;
+    private NhanVienDTO nv;
+
+    public void setNV(NhanVienDTO nv) {
+        this.nv = nv;
+        txtEmployeeName.setText(nv.getTenNV());
+        txtEmployeeID.setText(String.valueOf(nv.getMaNV()));
+    }
+    
 
     @FXML
     public void initialize() {
         SessionManager session = SessionManager.getInstance();
-        // Dữ liệu Tên Nhân Viên và Mã Nhân Viên
-        txtEmployeeName.setText(session.getEmployeeName());
-        txtEmployeeID.setText(String.valueOf(session.getEmployeeID()));;
         // Liên kết cột dữ liệu trong TableView phiếu hủy
         colCancellationID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationID()).asObject());
         colCancellationDay.setCellValueFactory(data -> {
@@ -101,7 +109,7 @@ public class CancellationDeleteController {
         loadCancellationTable();
     }
 
-    private void loadCancellationTable() {
+    public void loadCancellationTable() {
         listCancellation = FXCollections.observableArrayList(CancellationBUS.getAllCancellation());
         tblCancellation.setItems(listCancellation);
     }
@@ -174,10 +182,10 @@ public class CancellationDeleteController {
 
                 if (popupStage == null) {
                     popupStage = new Stage();
-                    popupStage.initModality(Modality.APPLICATION_MODAL); // Đặt dạng modal trước khi hiển thị
+                    popupStage.initStyle(StageStyle.UNDECORATED); // Đặt dạng modal trước khi hiển thị
                     popupStage.setTitle("Sửa Phiếu Hủy");
                 }
-    
+                popupStage.initStyle(StageStyle.UNDECORATED);
                 // Đặt Scene cho popup
                 popupStage.setScene(new Scene(root));
     
@@ -199,10 +207,12 @@ public class CancellationDeleteController {
         try {   
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/CreateCancellationGUI.fxml"));
             Parent parent = loader.load();
+            CancellationController ctrol = loader.getController();
+            ctrol.setNV(nv);
             Scene scene = new Scene(parent);
             popupStage = new Stage();
             popupStage.setScene(scene);
-            popupStage.initModality(Modality.APPLICATION_MODAL); // Đặt dạng modal (chặn tương tác với cửa sổ khác)
+            popupStage.initStyle(StageStyle.UNDECORATED); // Đặt dạng modal (chặn tương tác với cửa sổ khác)
             popupStage.setTitle("Xóa Phiếu Hủy");
             popupStage.showAndWait();
         } catch (IOException e) {

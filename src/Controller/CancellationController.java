@@ -4,6 +4,7 @@ import BUS.CancellationBUS;
 import BUS.CancellationProductBUS;
 import DTO.CancellationDTO;
 import DTO.CancellationProductDTO;
+import DTO.NhanVienDTO;
 import DTO.SessionManager;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -45,12 +46,20 @@ public class CancellationController {
     private CancellationProductBUS cancellationProductBUS = new CancellationProductBUS();
     private CancellationBUS cancellationBUS = new CancellationBUS();
     private ObservableList<CancellationProductDTO> cancellationList = FXCollections.observableArrayList();
+    private CancellationDeleteController ctrl;
+
+    public void setNV(NhanVienDTO nv) {
+        txtEmployeeName.setText(nv.getTenNV());
+        txtEmployeeID.setText(String.valueOf(nv.getMaNV()));
+    }
+
+    public void setController(CancellationDeleteController ctrl){
+        this.ctrl = ctrl;
+    }
 
     @FXML
     public void initialize() {
         SessionManager session = SessionManager.getInstance();
-        txtEmployeeName.setText(session.getEmployeeName());
-        txtEmployeeID.setText(String.valueOf(session.getEmployeeID()));
         setupDatePicker();
         setupTableColumns();
         setupComboBoxWithAutocomplete();
@@ -170,6 +179,7 @@ public class CancellationController {
         showAlert(Alert.AlertType.INFORMATION, "Thành công", "Phiếu hủy đã được tạo thành công!");
         cancellationList.clear();
         tblCancellationProducts.refresh();
+        ctrl.loadCancellationTable();
         } catch (Exception e) {
         e.printStackTrace();
         showAlert(Alert.AlertType.ERROR, "Lỗi", "Có lỗi xảy ra trong quá trình tạo phiếu hủy: " + e.getMessage());

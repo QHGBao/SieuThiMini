@@ -123,12 +123,14 @@ public class AdminPaneController {
             if (fxmlFile.equals("QLBHGUI.fxml")) {
                 QLBHController selected = loader.getController();
                 selected.setNV(nv);
-                ;
             }
             if (fxmlFile.equals("PhieuNhapGUI.fxml")) {
                 PhieuNhapController selected = loader.getController();
                 selected.setNV(nv);
-                ;
+            }
+            if (fxmlFile.equals("DeleteCancellationGUI.fxml")) {
+                CancellationDeleteController selected = loader.getController();
+                selected.setNV(nv);
             }
             if (isReadOnly) {
                 disableAllControls(newContent); // Khóa trang nếu chỉ được xem
@@ -166,7 +168,7 @@ public class AdminPaneController {
             case 9:
                 return "AccountManage.fxml";
             case 10:
-                return "ThongKeGUI.fxml";
+                return "ThongKeGui.fxml";
             case 11:
                 return "PhanQuyenGUI.fxml";
             default:

@@ -3,7 +3,9 @@ package BUS;
 import DAO.SanPhamDAO;
 import DTO.SanPhamDTO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SanPhamBUS {
     private SanPhamDAO dao;
@@ -15,5 +17,11 @@ public class SanPhamBUS {
     public ArrayList<SanPhamDTO> getAllSanPham() {
         return dao.getAllSanPham();
     }
+
+    public ArrayList<SanPhamDTO> getSanPhamByMaKM(int maKM) throws SQLException {
+        return dao.getSanPhamByMaKM(maKM); // Gọi DAO
+    }
+    
+    
 }
 
