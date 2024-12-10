@@ -9,6 +9,10 @@ public class SanPhamDTO {
     private double GiaBan;
     private int MaLoai;
 
+    public SanPhamDTO(){
+        
+    }
+
     public SanPhamDTO(int MaSP, String TenSP, String MoTa, int SoLuong, String HinhAnh, double GiaBan, int MaLoai) {
         this.MaSP = MaSP;
         this.TenSP = TenSP;

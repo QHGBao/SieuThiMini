@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class QuanLyGiamGiaSpDAO {
-    private ConnectManager connectManager;
+    private static ConnectManager connectManager;
 
     
 
@@ -49,7 +49,7 @@ public class QuanLyGiamGiaSpDAO {
     }
 
     public boolean addGiamGiaSP(QuanLyGiamGiaSpDTO khuyenMai) {
-        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam, Is_Deleted ) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam ) VALUES (?, ?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
     
@@ -65,7 +65,6 @@ public class QuanLyGiamGiaSpDAO {
             preparedStatement.setDate(3, khuyenMai.getNgayBD());
             preparedStatement.setDate(4, khuyenMai.getNgayKT());
             preparedStatement.setInt(5, khuyenMai.getPtGiam());
-            preparedStatement.setInt(6, 0);
     
             // Thực thi câu lệnh
             int rowsInserted = preparedStatement.executeUpdate();
@@ -85,7 +84,6 @@ public class QuanLyGiamGiaSpDAO {
             }
         }
     }
-
     public boolean addGiamGiaSPAndKm(SanPhamKmDTO dto) {
         String query = "INSERT INTO CTGiamGiaSP (MaSP, MaKM) VALUES (?, ?)";
         Connection connection = null;
@@ -96,6 +94,14 @@ public class QuanLyGiamGiaSpDAO {
             connectManager.openConnection();
             connection = connectManager.getConnection();
     
+            if (connection == null || connection.isClosed()) {
+                System.out.println("Kết nối thất bại!");
+                return false;
+            }
+    
+            System.out.println("Kết nối thành công!");
+            System.out.println("Thêm CTGiamGiaSP với MaSP: " + dto.getMaSP() + ", MaKM: " + dto.getMaKM());
+    
             // Sử dụng PreparedStatement
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, dto.getMaSP());
@@ -105,8 +111,10 @@ public class QuanLyGiamGiaSpDAO {
             int rowsInserted = preparedStatement.executeUpdate();
     
             // Kiểm tra kết quả
+            System.out.println("Số dòng chèn vào: " + rowsInserted);
             return rowsInserted > 0;
         } catch (SQLException e) {
+            System.out.println("Lỗi SQL khi thêm CTGiamGiaSP: " + e.getMessage());
             e.printStackTrace();
             return false;
         } finally {
@@ -120,6 +128,54 @@ public class QuanLyGiamGiaSpDAO {
         }
     }
     
+    public void XoaCT(int maKM) throws SQLException {
+        String deleteSPQuery = "DELETE FROM CTGiamGiaSP WHERE MaKM = ?";
+        String deleteKMQuery = "DELETE FROM GiamGiaSP WHERE MaKM = ?";
 
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            connection.setAutoCommit(false);
+
+            PreparedStatement psSP = connection.prepareStatement(deleteSPQuery);
+            psSP.setInt(1, maKM);
+            psSP.executeUpdate();
+
+            PreparedStatement psKM = connection.prepareStatement(deleteKMQuery);
+            psKM.setInt(1, maKM);
+            psKM.executeUpdate();
+
+            connection.commit();  // Commit transaction
+        } catch (SQLException e) {
+            connectManager.getConnection().rollback();  // Rollback nếu có lỗi
+            throw e;  // Ném lại lỗi để xử lý ở nơi khác
+        } finally {
+            connectManager.closeConnection();
+        }
+    }
+
+    public static ArrayList<SanPhamKmDTO> getSanPhamKmByMaKM(int maKM) {
+        ArrayList<SanPhamKmDTO> danhSach = new ArrayList<>();
+        String query = "SELECT * FROM CTGiamGiaSP WHERE maKM = ?";
+        try  {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            Statement stmt = connection.createStatement();
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, maKM);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                danhSach.add(new SanPhamKmDTO(rs.getInt("maSP"), rs.getInt("maKM")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return danhSach;
+
+    }
+    
+    
+    
+    
 }
 

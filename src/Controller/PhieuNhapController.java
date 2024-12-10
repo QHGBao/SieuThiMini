@@ -155,6 +155,12 @@ public class PhieuNhapController implements Initializable {
                 alFail.setContentText("Phiếu nhập đã duyệt không thể xóa !!");
                 alFail.showAndWait();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cảnh báo");
+            alert.setHeaderText("Chưa chọn đối tượng để xóa !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để xóa.");
+            alert.showAndWait();
         }
     }
 
@@ -189,7 +195,7 @@ public class PhieuNhapController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cảnh báo");
             alert.setHeaderText("Chưa chọn đối tượng để duyệt !!");
-            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.setContentText("Vui lòng chọn phiếu nhập để duyệt.");
             alert.showAndWait();
         }
     }
@@ -338,8 +344,7 @@ public class PhieuNhapController implements Initializable {
     @FXML
     void btnSeeClicked(MouseEvent event) {
         if (tablePN.getSelectionModel().getSelectedItem() != null) {
-            PhieuNhapDTO.tablePNDTO tableChoice = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel()
-                    .getSelectedItem();
+            PhieuNhapDTO.tablePNDTO tableChoice = (PhieuNhapDTO.tablePNDTO) tablePN.getSelectionModel().getSelectedItem();
             tablePN.getSelectionModel().clearSelection();
             if (popupStage != null && popupStage.isShowing())
                 return;
@@ -359,8 +364,8 @@ public class PhieuNhapController implements Initializable {
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Cảnh báo");
-            alert.setHeaderText("Chưa chọn đối tượng để sửa !!");
-            alert.setContentText("Vui lòng chọn phiếu nhập để sửa.");
+            alert.setHeaderText("Chưa chọn đối tượng để xem !!");
+            alert.setContentText("Vui lòng chọn phiếu nhập để xem.");
             alert.showAndWait();
         }
     }
