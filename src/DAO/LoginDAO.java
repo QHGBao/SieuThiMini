@@ -39,7 +39,7 @@ public class LoginDAO {
 
         return nv; // Trả về mã nhân viên hoặc null nếu đăng nhập thất bại
     }
-    
+
     public int getUserRole(String username) {
         int maQuyen = -1; // Giá trị mặc định nếu không tìm thấy
         String query = "SELECT MaQuyen FROM TaiKhoan WHERE TenTK = ?";

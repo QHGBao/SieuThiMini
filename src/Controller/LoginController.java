@@ -35,9 +35,9 @@ public class LoginController {
 
         if (username.isEmpty() || password.isEmpty()) {
             Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Input Error");
-            alert.setHeaderText("Username or Password Missing");
-            alert.setContentText("Please enter both username and password.");
+            alert.setTitle("Lỗi");
+            alert.setHeaderText("Tài khoản hoặc Mật khẩu bị trống");
+            alert.setContentText("Vui lòng nhập Tài khoản và Mật khẩu.");
             alert.showAndWait();
         } else {
             // Kiểm tra thông tin đăng nhập từ LoginBUS và lấy mã nhân viên
