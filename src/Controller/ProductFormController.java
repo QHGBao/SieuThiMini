@@ -30,7 +30,6 @@ public class ProductFormController {
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private boolean isEditMode = false;
-    private ProductDTO currentProduct;
     private String selectedImagePath = "";
     private static final String IMAGE_DIRECTORY = "src/main/resources/Assets/ProductImages/";
     private static final Pattern PRICE_PATTERN = Pattern.compile("^[0-9]+$");
@@ -175,7 +174,6 @@ public class ProductFormController {
     }
 
     public void setProduct(ProductDTO product) {
-        this.currentProduct = product;
         txtMaSanPham.setText(String.valueOf(product.getMaSP()));
         txtTenSanPham.setText(product.getTenSP());
         cmbLoaiSanPham.setValue(String.valueOf(product.getMaLoai()));

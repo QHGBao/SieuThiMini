@@ -66,7 +66,7 @@ public class QuanLyGiamGiaSpController {
     @FXML
     private TableColumn<QuanLyGiamGiaSpDTO, Integer> colPhanTramGiam;
 
-    private QuanLyGiamGiaSpBUS bus;
+    private QuanLyGiamGiaSpBUS bus = new QuanLyGiamGiaSpBUS();
 
     @FXML
     private TextField txtMaKMTao;
@@ -350,8 +350,7 @@ public class QuanLyGiamGiaSpController {
 
     @FXML
     public void initialize() {
-        bus = new QuanLyGiamGiaSpBUS();
-
+        txtMaKMTao.setText(String.valueOf(bus.createCode()));
         // Cấu hình các cột
         colMaKM.setCellValueFactory(new PropertyValueFactory<>("maKM"));
         colTenKM.setCellValueFactory(new PropertyValueFactory<>("tenKM"));

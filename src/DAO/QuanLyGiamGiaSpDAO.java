@@ -16,8 +16,24 @@ public class QuanLyGiamGiaSpDAO {
         connectManager = new ConnectManager();
     }
 
-  
-
+    public int createCodeNCC(){
+        int codeCreated = -1;
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            String sql = "SELECT COALESCE(MAX(MaKM), 0) + 1 AS newCode FROM GiamGiaSP";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                codeCreated = rs.getInt("newCode");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return codeCreated;
+    }
 
     public ArrayList<QuanLyGiamGiaSpDTO> getAllGiamGiaSP() {
         ArrayList<QuanLyGiamGiaSpDTO> list = new ArrayList<>();
@@ -49,7 +65,7 @@ public class QuanLyGiamGiaSpDAO {
     }
 
     public boolean addGiamGiaSP(QuanLyGiamGiaSpDTO khuyenMai) {
-        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam ) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO GiamGiaSP (TenKM, NgayBD, NgayKT, PtGiam, Is_Deleted) VALUES (?, ?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
     

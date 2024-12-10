@@ -107,6 +107,9 @@ public class ThongKeController {
         btnSearch.setOnAction(event -> handleSearch());
         btnSearchDT.setOnAction(event -> handleSearchDT());
         btnSearchLN.setOnAction(event -> handleSearchLN());
+        loadAllData();
+        loadAllDataDT();
+        loadAllDataLN();
     }
 
     
@@ -551,7 +554,7 @@ public class ThongKeController {
                         rs.getDouble("TongChiTieu")
 				);
 				chiTieuData.add(item);
-				tongChiTieu += item.getChiTieu();
+				tongChiTieu += item.getChiTieu();	
 			}
 			if(chiTieuData.isEmpty()) {
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -597,7 +600,7 @@ public class ThongKeController {
                         rs.getString("MaHD"),
                         rs.getString("TenSP"),
                         rs.getInt("SoLuong"),
-                        rs.getDouble("GiaBan"),
+                        rs.getDouble("GiaBan"),			
                         rs.getDouble("TongTienHang"),
                         rs.getDouble("TongDoanhThu")
 				);
@@ -668,6 +671,117 @@ public class ThongKeController {
             alert.setContentText("Đã xảy ra lỗi: " + e.getMessage());
             alert.show();
 		}
+    }
+    private void loadAllData() {
+        try {
+            // Khi vào trang, gọi để lấy toàn bộ dữ liệu
+            BUS_ThongKe busThongKe = new BUS_ThongKe();
+            ResultSet rs = busThongKe.thongkeChiTieuAll();
+            
+            chiTieuData = FXCollections.observableArrayList();
+            double tongChiTieu = 0.0;
+
+            while (rs.next()) {
+                DTO_ThongKe_ChiTieu item = new DTO_ThongKe_ChiTieu(
+                        rs.getString("NgayLap"),
+                        rs.getString("MaPN"),
+                        rs.getString("TenSP"),
+                        rs.getString("MaSP"),
+                        rs.getInt("SoLuong"),
+                        rs.getDouble("GiaNhap"),
+                        rs.getDouble("TongChiTieu")
+                );
+                chiTieuData.add(item);
+                tongChiTieu += item.getChiTieu();
+            }
+
+            if (chiTieuData.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Không có dữ liệu trong cơ sở dữ liệu.");
+                alert.show();
+            }
+
+            chiTieuTable.setItems(chiTieuData);
+            lblTongChiTieu.setText("Tổng chi tiêu: " + String.format("%,.2f VND", tongChiTieu));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Đã xảy ra lỗi: " + e.getMessage());
+            alert.show();
+        }
+    }
+    private void loadAllDataDT() {
+        try {
+            // Khi vào trang, gọi để lấy toàn bộ dữ liệu
+            BUS_ThongKe busThongKe = new BUS_ThongKe();
+            ResultSet rs = busThongKe.thongkeDoanhThuAll();
+            
+            doanhThuData = FXCollections.observableArrayList();
+            double tongDoanhThu = 0.0;
+			
+			while(rs.next()) {
+				DTO_ThongKe_DoanhThu item = new DTO_ThongKe_DoanhThu(
+						rs.getString("NgayLap"),
+                        rs.getString("MaHD"),
+                        rs.getString("TenSP"),
+                        rs.getInt("SoLuong"),
+                        rs.getDouble("GiaBan"),			
+                        rs.getDouble("TongTienHang"),
+                        rs.getDouble("TongDoanhThu")
+				);
+				doanhThuData.add(item);
+				tongDoanhThu += item.getDoanhThu();
+				
+			}
+			if(doanhThuData.isEmpty()) {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setContentText("Không có dữ liệu trong khoảng thời gian được chọn.");
+				alert.show();
+			}
+			doanhThuTable.setItems(doanhThuData);
+			lblTongDoanhThu.setText("Tổng doanh thu: "+String.format("%,.2f VND", tongDoanhThu));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Đã xảy ra lỗi: " + e.getMessage());
+            alert.show();
+        }
+    }
+    private void loadAllDataLN() {
+        try {
+            // Khi vào trang, gọi để lấy toàn bộ dữ liệu
+            BUS_ThongKe busThongKe = new BUS_ThongKe();
+            ResultSet rs = busThongKe.thongkeLoiNhuanAll();
+            
+            doanhThuData = FXCollections.observableArrayList();
+            double tongLoiNhuan = 0.0;
+			while(rs.next()) {
+				DTO_ThongKe_LoiNhuan item = new DTO_ThongKe_LoiNhuan(
+						rs.getString("NgayLap"),
+                        rs.getString("MaHD"),
+                        rs.getString("TenSP"),
+                        rs.getInt("SoLuong"),
+                        rs.getDouble("GiaNhap"),
+                        rs.getDouble("GiaBan"),
+                        rs.getDouble("LoiNhuan")
+				);
+				loiNhuanData.add(item);
+				tongLoiNhuan += item.getLoiNhuan();
+			}
+			if(loiNhuanData.isEmpty()) {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setContentText("Không có dữ liệu trong khoảng thời gian được chọn.");
+				alert.show();
+			}
+			loiNhuanTable.setItems(loiNhuanData);
+			lblTongLoiNhuan.setText("Tổng lợi nhuận: "+String.format("%,.2f VND", tongLoiNhuan));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Đã xảy ra lỗi: " + e.getMessage());
+            alert.show();
+        }
     }
     private void switchPanel(VBox showPanel, VBox hidePanel1, VBox hidePanel2) {
         showPanel.setVisible(true);

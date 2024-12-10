@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.QuanLyGiamGiaSpController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="832.0" prefWidth="904.0" stylesheets="@../../Assets/css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.QuanLyGiamGiaSpController">
    <children>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="832.0" prefWidth="904.0">
          <children>
@@ -84,12 +84,12 @@
                </columns>
             </TableView>
             <TextField fx:id="txtTenCTTao" layoutX="141.0" layoutY="520.0" prefHeight="25.0" prefWidth="139.0" />
-            <TextField fx:id="txtMaKMTao" layoutX="141.0" layoutY="564.0" prefHeight="25.0" prefWidth="139.0" />
+            <TextField fx:id="txtMaKMTao" disable="true" layoutX="141.0" layoutY="564.0" prefHeight="25.0" prefWidth="139.0" />
             <DatePicker fx:id="dpNgayBDTao" layoutX="143.0" layoutY="605.0" prefHeight="25.0" prefWidth="139.0" />
             <DatePicker fx:id="dpNgayKTTao" layoutX="144.0" layoutY="644.0" prefHeight="25.0" prefWidth="139.0" />
             <TextField fx:id="txtPhanTramGiamTao" layoutX="144.0" layoutY="683.0" prefHeight="25.0" prefWidth="139.0" />
             <Button fx:id="btnSuaCT" layoutX="812.0" layoutY="491.0" mnemonicParsing="false" onAction="#btnSuaCT" text="Sửa" textFill="#f80707" />
-            <Button fx:id="btnCapNhatCT" layoutX="632.0" layoutY="302.0" mnemonicParsing="false"  text="Cập nhật" textFill="#f20707" /> 
+            <Button fx:id="btnCapNhatCT" layoutX="632.0" layoutY="302.0" mnemonicParsing="false" text="Cập nhật" textFill="#f20707" /> 
          </children>
       </AnchorPane>
       
