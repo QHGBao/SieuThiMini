@@ -1,7 +1,6 @@
 package Controller;
 
 import BUS.ProductBUS;
-import BUS.ProductTypeBUS;
 import DTO.ProductDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +13,8 @@ import javafx.stage.StageStyle;
 import javafx.collections.FXCollections;
 import java.io.IOException;
 import java.util.Optional;
+import javafx.beans.property.SimpleStringProperty;
+
 
 public class ProductController {
     @FXML private TableView<ProductDTO> tbBang;

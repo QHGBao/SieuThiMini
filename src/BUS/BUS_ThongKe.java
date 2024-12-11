@@ -22,4 +22,13 @@ public class BUS_ThongKe {
     public ResultSet thongkeLoiNhuan(Timestamp startDate, Timestamp endDate) {
         return daoThongKe.thongkeLoiNhuan(startDate, endDate);
     }
+    public ResultSet thongkeChiTieuAll() {
+    	return daoThongKe.thongkeChiTieuAll();
+    }
+    public ResultSet thongkeDoanhThuAll() {
+    	return daoThongKe.thongkeDoanhThuAll();
+    }
+    public ResultSet thongkeLoiNhuanAll() {
+    	return daoThongKe.thongkeLoiNhuanAll();
+    }
 }
