@@ -9,9 +9,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/LoginGUI.fxml"));  
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/LoginGUI.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.initStyle(StageStyle.UNDECORATED);  // Tắt thanh tiêu đề
+            primaryStage.initStyle(StageStyle.UNDECORATED); // Tắt thanh tiêu đề
             primaryStage.setTitle("Login Page");
             primaryStage.setScene(scene);
             primaryStage.show();
