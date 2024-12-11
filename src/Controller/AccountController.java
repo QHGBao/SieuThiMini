@@ -96,7 +96,7 @@ public class AccountController {
             Parent root = loader.load();
 
             AccountFormController formController = loader.getController();
-            formController.setMode("ADD");
+            formController.setMode("ADD"); // Thiết lập chế độ ADD
             formController.setOnSuccessCallback(this::loadAccountData);
 
             popupStage = new Stage();
@@ -115,14 +115,13 @@ public class AccountController {
             showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn tài khoản cần sửa!");
             return;
         }
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/AccountForm.fxml"));
             Parent root = loader.load();
 
             AccountFormController formController = loader.getController();
-            formController.setMode("EDIT"); // Đặt chế độ sửa
-            formController.setAccount(selectedAccount); // Gửi thông tin tài khoản được chọn
+            formController.setMode("EDIT"); 
+            formController.setAccount(selectedAccount); 
             formController.setOnSuccessCallback(this::loadAccountData);
 
             popupStage = new Stage();

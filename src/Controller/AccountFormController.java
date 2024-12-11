@@ -21,6 +21,8 @@ public class AccountFormController {
     private ComboBox<Integer> cmbMaQuyen;
     @FXML
     private ImageView btnClose;
+    @FXML
+    private Button btnCreate;
 
     private AccountBUS accBUS = new AccountBUS();
     private String mode = "ADD";
@@ -40,7 +42,6 @@ public class AccountFormController {
     @FXML
     void btnCreate_Clicked(MouseEvent event) {
         if (!validateInputs()) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Vui lòng kiểm tra lại thông tin nhập!");
             return;
         }
 
@@ -87,9 +88,11 @@ public class AccountFormController {
             return false;
         }
         if (txtMatKhau.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Mật khẩu không được để trống!");
             return false;
         }
         if (!txtMatKhau.getText().equals(txtNhapLaiMatKhau.getText())) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Mật khẩu không khớp!");
             return false;
         }
         if (txtMaNV.getText().isEmpty() || !txtMaNV.getText().matches("\\d+")) {
@@ -116,9 +119,11 @@ public class AccountFormController {
         if (mode.equals("EDIT")) {
             txtTenTK.setDisable(true);
             txtMaNV.setDisable(true);
+            btnCreate.setText("Lưu thay đổi");
         } else if (mode.equals("ADD")) {
             txtTenTK.setDisable(false);
             txtMaNV.setDisable(false);
+            btnCreate.setText("Thêm");
         }
     }
 
@@ -127,6 +132,10 @@ public class AccountFormController {
         txtTenTK.setText(account.getTenTK());
         txtMaNV.setText(String.valueOf(account.getMaNV()));
         cmbMaQuyen.setValue(account.getMaQuyen());
+        if (mode.equals("EDIT")) {
+            txtTenTK.setDisable(true);
+            txtMaNV.setDisable(true);
+        }
     }
 
     public void setOnSuccessCallback(Runnable callback) {
