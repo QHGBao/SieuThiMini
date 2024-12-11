@@ -3,6 +3,8 @@ package DTO;
 
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class QuanLyGiamGiaSpDTO {
 
@@ -11,6 +13,7 @@ public class QuanLyGiamGiaSpDTO {
     private Date ngayBD;
     private Date ngayKT;
     private int ptGiam;
+    
 
     public QuanLyGiamGiaSpDTO(int maKM, String tenKM, Date ngayBD, Date ngayKT, int ptGiam) {
         this.maKM = maKM;
@@ -18,6 +21,7 @@ public class QuanLyGiamGiaSpDTO {
         this.ngayBD = ngayBD;
         this.ngayKT = ngayKT;
         this.ptGiam = ptGiam;
+        
     }
 
     public int getMaKM() {
@@ -60,5 +64,6 @@ public class QuanLyGiamGiaSpDTO {
         this.ptGiam = ptGiam;
     }
 
+    
     
 }

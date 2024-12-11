@@ -6,6 +6,12 @@ import DAO.SanPhamDAO;
 import DTO.QuanLyGiamGiaSpDTO;
 import DTO.SanPhamDTO;
 import DTO.SanPhamKmDTO;
+import javafx.scene.control.Alert;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class QuanLyGiamGiaSpBUS {
@@ -62,9 +68,7 @@ public class QuanLyGiamGiaSpBUS {
         return SanPhamDAO.getSanPhamByMaSP(maSP); // Gọi hàm từ DAO
     }
 
-    public int createCode(){
-        return dao.createCodeNCC();
-    }
+
     
     
 }

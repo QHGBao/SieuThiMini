@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,11 +13,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="723.0" style="-fx-background-radius: 10;" styleClass=".split-pane-divider {    -fx-background-color: transparent;}" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductFormController">
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="723.0" style="-fx-background-radius: 10;" styleClass=".split-pane-divider {    -fx-background-color: transparent;}" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProductFormController">
    <items>
-      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: #F5F4E8;">
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="721.0" style="-fx-background-color: #F5F4E8;">
          <children>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="701.0" prefWidth="722.0" style="-fx-background-color: #F5F4E8; -fx-border-radius: 10;" StackPane.alignment="BOTTOM_CENTER">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="701.0" prefWidth="721.0" style="-fx-background-color: #F5F4E8; -fx-border-radius: 10;" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <Pane layoutX="774.0" layoutY="2.0" />
                   <ImageView fx:id="btnClose" fitHeight="18.0" fitWidth="19.0" layoutX="693.0" layoutY="5.0" onMouseClicked="#btnClose_Clicked" pickOnBounds="true" preserveRatio="true">
@@ -24,13 +25,13 @@
                         <Image url="@../../Assets/Img/close.png" />
                      </image>
                   </ImageView>
-                  <Canvas fx:id="canvas" height="200.0" layoutX="14.0" layoutY="36.0" width="200.0" />
+                  <Canvas fx:id="canvas" height="130.0" layoutX="23.0" layoutY="50.0" width="210.0" />
                   <Label layoutX="246.0" layoutY="28.0" prefHeight="27.0" prefWidth="135.0" text="Tên Sản phẩm">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtTenSanPham" editable="false" layoutX="246.0" layoutY="58.0" prefHeight="30.0" prefWidth="456.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtTenSanPham" layoutX="246.0" layoutY="58.0" prefHeight="30.0" prefWidth="454.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -40,42 +41,42 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cmbLoaiSanPham" editable="true" layoutX="245.0" layoutY="129.0" prefHeight="30.0" prefWidth="264.0" style="-fx-font-size: 14;" />
+                  <ComboBox fx:id="cmbLoaiSanPham" layoutX="245.0" layoutY="129.0" prefHeight="30.0" prefWidth="264.0" promptText="Chọn loại sản phẩm" style="-fx-font-size: 14;" />
                   <Label layoutX="533.0" layoutY="101.0" prefHeight="27.0" prefWidth="135.0" text="Mã Sản Phẩm">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtMaSanPham" disable="true" editable="false" layoutX="533.0" layoutY="129.0" prefHeight="30.0" prefWidth="170.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtMaSanPham" disable="true" editable="false" layoutX="533.0" layoutY="129.0" prefHeight="30.0" prefWidth="166.0" style="-fx-alignment: center;">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="246.0" layoutY="170.0" prefHeight="27.0" prefWidth="135.0" text="Mô Tả">
+                  <Label layoutX="246.0" layoutY="315.0" prefHeight="27.0" prefWidth="135.0" text="Giá Bán">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtMoTa" editable="false" layoutX="246.0" layoutY="198.0" prefHeight="104.0" prefWidth="456.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtGiaBan" editable="false" layoutX="245.0" layoutY="341.0" prefHeight="30.0" prefWidth="264.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="252.0" layoutY="310.0" prefHeight="27.0" prefWidth="135.0" text="Giá Bán">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtGiaBan" editable="false" layoutX="252.0" layoutY="339.0" prefHeight="30.0" prefWidth="222.0" style="-fx-alignment: center;">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </TextField>
-                  <Button alignment="CENTER" layoutX="578.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: FF4646;" text="HOÀN TẤT" textFill="WHITE">
+                  <Button alignment="CENTER" layoutX="575.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#btnCreate_Clicked" prefHeight="54.0" prefWidth="124.0" style="-fx-background-radius: 5; -fx-background-color: FF4646;" text="HOÀN TẤT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Button>
+                  <TextArea fx:id="txtMoTa" layoutX="245.0" layoutY="210.0" prefHeight="86.0" prefWidth="454.0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </TextArea>
+                  <Label layoutX="246.0" layoutY="183.0" prefHeight="27.0" prefWidth="135.0" text="Mô Tả">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>

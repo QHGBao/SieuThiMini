@@ -44,4 +44,12 @@ public class ProductBUS {
         return prDAO.updateProductQuantity(maSP, soLuongBan);
     }
 
+    public int getMaLoaiByTenLoai(String tenLoai) {
+        return prDAO.getMaLoaiByTenLoai(tenLoai);
+    }
+
+    public String getTenLoaiByMaLoai(int maLoai) {
+        return prDAO.getTenLoaiByMaLoai(maLoai);
+    }
+
 }

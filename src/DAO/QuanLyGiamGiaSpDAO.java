@@ -16,24 +16,8 @@ public class QuanLyGiamGiaSpDAO {
         connectManager = new ConnectManager();
     }
 
-    public int createCodeNCC(){
-        int codeCreated = -1;
-        try {
-            connectManager.openConnection();
-            Connection connection = connectManager.getConnection();
-            String sql = "SELECT COALESCE(MAX(MaKM), 0) + 1 AS newCode FROM GiamGiaSP";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            if(rs.next()){
-                codeCreated = rs.getInt("newCode");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            connectManager.closeConnection();
-        }
-        return codeCreated;
-    }
+  
+
 
     public ArrayList<QuanLyGiamGiaSpDTO> getAllGiamGiaSP() {
         ArrayList<QuanLyGiamGiaSpDTO> list = new ArrayList<>();
@@ -65,7 +49,7 @@ public class QuanLyGiamGiaSpDAO {
     }
 
     public boolean addGiamGiaSP(QuanLyGiamGiaSpDTO khuyenMai) {
-        String query = "INSERT INTO GiamGiaSP (TenKM, NgayBD, NgayKT, PtGiam, Is_Deleted) VALUES (?, ?, ?, ?, ?)";
+        String query = "SET IDENTITY_INSERT GiamGiaSP ON INSERT INTO GiamGiaSP (MaKM, TenKM, NgayBD, NgayKT, PtGiam ) VALUES (?, ?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
     
@@ -190,6 +174,24 @@ public class QuanLyGiamGiaSpDAO {
 
     }
     
+    public int getLastMaKM() throws SQLException{
+        String sql = "SELECT MAX(MaKM) AS LastMaKM FROM GiamGiaSP";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("LastMaKM"); // Lấy giá trị lớn nhất
+            }
+            return 0; // Nếu không có bản ghi nào, trả về 0
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Trả về -1 nếu có lỗi
+        } finally {
+            connectManager.closeConnection();
+        }
+    }
     
     
     
