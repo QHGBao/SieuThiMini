@@ -13,6 +13,9 @@ public class AccountBUS {
     }
 
     public boolean addAccount(AccountDTO account) {
+        if (!accountDAO.ktNvTonTai(account.getMaNV())) {
+            return false; // Trả về false nếu nhân viên không tồn tại
+        }
         return accountDAO.addAccount(account);
     }
 
@@ -24,11 +27,15 @@ public class AccountBUS {
         return accountDAO.deleteAccount(maTK);
     }
 
-    public AccountDTO getAccountbyId(int maTK) {
-        return accountDAO.getAccountbyId(maTK);
+    public boolean ktTaiKhoanTonTai(int maNV) {
+        return accountDAO.ktTaiKhoanTonTai(maNV);
+    };
+
+    public boolean ktNvTonTai(int maNV) {
+        return accountDAO.ktNvTonTai(maNV);
     }
 
     public List<AccountDTO> getAllAccounts() {
         return accountDAO.getAllAccounts();
-    }
+    };
 }

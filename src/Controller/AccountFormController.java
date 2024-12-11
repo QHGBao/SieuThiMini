@@ -8,8 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.util.regex.Pattern;
-
 public class AccountFormController {
     @FXML
     private TextField txtTenTK;
@@ -23,53 +21,20 @@ public class AccountFormController {
     private ComboBox<Integer> cmbMaQuyen;
     @FXML
     private ImageView btnClose;
-    
+
     private AccountBUS accBUS = new AccountBUS();
     private String mode = "ADD";
     private AccountDTO currentAccount;
     private Runnable onSuccessCallback;
 
-    // Regex patterns
-    private static final Pattern USERNAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{6,20}$");
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
-
     @FXML
     public void initialize() {
         setupComboBox();
-        setupValidation();
+
     }
 
     private void setupComboBox() {
-        cmbMaQuyen.getItems().addAll(1, 2, 3); // Add your role IDs
-    }
-
-    private void setupValidation() {
-        // Username validation
-        txtTenTK.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!USERNAME_PATTERN.matcher(newValue).matches()) {
-                txtTenTK.setStyle("-fx-border-color: red;");
-            } else {
-                txtTenTK.setStyle("");
-            }
-        });
-
-        // Password validation
-        txtMatKhau.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!PASSWORD_PATTERN.matcher(newValue).matches()) {
-                txtMatKhau.setStyle("-fx-border-color: red;");
-            } else {
-                txtMatKhau.setStyle("");
-            }
-        });
-
-        // Confirm password validation
-        txtNhapLaiMatKhau.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.equals(txtMatKhau.getText())) {
-                txtNhapLaiMatKhau.setStyle("-fx-border-color: red;");
-            } else {
-                txtNhapLaiMatKhau.setStyle("");
-            }
-        });
+        cmbMaQuyen.getItems().addAll(1, 2, 3, 4, 5); // Add your role IDs
     }
 
     @FXML
@@ -79,35 +44,49 @@ public class AccountFormController {
             return;
         }
 
+        int maNV = Integer.parseInt(txtMaNV.getText());
+
+        // Kiểm tra mã nhân viên có tồn tại không
+        if (!accBUS.ktNvTonTai(maNV)) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Mã nhân viên không tồn tại. Vui lòng thêm nhân viên trước.");
+            return;
+        }
+
+        // Nếu là chế độ ADD, kiểm tra xem nhân viên đã có tài khoản chưa
+        if (mode.equals("ADD") && accBUS.ktTaiKhoanTonTai(maNV)) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Nhân viên này đã có tài khoản, không thể thêm tài khoản mới!");
+            return;
+        }
+
+        // Tạo đối tượng AccountDTO
         AccountDTO account = new AccountDTO(
-            mode.equals("ADD") ? 0 : currentAccount.getMaTK(),
-            txtTenTK.getText(),
-            txtMatKhau.getText(),
-            Integer.parseInt(txtMaNV.getText()),
-            cmbMaQuyen.getValue(),
-            0
-        );
+                mode.equals("ADD") ? 0 : currentAccount.getMaTK(),
+                txtTenTK.getText(),
+                txtMatKhau.getText(),
+                maNV,
+                cmbMaQuyen.getValue(),
+                0);
 
-        boolean success = mode.equals("ADD") ? 
-            accBUS.addAccount(account) : 
-            accBUS.updateAccount(account);
+        // Thêm hoặc cập nhật tài khoản
+        boolean success = mode.equals("ADD") ? accBUS.addAccount(account) : accBUS.updateAccount(account);
 
+        // Kiểm tra kết quả thêm hoặc cập nhật
         if (success) {
             if (onSuccessCallback != null) {
                 onSuccessCallback.run();
             }
             closeWindow();
         } else {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", 
-                mode.equals("ADD") ? "Không thể thêm tài khoản!" : "Không thể cập nhật tài khoản!");
+            showAlert(Alert.AlertType.ERROR, "Lỗi",
+                    mode.equals("ADD") ? "Không thể thêm tài khoản!" : "Không thể cập nhật tài khoản!");
         }
     }
 
     private boolean validateInputs() {
-        if (!USERNAME_PATTERN.matcher(txtTenTK.getText()).matches()) {
+        if (txtTenTK.getText().isEmpty()) {
             return false;
         }
-        if (!PASSWORD_PATTERN.matcher(txtMatKhau.getText()).matches()) {
+        if (txtMatKhau.getText().isEmpty()) {
             return false;
         }
         if (!txtMatKhau.getText().equals(txtNhapLaiMatKhau.getText())) {
@@ -134,6 +113,13 @@ public class AccountFormController {
 
     public void setMode(String mode) {
         this.mode = mode;
+        if (mode.equals("EDIT")) {
+            txtTenTK.setDisable(true);
+            txtMaNV.setDisable(true);
+        } else if (mode.equals("ADD")) {
+            txtTenTK.setDisable(false);
+            txtMaNV.setDisable(false);
+        }
     }
 
     public void setAccount(AccountDTO account) {

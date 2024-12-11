@@ -55,10 +55,11 @@ public class AccountController {
     private void setupTableColumns() {
         tbMATK.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaTK()).asObject());
         tbTENTK.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTenTK()));
-        tbMATKHAU.setCellValueFactory(data -> new SimpleStringProperty("********")); // Hide password
+        tbMATKHAU.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMatKhau()));
         tbMANV.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaNV()).asObject());
         tbMAQUYEN.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getMaQuyen()).asObject());
-        tbTRANGTHAI.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getIsDeleted() == 0 ? "Hoạt động" : "Đã khóa"));
+        tbTRANGTHAI.setCellValueFactory(
+                data -> new SimpleStringProperty(data.getValue().getIsDeleted() == 0 ? "Hoạt động" : "Đã khóa"));
     }
 
     private void loadAccountData() {
@@ -76,7 +77,7 @@ public class AccountController {
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
                 return String.valueOf(account.getMaTK()).contains(lowerCaseFilter) ||
-                       account.getTenTK().toLowerCase().contains(lowerCaseFilter);
+                        account.getTenTK().toLowerCase().contains(lowerCaseFilter);
             });
         });
 
@@ -87,12 +88,13 @@ public class AccountController {
 
     @FXML
     void ThemTK(MouseEvent event) {
-        if (popupStage != null && popupStage.isShowing()) return;
-        
+        if (popupStage != null && popupStage.isShowing())
+            return;
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/AccountForm.fxml"));
             Parent root = loader.load();
-            
+
             AccountFormController formController = loader.getController();
             formController.setMode("ADD");
             formController.setOnSuccessCallback(this::loadAccountData);
@@ -117,10 +119,10 @@ public class AccountController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../GUI/AccountForm.fxml"));
             Parent root = loader.load();
-            
+
             AccountFormController formController = loader.getController();
-            formController.setMode("EDIT");
-            formController.setAccount(selectedAccount);
+            formController.setMode("EDIT"); // Đặt chế độ sửa
+            formController.setAccount(selectedAccount); // Gửi thông tin tài khoản được chọn
             formController.setOnSuccessCallback(this::loadAccountData);
 
             popupStage = new Stage();
@@ -163,4 +165,5 @@ public class AccountController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 }

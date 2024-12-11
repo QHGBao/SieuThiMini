@@ -68,27 +68,36 @@ public class AccountDAO {
         }
     }
 
-    public AccountDTO getAccountbyId(int maTK) {
-        String query = "SELECT * FROM TaiKhoan WHERE MaTK = ? AND Is_Deleted = 0";
+    public boolean ktTaiKhoanTonTai(int maNV) {
+        String query = "SELECT COUNT(*) AS count FROM TaiKhoan WHERE MaNV = ? AND Is_Deleted = 0";
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
             PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setInt(1, maTK);
+            stmt.setInt(1, maNV);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new AccountDTO(
-                        rs.getInt("MaTK"),
-                        rs.getString("TenTK"),
-                        rs.getString("MatKhau"),
-                        rs.getInt("MaNV"),
-                        rs.getInt("MaQuyen"),
-                        rs.getInt("Is_Deleted"));
+                return rs.getInt("count") > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
+    }
+
+    public boolean ktNvTonTai(int maNV) {
+        String query = "SELECT 1 FROM NhanVien WHERE MaNV = ? AND Is_Deleted = 0";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, maNV);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // Nếu có dòng dữ liệu trả về thì nhân viên tồn tại
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<AccountDTO> getAllAccounts() {
@@ -113,4 +122,6 @@ public class AccountDAO {
         }
         return accounts;
     }
+
+
 }

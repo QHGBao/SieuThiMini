@@ -4,15 +4,14 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
-        
+
 
 
         {
             "type": "java",
             "name": "App",
             "request": "launch",
-            "vmArgs": "--module-path \"D:/Code1/SieuThiMini/lib/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src",
+            "vmArgs": "--enable-preview --module-path \"D:/Code1/SieuThiMini/lib/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml -cp lib/controlsfx-11.1.2.jar:src",
             "mainClass": "App",
             "projectName": "SieuThiMini_ec19e6c2"
         },
