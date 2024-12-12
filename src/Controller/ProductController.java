@@ -32,8 +32,27 @@ public class ProductController {
     @FXML
     public void initialize() {
         productBUS = new ProductBUS();
+
+        // Lắng nghe sự thay đổi trong txtTimKiem
+        txtTimKiem.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndUpdateTable(newValue); // Gọi hàm tìm kiếm và cập nhật bảng
+        });
+    
         setupTable();
-        loadTableData();
+        loadTableData(); // Hiển thị tất cả sản phẩm khi bắt đầu
+        
+    }
+
+    private void searchAndUpdateTable(String query) {
+        // Kiểm tra nếu ô tìm kiếm trống thì tải lại tất cả sản phẩm
+        if (query == null || query.isEmpty()) {
+            loadTableData(); // Hiển thị tất cả sản phẩm nếu ô tìm kiếm trống
+        } else {
+            // Gọi phương thức tìm kiếm và lấy kết quả
+            var searchResults = productBUS.searchProductsByName(query);
+            // Cập nhật bảng với kết quả tìm kiếm
+            tbBang.setItems(FXCollections.observableArrayList(searchResults));
+        }
     }
 
     private void setupTable() {
@@ -87,9 +106,8 @@ public class ProductController {
             Parent root = loader.load();
             
             ProductFormController controller = loader.getController();
-            controller.setEditMode(true);
             controller.setProduct(selectedProduct);
-            
+            controller.setEditMode(true);
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));

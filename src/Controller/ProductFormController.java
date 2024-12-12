@@ -11,45 +11,57 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
 
 public class ProductFormController {
-    @FXML private TextField txtTenSanPham;
-    @FXML private TextField txtMaSanPham;
-    @FXML private TextField txtMoTa;
-    @FXML private TextField txtGiaBan;
-    @FXML private ComboBox<String> cmbLoaiSanPham;
-    @FXML private ImageView btnClose;
-    @FXML private Canvas canvas;
+    @FXML
+    private TextField txtTenSanPham;
+    @FXML
+    private TextField txtMaSanPham;
+    @FXML
+    private TextArea txtMoTa;
+    @FXML
+    private TextField txtGiaBan;
+    @FXML
+    private ComboBox<String> cmbLoaiSanPham;
+    @FXML
+    private ImageView btnClose;
+    @FXML
+    private Canvas canvas;
 
     private ProductBUS productBUS;
     private ProductTypeBUS productTypeBUS;
     private boolean isEditMode = false;
     private String selectedImagePath = "";
-    private static final String IMAGE_DIRECTORY = "src/main/resources/Assets/ProductImages/";
+    private static final String IMAGE_DIRECTORY = "Assets/Img/Product";
     private static final Pattern PRICE_PATTERN = Pattern.compile("^[0-9]+$");
 
     @FXML
     public void initialize() {
         productBUS = new ProductBUS();
         productTypeBUS = new ProductTypeBUS();
+        txtMoTa.setWrapText(true);
         setupCanvas();
         loadProductTypes();
         setupTextFields();
-        
+
         // Set up canvas click event for image selection
         canvas.setOnMouseClicked(event -> selectImage());
     }
 
     private void setupCanvas() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(javafx.scene.paint.Color.WHITE);
+        // Tô màu nền trắng
+        gc.setFill(Color.WHITE); // Màu nền trắng
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Vẽ viền đen
+        gc.setStroke(Color.BLACK); // Màu viền đen
+        gc.setLineWidth(2); // Độ dày viền (có thể thay đổi)
+        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     private void loadProductTypes() {
@@ -57,11 +69,11 @@ public class ProductFormController {
     }
 
     private void setupTextFields() {
-        txtTenSanPham.setEditable(!isEditMode);
-        txtMoTa.setEditable(!isEditMode);
-        txtGiaBan.setEditable(!isEditMode);
+        txtTenSanPham.setEditable(isEditMode);
+        txtMoTa.setEditable(isEditMode);
+        txtGiaBan.setEditable(isEditMode);
         txtMaSanPham.setEditable(false);
-        
+
         if (!isEditMode) {
             // Auto-generate new product ID
             int newId = getNextProductId();
@@ -85,26 +97,25 @@ public class ProductFormController {
 
     private void selectImage() {
         FileChooser fileChooser = new FileChooser();
+        // Thêm bộ lọc để chỉ hiển thị hình ảnh
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
-        );
-        
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+
+        // Đặt thư mục gốc là thư mục bạn muốn (đường dẫn tương đối từ thư mục gốc của
+        // dự án)
+        File defaultDirectory = new File("Assets/Img/Product");
+        if (defaultDirectory.exists()) {
+            fileChooser.setInitialDirectory(defaultDirectory);
+        }
+
+        // Mở FileChooser
         File selectedFile = fileChooser.showOpenDialog(canvas.getScene().getWindow());
         if (selectedFile != null) {
-            try {
-                // Copy image to project directory
-                String fileName = System.currentTimeMillis() + "_" + selectedFile.getName();
-                Path destination = Path.of(IMAGE_DIRECTORY + fileName);
-                Files.createDirectories(Path.of(IMAGE_DIRECTORY));
-                Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
-                
-                // Save path and display image
-                selectedImagePath = fileName;
-                displayImage(selectedFile.toURI().toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể lưu hình ảnh");
-            }
+            // Lấy tên file của ảnh mà không sao chép
+            selectedImagePath = selectedFile.getName();
+
+            // Hiển thị ảnh trong canvas (nếu bạn vẫn muốn hiển thị ảnh đã chọn)
+            displayImage(selectedFile.toURI().toString());
         }
     }
 
@@ -123,7 +134,7 @@ public class ProductFormController {
 
         ProductDTO product = new ProductDTO();
         product.setTenSP(txtTenSanPham.getText());
-        product.setMaLoai(Integer.parseInt(cmbLoaiSanPham.getValue()));
+        product.setMaLoai(productBUS.getMaLoaiByTenLoai(cmbLoaiSanPham.getValue()));
         product.setMoTa(txtMoTa.getText());
         product.setGia(Integer.parseInt(txtGiaBan.getText()));
         product.setSoLuong(0); // Default value
@@ -176,13 +187,14 @@ public class ProductFormController {
     public void setProduct(ProductDTO product) {
         txtMaSanPham.setText(String.valueOf(product.getMaSP()));
         txtTenSanPham.setText(product.getTenSP());
-        cmbLoaiSanPham.setValue(String.valueOf(product.getMaLoai()));
+        cmbLoaiSanPham.setValue(String.valueOf(productBUS.getTenLoaiByMaLoai(product.getMaLoai())));
         txtMoTa.setText(product.getMoTa());
         txtGiaBan.setText(String.valueOf(product.getGia()));
-        
+
         if (product.getHinhAnh() != null && !product.getHinhAnh().isEmpty()) {
             selectedImagePath = product.getHinhAnh();
-            displayImage("file:" + IMAGE_DIRECTORY + product.getHinhAnh());
+            // Hiển thị hình ảnh hiện tại lên Canvas
+            displayImage("file:" + IMAGE_DIRECTORY + "/" + selectedImagePath);
         }
     }
 

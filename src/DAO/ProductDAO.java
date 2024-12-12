@@ -17,19 +17,18 @@ public class ProductDAO {
     }
 
     public boolean addProduct(ProductDTO product) {
-        String query = "INSERT INTO SanPham (MaSP, TenSP, MaLoai, MoTa, Gia, SoLuong, HinhAnh, Is_Deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO SanPham (TenSP, MaLoai, MoTa, GiaBan, SoLuong, HinhAnh, Is_Deleted) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, product.getMaSP());
-            preparedStatement.setString(2, product.getTenSP());
-            preparedStatement.setInt(3, product.getMaLoai());
-            preparedStatement.setString(4, product.getMoTa());
-            preparedStatement.setDouble(5, product.getGia());
-            preparedStatement.setInt(6, product.getSoLuong());
-            preparedStatement.setString(7, product.getHinhAnh());
-            preparedStatement.setInt(8, product.getIsDeleted());
+            preparedStatement.setString(1, product.getTenSP());
+            preparedStatement.setInt(2, product.getMaLoai());
+            preparedStatement.setString(3, product.getMoTa());
+            preparedStatement.setDouble(4, product.getGia());
+            preparedStatement.setInt(5, product.getSoLuong());
+            preparedStatement.setString(6, product.getHinhAnh());
+            preparedStatement.setInt(7, product.getIsDeleted());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,7 +39,7 @@ public class ProductDAO {
     }
 
     public boolean updateProduct(ProductDTO product) {
-        String query = "UPDATE SanPham SET TenSP = ?, MaLoai = ?, MoTa = ?, Gia = ?, SoLuong = ?, HinhAnh = ?, Is_Deleted = ? WHERE MaSP = ?";
+        String query = "UPDATE SanPham SET TenSP = ?, MaLoai = ?, MoTa = ?, GiaBan = ?, SoLuong = ?, HinhAnh = ?, Is_Deleted = ? WHERE MaSP = ?";
         try {
             connectManager.openConnection();
             Connection connection = connectManager.getConnection();
@@ -111,7 +110,7 @@ public class ProductDAO {
         String sql = "SELECT * FROM SanPham sp " +
                      "JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai " +
                      "WHERE (sp.TenSP LIKE ? OR ? = '') " +
-                     (productType.equals("Tat ca") ? "" : "AND lsp.TenLoai = ? ") +  // Bỏ điều kiện nếu là "Tất cả"
+                     (productType.equals("Tất cả") ? "" : "AND lsp.TenLoai = ? ") +  // Bỏ điều kiện nếu là "Tất cả"
                      "AND sp.Is_Deleted = 0";
     
         try {
@@ -121,7 +120,7 @@ public class ProductDAO {
             preparedStatement.setString(1, "%" + productName + "%");  // Điều kiện tìm theo tên
             preparedStatement.setString(2, productName);              // Điều kiện nếu tên trống
     
-            if (!productType.equals("Tat ca")) {
+            if (!productType.equals("Tất cả")) {
                 preparedStatement.setString(3, productType);  // Điều kiện tìm theo loại khi không phải "Tất cả"
             }
     
@@ -273,6 +272,53 @@ public class ProductDAO {
         } finally {
             connectManager.closeConnection();
         }
+    }
+
+    public int getMaLoaiByTenLoai(String tenLoai) {
+        String query = "SELECT MaLoai FROM LoaiSanPham WHERE TenLoai = ?";
+        int maLoai = -1; // Mặc định trả về -1 nếu không tìm thấy
+    
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, tenLoai);
+            ResultSet rs = preparedStatement.executeQuery();
+    
+            if (rs.next()) {
+                maLoai = rs.getInt("MaLoai");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+    
+        return maLoai;
+    }
+    
+    public String getTenLoaiByMaLoai(int maLoai) {
+        String query = "SELECT TenLoai FROM LoaiSanPham WHERE MaLoai = ?";
+        String tenLoai = null; // Mặc định trả về null nếu không tìm thấy
+    
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            
+            preparedStatement.setInt(1, maLoai); // Đặt mã loại vào câu lệnh SQL
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    tenLoai = rs.getString("TenLoai");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+    
+        return tenLoai;
     }
     
 }

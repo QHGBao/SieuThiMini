@@ -47,7 +47,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
-public class QuanLyGiamGiaSpController {
+public class QuanLyGiamGiaSpController implements Initializable {
     @FXML
     private TableView<QuanLyGiamGiaSpDTO> tblQLGgSP;
 
@@ -136,12 +136,12 @@ public class QuanLyGiamGiaSpController {
 
     @FXML
     private Button btnSuaCT;
+
+    SanPhamBUS sanPhamBUS = new SanPhamBUS();
+    ObservableList<SanPhamDTO> SPdata = FXCollections.observableArrayList(sanPhamBUS.getAllSanPham());
+    ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(bus.getAllGiamGiaSP());
+    ObservableList<SanPhamDTO> dataKM = null;
     
-    private void refreshTable() {
-        List<QuanLyGiamGiaSpDTO> khuyenMaiList = bus.getAllGiamGiaSP(); // Lấy danh sách mới từ BUS
-        ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(khuyenMaiList);
-        tblQLGgSP.setItems(data);
-    }
 
     @FXML
     private void btnThemSP(ActionEvent event) {
@@ -202,128 +202,103 @@ public class QuanLyGiamGiaSpController {
 
     
 
-    private String validateKhuyenMai(String tenKM,  int maKM, Date ngayBD, Date ngayKT, int ptGiam) {
-        if (tenKM == null || tenKM.isEmpty()) {
-            return "Tên khuyến mãi không được để trống!";
+    
+    
+    
+    private List<Integer> layDanhSachSanPhamTuGiaoDien() {
+        List<Integer> danhSach = new ArrayList<>();
+        for (SanPhamDTO sanPham : tblSPchon.getItems()) { // tblSPchon là bảng hiển thị danh sách sản phẩm đã chọn
+            danhSach.add(sanPham.getMaSP());
         }
-
-        if (maKM < 0){
-            return "Mã khuyến mãi không hợp lệ";
-        }
-        
-        if (ngayBD == null || ngayKT == null) {
-            return "Ngày bắt đầu và ngày kết thúc không được để trống!";
-        }
-        if (ngayBD.after(ngayKT)) {
-            return "Ngày bắt đầu không được sau ngày kết thúc!";
-        }
-        if (ptGiam < 0 || ptGiam > 100) {
-            return "Phần trăm giảm giá phải nằm trong khoảng 0 đến 100!";
-        }
-        return null; // Không có lỗi
+        return danhSach;
     }
 
-    private boolean isMaKMExists(int maKM) {
-        return tblQLGgSP.getItems().stream().anyMatch(km -> km.getMaKM() == maKM);
+    private int generateAutoIncrementMaKM() throws SQLException {
+        // Giả sử dao.getLastMaKM() trả về mã KM lớn nhất từ cơ sở dữ liệu
+        int lastMaKM = bus.getLastMaKM(); 
+        return lastMaKM + 1; // Tăng thêm 1 để tạo mã mới
     }
     
     @FXML
-    private void btnTaoKm(ActionEvent event){
+    public void btnTaoKm(ActionEvent event) {
         try {
+            // Lấy giá trị tự động cho mã khuyến mãi
+            int maKM = generateAutoIncrementMaKM();
+
+            // Hiển thị mã khuyến mãi lên trường txtMaKMTao
+            txtMaKMTao.setText(String.valueOf(maKM));
+
             // Lấy dữ liệu từ các trường nhập liệu
-            int maKM = Integer.parseInt(txtMaKMTao.getText() == null ? "" : txtMaKMTao.getText().trim());
-            String tenKM = txtTenCTTao.getText() == null ? "" : txtTenCTTao.getText().trim();
+            String tenKM = txtTenCTTao.getText().trim();
             Date ngayBD = Date.valueOf(dpNgayBDTao.getValue());
-
             Date ngayKT = Date.valueOf(dpNgayKTTao.getValue());
-            int ptGiam = Integer.parseInt(txtPhanTramGiamTao.getText() == null ? "" : txtPhanTramGiamTao.getText().trim());
-    
-            String errorMessage = validateKhuyenMai(tenKM, maKM, ngayBD, ngayKT, ptGiam);
-            if (errorMessage != null) {
-                showAlert(Alert.AlertType.WARNING, "Lỗi dữ liệu", errorMessage);
+            int ptGiam = Integer.parseInt(txtPhanTramGiamTao.getText().trim());
+
+            // Kiểm tra logic ngày
+            if (ngayBD.after(ngayKT)) {
+                showAlert(Alert.AlertType.WARNING, "Lỗi", "Ngày bắt đầu không thể sau ngày kết thúc!");
                 return;
             }
-            
-            if (isMaKMExists(maKM)) {
-                showAlert(Alert.AlertType.WARNING, "Lỗi mã khuyến mãi", "Mã khuyến mãi đã tồn tại, vui lòng chọn mã khác!");
-                return;
-            }
-            
-            // Tạo đối tượng mới
+
+            // Tạo đối tượng QuanLyGiamGiaSpDTO
             QuanLyGiamGiaSpDTO newKM = new QuanLyGiamGiaSpDTO(maKM, tenKM, ngayBD, ngayKT, ptGiam);
+
+            // Tạo danh sách sản phẩm khuyến mãi
             ArrayList<SanPhamKmDTO> smkmDtos = new ArrayList<>();
+            List<Integer> danhSachMaSPNguoiDungChon = layDanhSachSanPhamTuGiaoDien();
 
-            ArrayList<Integer> danhSachMaSP = new ArrayList<>();
-            for (SanPhamKmDTO dto : smkmDtos) {
-                danhSachMaSP.add(dto.getMaSP()); // Lấy mã sản phẩm từ dto
+            for (Integer maSP : danhSachMaSPNguoiDungChon) {
+                smkmDtos.add(new SanPhamKmDTO(maSP, maKM));
             }
 
-            for (Integer maSP : danhSachMaSP) {
-                smkmDtos.add(new SanPhamKmDTO(maSP, maKM)); // Thêm sản phẩm vào danh sách
-            }
-            // In danh sách mã sản phẩm ra console
-            System.out.println("Danh sách mã sản phẩm: " + danhSachMaSP);
-
-            
-
-            
-            
             // Gửi dữ liệu đến BUS để thêm vào cơ sở dữ liệu
             boolean isAdded = bus.addGiamGiaSP(newKM, smkmDtos);
             if (isAdded) {
-                // Nếu thêm thành công, cập nhật bảng
-                tblQLGgSP.getItems().add(newKM);
-                
-                // Xóa dữ liệu trong các trường nhập
-                clearInputFields();
-                tblSPchon.getItems().clear();
                 showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm khuyến mãi thành công!");
+                clearInputFields();
+                tblQLGgSP.getItems().add(newKM); // Cập nhật bảng
             } else {
                 showAlert(Alert.AlertType.ERROR, "Thất bại", "Không thể thêm khuyến mãi!");
             }
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi định dạng", "Vui lòng nhập đầy đủ thông tin!");
-        }
-    
-    }
-
-
-    
-
-    @FXML
-    private void btnSuaCT(ActionEvent event) {
-        // Lấy dòng khuyến mãi được chọn từ bảng tblQLGgSP
-        QuanLyGiamGiaSpDTO selectedKM = tblQLGgSP.getSelectionModel().getSelectedItem();
-
-        if (selectedKM == null) {
-            showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn một chương trình khuyến mãi để sửa!");
-            return;
-        }
-
-        try {
-            // Lấy danh sách sản phẩm khuyến mãi từ BUS dựa vào Mã KM
-            
-            int maKM = selectedKM.getMaKM();
-            SanPhamBUS sanPhamBUS = new SanPhamBUS();
-            //ArrayList<SanPhamDTO> danhSachSanPham = sanPhamBUS.getSanPhamByMaKM(maKM);
-            
-            // Hiển thị danh sách sản phẩm vào bảng tblSPchon
-            ObservableList<SanPhamDTO> dataKM = FXCollections.observableArrayList(sanPhamBUS.getSanPhamByMaKM(maKM));
-            //System.out.println("Danh sách sản phẩm: " + danhSachSanPham);
-            tblSPchon.setItems(dataKM);
-
-            // Điền dữ liệu của chương trình khuyến mãi vào các trường nhập liệu
-            txtMaKMTao.setText(String.valueOf(selectedKM.getMaKM()));
-            txtTenCTTao.setText(selectedKM.getTenKM());
-            dpNgayBDTao.setValue(selectedKM.getNgayBD().toLocalDate());
-            dpNgayKTTao.setValue(selectedKM.getNgayKT().toLocalDate());
-            txtPhanTramGiamTao.setText(String.valueOf(selectedKM.getPtGiam()));
-
-         
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách sản phẩm của chương trình khuyến mãi!");
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Lỗi", "Vui lòng kiểm tra lại dữ liệu nhập!");
+            e.printStackTrace();
         }
     }
+
+        
+
+        
+
+        @FXML
+        private void btnSuaCT(ActionEvent event) {
+            // Lấy dòng khuyến mãi được chọn từ bảng tblQLGgSP
+            QuanLyGiamGiaSpDTO selectedKM = tblQLGgSP.getSelectionModel().getSelectedItem();
+
+            if (selectedKM == null) {
+                showAlert(Alert.AlertType.WARNING, "Cảnh báo", "Vui lòng chọn một chương trình khuyến mãi để sửa!");
+                return;
+            }
+
+            try {
+                // Lấy danh sách sản phẩm khuyến mãi từ BUS dựa vào Mã KM
+                
+                int maKM = selectedKM.getMaKM();
+                dataKM = FXCollections.observableArrayList(sanPhamBUS.getSanPhamByMaKM(maKM));
+                tblSPchon.setItems(dataKM);
+
+                // Điền dữ liệu của chương trình khuyến mãi vào các trường nhập liệu
+                txtMaKMTao.setText(String.valueOf(selectedKM.getMaKM()));
+                txtTenCTTao.setText(selectedKM.getTenKM());
+                dpNgayBDTao.setValue(selectedKM.getNgayBD().toLocalDate());
+                dpNgayKTTao.setValue(selectedKM.getNgayKT().toLocalDate());
+                txtPhanTramGiamTao.setText(String.valueOf(selectedKM.getPtGiam()));
+
+            
+            } catch (SQLException e) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể tải danh sách sản phẩm của chương trình khuyến mãi!");
+            }
+        }
 
 
     private void clearInputFields() {
@@ -342,26 +317,29 @@ public class QuanLyGiamGiaSpController {
         alert.showAndWait();
     }
 
-    private void loadTableData() {
-        ArrayList<QuanLyGiamGiaSpDTO> danhSach = bus.getAllGiamGiaSP();
-        ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(danhSach);
-        tblQLGgSP.setItems(data);
-    }
+    
+       
+    
 
-    @FXML
-    public void initialize() {
-        txtMaKMTao.setText(String.valueOf(bus.createCode()));
-        // Cấu hình các cột
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        bus = new QuanLyGiamGiaSpBUS();
+        // Lấy mã khuyến mãi tự động (mã khuyến mãi tiếp theo)
+        int nextMaKM = bus.getLastMaKM() + 1; // Lấy mã khuyến mãi tiếp theo từ DAO
+        txtMaKMTao.setText(String.valueOf(nextMaKM)); // Hiển thị mã vào TextField
+        txtMaKMTao.setEditable(false); // Không cho phép chỉnh sửa
+        //txtMaKMTao.setStyle("-fx-opacity: 0.8;"); // Đặt màu xám cho TextField
+    
+        // Cấu hình các cột bảng cho Khuyến mãi
         colMaKM.setCellValueFactory(new PropertyValueFactory<>("maKM"));
         colTenKM.setCellValueFactory(new PropertyValueFactory<>("tenKM"));
         colNgayBD.setCellValueFactory(new PropertyValueFactory<>("ngayBD"));
         colNgayKT.setCellValueFactory(new PropertyValueFactory<>("ngayKT"));
         colPhanTramGiam.setCellValueFactory(new PropertyValueFactory<>("ptGiam"));
-
-        loadTableData();
-
-        
-
+    
+        tblQLGgSP.setItems(data);
+    
+        // Cấu hình các cột bảng cho Sản phẩm
         colMaSP1.setCellValueFactory(new PropertyValueFactory<>("MaSP"));
         colTenSP1.setCellValueFactory(new PropertyValueFactory<>("TenSP"));
         colMoTa1.setCellValueFactory(new PropertyValueFactory<>("MoTa"));
@@ -369,9 +347,10 @@ public class QuanLyGiamGiaSpController {
         colHinhAnh1.setCellValueFactory(new PropertyValueFactory<>("HinhAnh"));
         colGiaBan1.setCellValueFactory(new PropertyValueFactory<>("GiaBan"));
         colMaLoai1.setCellValueFactory(new PropertyValueFactory<>("MaLoai"));
-
-        loadSanPhamData();
-
+    
+        tblSP.setItems(SPdata); // Tải dữ liệu sản phẩm
+    
+        // Cấu hình các cột bảng khác (nếu có)
         colMaSP.setCellValueFactory(new PropertyValueFactory<>("MaSP"));
         colTenSP.setCellValueFactory(new PropertyValueFactory<>("TenSP"));
         colMoTa.setCellValueFactory(new PropertyValueFactory<>("MoTa"));
@@ -379,21 +358,7 @@ public class QuanLyGiamGiaSpController {
         colHinhAnh.setCellValueFactory(new PropertyValueFactory<>("HinhAnh"));
         colGiaBan.setCellValueFactory(new PropertyValueFactory<>("GiaBan"));
         colMaLoai.setCellValueFactory(new PropertyValueFactory<>("MaLoai"));
-
-        
-        
     }
-
-    
-
-
-    private void loadSanPhamData() {
-        SanPhamBUS sanPhamBUS = new SanPhamBUS();
-        ArrayList<SanPhamDTO> danhSachSanPham = sanPhamBUS.getAllSanPham();
-    
-        ObservableList<SanPhamDTO> SPdata = FXCollections.observableArrayList(danhSachSanPham);
-        tblSP.setItems(SPdata);
-    }    
 
     
     

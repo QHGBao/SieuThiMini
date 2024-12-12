@@ -50,6 +50,9 @@ import BUS.*;
 public class QLBHController implements javafx.fxml.Initializable {
 
     @FXML
+    private ComboBox<String> sellKMCB;
+
+    @FXML
     private TextField sellSearchLSBar;
 
     @FXML
@@ -259,6 +262,8 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     private TempDataBUS tempDataBUS = new TempDataBUS();
 
+    private QuanLyGiamGiaSpBUS quanLyGiamGiaSpBUS = new QuanLyGiamGiaSpBUS();
+
     // private NhanVienBUS nhanVienBUS = new NhanVienBUS();
 
     private NhanVienDTO nv;
@@ -270,6 +275,11 @@ public class QLBHController implements javafx.fxml.Initializable {
     private ObservableList<HoaDonDTO> dataHoaDon;
 
     private int lastInvoiceId = -1; // -1 để xác định không có hóa đơn
+
+    @FXML
+    void handleKMCB(ActionEvent event) {
+        showProduct(productBUS.getAllProducts());
+    }
 
     @FXML
     void handlleSearchLSBTN(ActionEvent event) {
@@ -776,7 +786,12 @@ public class QLBHController implements javafx.fxml.Initializable {
     @SuppressWarnings("static-access")
     public void showProduct(List<ProductDTO> products) {
         sellGridPane.getChildren().clear(); // Xóa hết các sản phẩm hiện tại trong GridPane
-
+        // Lấy giá trị mã khuyến mãi từ ComboBox
+        String selectedPromotion = sellKMCB.getSelectionModel().getSelectedItem();
+        int promotionId = -1;
+        if (selectedPromotion != null) {
+            promotionId = quanLyGiamGiaSpBUS.getPromotionIdByName(selectedPromotion);
+        }
         int column = 0;
         int row = 1;
 
@@ -788,9 +803,15 @@ public class QLBHController implements javafx.fxml.Initializable {
 
                 // Lấy controller của Card Product
                 CardProductController cardController = loader.getController();
-                cardController.setProductInfo(product.getTenSP(), product.getGia(),
-                        "D:/Code/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(), product.getSoLuong(),
-                        product);
+                
+                cardController.setProductInfo(
+                    product.getTenSP(),
+                    product.getGia(),
+                    "D:/Code/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
+                    product.getSoLuong(),
+                    product,
+                    promotionId 
+                );
 
                 cardController.setQLBHController(this);
 
@@ -1139,7 +1160,7 @@ public class QLBHController implements javafx.fxml.Initializable {
         List<String> productTypes = productTypeBUS.getAllProductTypesName(); // Gọi đến Service để lấy danh sách loại
                                                                              // sản phẩm
 
-        productTypes.add(0, "Tat ca");
+        productTypes.add(0, "Tất cả");
 
         ObservableList<String> observableProductTypes = FXCollections.observableArrayList(productTypes); // Chuyển đổi
                                                                                                          // thành
@@ -1147,7 +1168,7 @@ public class QLBHController implements javafx.fxml.Initializable {
 
         sellSearchCB.setItems(observableProductTypes); // Đưa danh sách vào ComboBox
 
-        sellSearchCB.setValue("Tat ca");
+        sellSearchCB.setValue("Tất cả");
     }
 
     public void addProductToTable(ProductDTO product, int quantity) {
@@ -1212,10 +1233,19 @@ public class QLBHController implements javafx.fxml.Initializable {
         }
     }
 
+    private void loadDiscountNames() {
+        List<String> discountNames = quanLyGiamGiaSpBUS.getAllDiscountNames();
+
+        // Đưa danh sách vào ComboBox
+        sellKMCB.getItems().clear();
+        sellKMCB.getItems().addAll(discountNames);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<LichSuDiemDTO> lichSuDiemList = lichSuDiemBUS.getLichSuDiemList();
         loadDataLichSuDiem(lichSuDiemList);
+        loadDiscountNames();
         searchLichSuCB.getItems().addAll("Mã hóa đơn", "Mã khách hàng");
         searchLichSuCB.setValue("Mã hóa đơn");
 

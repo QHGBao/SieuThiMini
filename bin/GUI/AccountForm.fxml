@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="446.0" style="-fx-background-radius: 10;" styleClass=".split-pane-divider {    -fx-background-color: transparent;}" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AccountFormController">
+<SplitPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="446.0" style="-fx-background-radius: 10;" styleClass=".split-pane-divider {    -fx-background-color: transparent;}" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AccountFormController">
    <items>
       <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: #F5F4E8;">
          <children>
@@ -28,7 +28,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtTenTK" editable="true" layoutX="27.0" layoutY="53.0" prefHeight="30.0" prefWidth="400.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtTenTK" editable="true" layoutX="27.0" layoutY="53.0" prefHeight="30.0" prefWidth="400.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -43,7 +43,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtMatKhau" editable="true" layoutX="27.0" layoutY="124.0" prefHeight="30.0" prefWidth="400.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtMatKhau" editable="true" layoutX="27.0" layoutY="124.0" prefHeight="30.0" prefWidth="400.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtNhapLaiMatKhau" editable="true" layoutX="27.0" layoutY="197.0" prefHeight="30.0" prefWidth="400.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtNhapLaiMatKhau" editable="true" layoutX="27.0" layoutY="197.0" prefHeight="30.0" prefWidth="400.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -63,7 +63,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtMaNV" editable="true" layoutX="27.0" layoutY="274.0" prefHeight="30.0" prefWidth="171.0" style="-fx-alignment: center;">
+                  <TextField fx:id="txtMaNV" editable="true" layoutX="27.0" layoutY="274.0" prefHeight="30.0" prefWidth="171.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -73,7 +73,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cmbMaQuyen" editable="true" layoutX="214.0" layoutY="274.0" prefHeight="30.0" prefWidth="213.0" style="-fx-font-size: 14;" />
+                  <ComboBox fx:id="cmbMaQuyen" layoutX="214.0" layoutY="274.0" prefHeight="30.0" prefWidth="213.0" promptText="Chọn mã quyền" style="-fx-font-size: 14;" />
                </children>
             </Pane>
          </children>
