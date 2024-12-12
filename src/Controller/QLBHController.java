@@ -817,7 +817,6 @@ public class QLBHController implements javafx.fxml.Initializable {
                 CardProductController cardController = loader.getController();
 
                 cardController.setProductInfo(
-<<<<<<< HEAD
                     product.getTenSP(),
                     product.getGia(),
                     "D:/Code1/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
@@ -825,14 +824,6 @@ public class QLBHController implements javafx.fxml.Initializable {
                     product,
                     promotionId 
                 );
-=======
-                        product.getTenSP(),
-                        product.getGia(),
-                        "D:/Code/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
-                        product.getSoLuong(),
-                        product,
-                        promotionId);
->>>>>>> 46f9778533745e3cee61c8ffec28bab6cd33beea
 
                 cardController.setQLBHController(this);
 
@@ -963,6 +954,7 @@ public class QLBHController implements javafx.fxml.Initializable {
                 lichSuDiemBUS.addLichSuDiem(lichSuTichLuy);
                 khachhangBUS.updateDiemTichLuy(maKH, diemTichLuy, sdt);
             }
+
         }
 
         // Hiển thị thông báo hoàn thành
@@ -977,6 +969,7 @@ public class QLBHController implements javafx.fxml.Initializable {
         sellThanhTien.setText("0 VNĐ");
         showProduct(productBUS.getAllProducts());
         loadDataHoaDon(hoaDonBUS.getAllHoaDon());
+        loadDataLichSuDiem(lichSuDiemBUS.getLichSuDiemList());
     }
 
     @FXML
