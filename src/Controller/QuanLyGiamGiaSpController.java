@@ -47,7 +47,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
-public class QuanLyGiamGiaSpController {
+public class QuanLyGiamGiaSpController implements Initializable {
     @FXML
     private TableView<QuanLyGiamGiaSpDTO> tblQLGgSP;
 
@@ -66,9 +66,7 @@ public class QuanLyGiamGiaSpController {
     @FXML
     private TableColumn<QuanLyGiamGiaSpDTO, Integer> colPhanTramGiam;
 
-    private QuanLyGiamGiaSpBUS bus;
-
-    private QuanLyGiamGiaSpDAO dao;
+    private QuanLyGiamGiaSpBUS bus = new QuanLyGiamGiaSpBUS();
 
     @FXML
     private TextField txtMaKMTao;
@@ -138,12 +136,12 @@ public class QuanLyGiamGiaSpController {
 
     @FXML
     private Button btnSuaCT;
+
+    SanPhamBUS sanPhamBUS = new SanPhamBUS();
+    ObservableList<SanPhamDTO> SPdata = FXCollections.observableArrayList(sanPhamBUS.getAllSanPham());
+    ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(bus.getAllGiamGiaSP());
+    ObservableList<SanPhamDTO> dataKM = null;
     
-    private void refreshTable() {
-        List<QuanLyGiamGiaSpDTO> khuyenMaiList = bus.getAllGiamGiaSP(); // Lấy danh sách mới từ BUS
-        ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(khuyenMaiList);
-        tblQLGgSP.setItems(data);
-    }
 
     @FXML
     private void btnThemSP(ActionEvent event) {
@@ -204,30 +202,7 @@ public class QuanLyGiamGiaSpController {
 
     
 
-    private String validateKhuyenMai(String tenKM,  int maKM, Date ngayBD, Date ngayKT, int ptGiam) {
-        if (tenKM == null || tenKM.isEmpty()) {
-            return "Tên khuyến mãi không được để trống!";
-        }
-
-        if (maKM < 0){
-            return "Mã khuyến mãi không hợp lệ";
-        }
-        
-        if (ngayBD == null || ngayKT == null) {
-            return "Ngày bắt đầu và ngày kết thúc không được để trống!";
-        }
-        if (ngayBD.after(ngayKT)) {
-            return "Ngày bắt đầu không được sau ngày kết thúc!";
-        }
-        if (ptGiam < 0 || ptGiam > 100) {
-            return "Phần trăm giảm giá phải nằm trong khoảng 0 đến 100!";
-        }
-        return null; // Không có lỗi
-    }
-
-    private boolean isMaKMExists(int maKM) {
-        return tblQLGgSP.getItems().stream().anyMatch(km -> km.getMaKM() == maKM);
-    }
+    
     
     
     private List<Integer> layDanhSachSanPhamTuGiaoDien() {
@@ -240,7 +215,7 @@ public class QuanLyGiamGiaSpController {
 
     private int generateAutoIncrementMaKM() throws SQLException {
         // Giả sử dao.getLastMaKM() trả về mã KM lớn nhất từ cơ sở dữ liệu
-        int lastMaKM = dao.getLastMaKM(); 
+        int lastMaKM = bus.getLastMaKM(); 
         return lastMaKM + 1; // Tăng thêm 1 để tạo mã mới
     }
     
@@ -309,12 +284,7 @@ public class QuanLyGiamGiaSpController {
                 // Lấy danh sách sản phẩm khuyến mãi từ BUS dựa vào Mã KM
                 
                 int maKM = selectedKM.getMaKM();
-                SanPhamBUS sanPhamBUS = new SanPhamBUS();
-                //ArrayList<SanPhamDTO> danhSachSanPham = sanPhamBUS.getSanPhamByMaKM(maKM);
-                
-                // Hiển thị danh sách sản phẩm vào bảng tblSPchon
-                ObservableList<SanPhamDTO> dataKM = FXCollections.observableArrayList(sanPhamBUS.getSanPhamByMaKM(maKM));
-                //System.out.println("Danh sách sản phẩm: " + danhSachSanPham);
+                dataKM = FXCollections.observableArrayList(sanPhamBUS.getSanPhamByMaKM(maKM));
                 tblSPchon.setItems(dataKM);
 
                 // Điền dữ liệu của chương trình khuyến mãi vào các trường nhập liệu
@@ -347,19 +317,15 @@ public class QuanLyGiamGiaSpController {
         alert.showAndWait();
     }
 
-    private void loadTableData() {
-        ArrayList<QuanLyGiamGiaSpDTO> danhSach = bus.getAllGiamGiaSP();
-        ObservableList<QuanLyGiamGiaSpDTO> data = FXCollections.observableArrayList(danhSach);
-        tblQLGgSP.setItems(data);
-    }
-
-    @FXML
-    public void initialize() throws SQLException {
-        bus = new QuanLyGiamGiaSpBUS();
-        dao = new QuanLyGiamGiaSpDAO();
     
+       
+    
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        bus = new QuanLyGiamGiaSpBUS();
         // Lấy mã khuyến mãi tự động (mã khuyến mãi tiếp theo)
-        int nextMaKM = dao.getLastMaKM() + 1; // Lấy mã khuyến mãi tiếp theo từ DAO
+        int nextMaKM = bus.getLastMaKM() + 1; // Lấy mã khuyến mãi tiếp theo từ DAO
         txtMaKMTao.setText(String.valueOf(nextMaKM)); // Hiển thị mã vào TextField
         txtMaKMTao.setEditable(false); // Không cho phép chỉnh sửa
         //txtMaKMTao.setStyle("-fx-opacity: 0.8;"); // Đặt màu xám cho TextField
@@ -371,7 +337,7 @@ public class QuanLyGiamGiaSpController {
         colNgayKT.setCellValueFactory(new PropertyValueFactory<>("ngayKT"));
         colPhanTramGiam.setCellValueFactory(new PropertyValueFactory<>("ptGiam"));
     
-        loadTableData(); // Tải dữ liệu bảng
+        tblQLGgSP.setItems(data);
     
         // Cấu hình các cột bảng cho Sản phẩm
         colMaSP1.setCellValueFactory(new PropertyValueFactory<>("MaSP"));
@@ -382,7 +348,7 @@ public class QuanLyGiamGiaSpController {
         colGiaBan1.setCellValueFactory(new PropertyValueFactory<>("GiaBan"));
         colMaLoai1.setCellValueFactory(new PropertyValueFactory<>("MaLoai"));
     
-        loadSanPhamData(); // Tải dữ liệu sản phẩm
+        tblSP.setItems(SPdata); // Tải dữ liệu sản phẩm
     
         // Cấu hình các cột bảng khác (nếu có)
         colMaSP.setCellValueFactory(new PropertyValueFactory<>("MaSP"));
@@ -393,18 +359,6 @@ public class QuanLyGiamGiaSpController {
         colGiaBan.setCellValueFactory(new PropertyValueFactory<>("GiaBan"));
         colMaLoai.setCellValueFactory(new PropertyValueFactory<>("MaLoai"));
     }
-    
-
-    
-
-
-    private void loadSanPhamData() {
-        SanPhamBUS sanPhamBUS = new SanPhamBUS();
-        ArrayList<SanPhamDTO> danhSachSanPham = sanPhamBUS.getAllSanPham();
-    
-        ObservableList<SanPhamDTO> SPdata = FXCollections.observableArrayList(danhSachSanPham);
-        tblSP.setItems(SPdata);
-    }    
 
     
     

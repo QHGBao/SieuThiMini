@@ -110,7 +110,7 @@ public class ProductDAO {
         String sql = "SELECT * FROM SanPham sp " +
                      "JOIN LoaiSanPham lsp ON sp.MaLoai = lsp.MaLoai " +
                      "WHERE (sp.TenSP LIKE ? OR ? = '') " +
-                     (productType.equals("Tat ca") ? "" : "AND lsp.TenLoai = ? ") +  // Bỏ điều kiện nếu là "Tất cả"
+                     (productType.equals("Tất cả") ? "" : "AND lsp.TenLoai = ? ") +  // Bỏ điều kiện nếu là "Tất cả"
                      "AND sp.Is_Deleted = 0";
     
         try {
@@ -120,7 +120,7 @@ public class ProductDAO {
             preparedStatement.setString(1, "%" + productName + "%");  // Điều kiện tìm theo tên
             preparedStatement.setString(2, productName);              // Điều kiện nếu tên trống
     
-            if (!productType.equals("Tat ca")) {
+            if (!productType.equals("Tất cả")) {
                 preparedStatement.setString(3, productType);  // Điều kiện tìm theo loại khi không phải "Tất cả"
             }
     

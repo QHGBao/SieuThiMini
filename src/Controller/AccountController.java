@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -46,10 +48,17 @@ public class AccountController {
     private Stage popupStage;
 
     @FXML
+    void Search(KeyEvent event) {
+        list.clear();
+        list.addAll(accBUS.searchTaiKhoanbyName(txtTimKiem.getText()));
+        tbBang.refresh();
+        System.out.println(txtTimKiem.getText());
+    }
+
+    @FXML
     public void initialize() {
         setupTableColumns();
         loadAccountData();
-        setupSearch();
     }
 
     private void setupTableColumns() {
@@ -68,23 +77,23 @@ public class AccountController {
         tbBang.setItems(list);
     }
 
-    private void setupSearch() {
-        FilteredList<AccountDTO> filteredData = new FilteredList<>(list, p -> true);
-        txtTimKiem.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(account -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter = newValue.toLowerCase();
-                return String.valueOf(account.getMaTK()).contains(lowerCaseFilter) ||
-                        account.getTenTK().toLowerCase().contains(lowerCaseFilter);
-            });
-        });
+    // private void setupSearch() {
+    //     FilteredList<AccountDTO> filteredData = new FilteredList<>(list, p -> true);
+    //     txtTimKiem.textProperty().addListener((observable, oldValue, newValue) -> {
+    //         filteredData.setPredicate(account -> {
+    //             if (newValue == null || newValue.isEmpty()) {
+    //                 return true;
+    //             }
+    //             String lowerCaseFilter = newValue.toLowerCase();
+    //             return String.valueOf(account.getMaTK()).contains(lowerCaseFilter) ||
+    //                     account.getTenTK().toLowerCase().contains(lowerCaseFilter);
+    //         });
+    //     });
 
-        SortedList<AccountDTO> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(tbBang.comparatorProperty());
-        tbBang.setItems(sortedData);
-    }
+    //     SortedList<AccountDTO> sortedData = new SortedList<>(filteredData);
+    //     sortedData.comparatorProperty().bind(tbBang.comparatorProperty());
+    //     tbBang.setItems(sortedData);
+    // }
 
     @FXML
     void ThemTK(MouseEvent event) {

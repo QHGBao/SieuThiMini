@@ -11,7 +11,7 @@ public class DAO_ThongKe {
     private Connection con;
     private String url = "jdbc:sqlserver://localhost:1433;DatabaseName=SieuThiMini;encrypt=true;trustServerCertificate=true";
     private String username = "sa";
-    private String pass = "1234";
+    private String pass = "123456789";
     
     public DAO_ThongKe() {
         try {

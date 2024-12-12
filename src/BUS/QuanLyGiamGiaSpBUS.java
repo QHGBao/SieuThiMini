@@ -6,12 +6,6 @@ import DAO.SanPhamDAO;
 import DTO.QuanLyGiamGiaSpDTO;
 import DTO.SanPhamDTO;
 import DTO.SanPhamKmDTO;
-import javafx.scene.control.Alert;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class QuanLyGiamGiaSpBUS {
@@ -58,17 +52,34 @@ public class QuanLyGiamGiaSpBUS {
     
     }
 
-
-
     public ArrayList<SanPhamKmDTO> getSanPhamKmByMaKM(int maKM) {
-        return QuanLyGiamGiaSpDAO.getSanPhamKmByMaKM(maKM); // Gọi hàm từ DAO
+        return dao.getSanPhamKmByMaKM(maKM);
     }
 
     public SanPhamDTO getSanPhamByMaSP(int maSP) {
         return SanPhamDAO.getSanPhamByMaSP(maSP); // Gọi hàm từ DAO
     }
 
+    public int getLastMaKM() {
+        try {
+            return dao.getLastMaKM(); // Gọi phương thức từ DAO
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1; // Trả về -1 nếu có lỗi
+        }
+    }
 
+    public List<String> getAllDiscountNames() {
+        return dao.getAllDiscountNames();
+    }
+
+    public int getDiscountedPrice(int promotionId, int productId) {
+        return dao.getDiscountedPrice(promotionId, productId);
+    }
+
+    public int getPromotionIdByName(String promotionName) {
+        return dao.getPromotionIdByName(promotionName);
+    }
     
     
 }

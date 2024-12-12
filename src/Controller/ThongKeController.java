@@ -57,7 +57,6 @@ public class ThongKeController {
     @FXML private TableColumn<DTO_ThongKe_DoanhThu, Integer> colSoLuongDT;
     @FXML private TableColumn<DTO_ThongKe_DoanhThu, Double> colGiaThucTe;
     @FXML private TableColumn<DTO_ThongKe_DoanhThu, Double> colTongTienHang;
-    @FXML private TableColumn<DTO_ThongKe_DoanhThu, Double> colDoanhThu;
     @FXML private DatePicker startDatePickerDT;
     @FXML private DatePicker endDatePickerDT;
     
@@ -257,7 +256,7 @@ public class ThongKeController {
     	colSoLuongDT.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
     	colGiaThucTe.setCellValueFactory(new PropertyValueFactory<>("giaThucTe"));
     	colTongTienHang.setCellValueFactory(new PropertyValueFactory<>("tongTienHang"));
-    	colDoanhThu.setCellValueFactory(new PropertyValueFactory<>("doanhThu"));
+    	//colDoanhThu.setCellValueFactory(new PropertyValueFactory<>("doanhThu"));
     	
     	colNgayLapDT.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
         colMaHoaDonDT.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
@@ -265,7 +264,7 @@ public class ThongKeController {
         colSoLuongDT.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
         colGiaThucTe.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
         colTongTienHang.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
-        colDoanhThu.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
+        //colDoanhThu.setStyle("-fx-background-color: #079073; -fx-text-fill: white;");
         
         colNgayLapDT.setCellFactory(column -> new TableCell<DTO_ThongKe_DoanhThu, String>() {
             @Override
@@ -351,26 +350,26 @@ public class ThongKeController {
             }
         });
         
-        colDoanhThu.setCellFactory(column -> new TableCell<DTO_ThongKe_DoanhThu, Double>() {
-            @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setStyle("-fx-background-color: white;");
-                    setText(null);
-                } else {
-                    setStyle("-fx-background-color: white;");
-                    setText(item == null ? "" : item.toString());
-                }
-            }
-        });
+        // colDoanhThu.setCellFactory(column -> new TableCell<DTO_ThongKe_DoanhThu, Double>() {
+        //     @Override
+        //     protected void updateItem(Double item, boolean empty) {
+        //         super.updateItem(item, empty);
+        //         if (empty) {
+        //             setStyle("-fx-background-color: white;");
+        //             setText(null);
+        //         } else {
+        //             setStyle("-fx-background-color: white;");
+        //             setText(item == null ? "" : item.toString());
+        //         }
+        //     }
+        // });
         colNgayLapDT.setMaxWidth(Double.MAX_VALUE);
         colMaHoaDonDT.setMaxWidth(Double.MAX_VALUE);
         colTenSanPhamDT.setMaxWidth(Double.MAX_VALUE);
         colSoLuongDT.setMaxWidth(Double.MAX_VALUE);
         colGiaThucTe.setMaxWidth(Double.MAX_VALUE);
         colTongTienHang.setMaxWidth(Double.MAX_VALUE);
-        colDoanhThu.setMaxWidth(Double.MAX_VALUE);
+        ///colDoanhThu.setMaxWidth(Double.MAX_VALUE);
         
         doanhThuData = FXCollections.observableArrayList();
         doanhThuTable.setItems(doanhThuData);
@@ -380,7 +379,7 @@ public class ThongKeController {
 
         // Add columns to table
         doanhThuTable.getColumns().clear();
-        doanhThuTable.getColumns().addAll(colNgayLapDT, colMaHoaDonDT, colTenSanPhamDT, colSoLuongDT, colGiaThucTe, colTongTienHang,colDoanhThu);
+        doanhThuTable.getColumns().addAll(colNgayLapDT, colMaHoaDonDT, colTenSanPhamDT, colSoLuongDT, colGiaThucTe, colTongTienHang);
     }
     public void hienThiDSLoiNhuan() {
     	
@@ -605,7 +604,7 @@ public class ThongKeController {
                         rs.getDouble("TongDoanhThu")
 				);
 				doanhThuData.add(item);
-				tongDoanhThu += item.getDoanhThu();
+				tongDoanhThu += item.getTongTienHang();
 				
 			}
 			if(doanhThuData.isEmpty()) {
@@ -731,7 +730,7 @@ public class ThongKeController {
                         rs.getDouble("TongDoanhThu")
 				);
 				doanhThuData.add(item);
-				tongDoanhThu += item.getDoanhThu();
+				tongDoanhThu += item.getTongTienHang();
 				
 			}
 			if(doanhThuData.isEmpty()) {

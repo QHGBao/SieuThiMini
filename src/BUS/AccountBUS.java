@@ -4,6 +4,8 @@ import DAO.AccountDAO;
 import DTO.AccountDTO;
 import java.util.List;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 public class AccountBUS {
 
     private AccountDAO accountDAO;
@@ -29,7 +31,7 @@ public class AccountBUS {
 
     public boolean ktTaiKhoanTonTai(int maNV) {
         return accountDAO.ktTaiKhoanTonTai(maNV);
-    };
+    }
 
     public boolean ktNvTonTai(int maNV) {
         return accountDAO.ktNvTonTai(maNV);
@@ -37,5 +39,9 @@ public class AccountBUS {
 
     public List<AccountDTO> getAllAccounts() {
         return accountDAO.getAllAccounts();
-    };
+    }
+
+    public List<AccountDTO> searchTaiKhoanbyName(String keyword) {
+        return accountDAO.searchTaiKhoanbyName(keyword);
+    }
 }

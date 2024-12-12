@@ -130,6 +130,8 @@ public class AccountFormController {
     public void setAccount(AccountDTO account) {
         this.currentAccount = account;
         txtTenTK.setText(account.getTenTK());
+        txtMatKhau.setText(account.getMatKhau());
+        txtNhapLaiMatKhau.setText(account.getMatKhau());
         txtMaNV.setText(String.valueOf(account.getMaNV()));
         cmbMaQuyen.setValue(account.getMaQuyen());
         if (mode.equals("EDIT")) {

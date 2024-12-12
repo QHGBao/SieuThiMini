@@ -1,8 +1,10 @@
 package Controller;
 
+import BUS.QuanLyGiamGiaSpBUS;
 import DTO.ProductDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -33,10 +35,13 @@ public class CardProductController {
 
     private QLBHController qlbhController; // Tham chiếu đến QLBHController
     private ProductDTO currentProduct; // Sản phẩm hiện tại
+    private QuanLyGiamGiaSpBUS quanLyGiamGiaSpBUS = new QuanLyGiamGiaSpBUS();
 
-    public void setProductInfo(String name, int price, String imageUrl, int maxQuantity, ProductDTO product) {
+    public void setProductInfo(String name, int price, String imageUrl, int maxQuantity, ProductDTO product,
+            int promotionId) {
+        this.currentProduct = product;
         productName.setText(name);
-        productPrice.setText(String.format("%,d VNĐ", price));
+        updatePriceWithPromotion(price, promotionId); // Cập nhật giá dựa trên khuyến mãi
         if (maxQuantity > 0) {
             // Nếu số lượng lớn hơn 0, cho phép chọn số lượng trong Spinner
             SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,
@@ -72,6 +77,19 @@ public class CardProductController {
         this.currentProduct = product;
     }
 
+    private void updatePriceWithPromotion(int originalPrice, int promotionId) {
+        if (promotionId != -1 && currentProduct != null) {
+            int discountedPrice = quanLyGiamGiaSpBUS.getDiscountedPrice(promotionId, currentProduct.getMaSP());
+            if (discountedPrice > 0) {
+                productPrice.setText(String.format("%,d VNĐ (giảm giá)", discountedPrice));
+                return;
+            }
+        }
+        // Không có giảm giá hoặc không thuộc chương trình khuyến mãi
+        productPrice.setText(String.format("%,d VNĐ", originalPrice));
+    }
+
+
     public String getProductName() {
         return productName.getText();
     }
@@ -94,7 +112,23 @@ public class CardProductController {
 
     @FXML
     void handleproductAddBTN(ActionEvent event) {
-        int quantity = productSpinner.getValue();
+
+
+
+        Integer quantity = productSpinner.getValue();
+        // Kiểm tra nếu spinner không có giá trị (null) hoặc giá trị nhỏ hơn hoặc bằng 0
+        if (quantity == null || quantity <= 0) {
+            // Hiển thị thông báo lỗi nếu số lượng không hợp lệ
+            showError("Số lượng không được để trống và phải lớn hơn 0!");
+            return;
+        }
+
+        // Kiểm tra số lượng không vượt quá số lượng sản phẩm còn lại
+        if (currentProduct != null && quantity > currentProduct.getSoLuong()) {
+            // Hiển thị thông báo nếu số lượng vượt quá số lượng sản phẩm còn lại
+            showError("Số lượng không thể lớn hơn số lượng sản phẩm còn lại!");
+            return;
+        }
         if (qlbhController != null && currentProduct != null) {
             qlbhController.addProductToTable(new ProductDTO(
                     currentProduct.getMaSP(),
@@ -106,6 +140,15 @@ public class CardProductController {
                     currentProduct.getHinhAnh(),
                     currentProduct.getIsDeleted()), quantity);
         }
+    }
+
+    private void showError(String message) {
+        // Hiển thị thông báo lỗi (có thể sử dụng Alert hoặc Label tùy ý)
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
