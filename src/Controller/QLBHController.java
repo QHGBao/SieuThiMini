@@ -321,6 +321,12 @@ public class QLBHController implements javafx.fxml.Initializable {
             return;
         }
 
+        if (startLSDatePicker.getValue() != null && endLSDatePicker.getValue() != null &&
+                startLSDatePicker.getValue().isAfter(endLSDatePicker.getValue())) {
+            showAlert(Alert.AlertType.WARNING, "Thông tin sai", "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.");
+            return;
+        }
+
         if (startLSDatePicker.getValue() != null && endLSDatePicker.getValue() != null) {
             startDate = java.sql.Date.valueOf(startLSDatePicker.getValue());
             endDate = java.sql.Date.valueOf(endLSDatePicker.getValue());
@@ -403,6 +409,12 @@ public class QLBHController implements javafx.fxml.Initializable {
         if ((startHDDatePicker.getValue() != null && endHDDatePicker.getValue() == null) ||
                 (startHDDatePicker.getValue() == null && endHDDatePicker.getValue() != null)) {
             showAlert(Alert.AlertType.WARNING, "Thiếu thông tin", "Vui lòng nhập cả ngày bắt đầu và ngày kết thúc.");
+            return;
+        }
+
+        if (startHDDatePicker.getValue() != null && endHDDatePicker.getValue() != null &&
+                startHDDatePicker.getValue().isAfter(endHDDatePicker.getValue())) {
+            showAlert(Alert.AlertType.WARNING, "Thông tin sai", "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.");
             return;
         }
 
@@ -803,8 +815,9 @@ public class QLBHController implements javafx.fxml.Initializable {
 
                 // Lấy controller của Card Product
                 CardProductController cardController = loader.getController();
-                
+
                 cardController.setProductInfo(
+<<<<<<< HEAD
                     product.getTenSP(),
                     product.getGia(),
                     "D:/Code1/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
@@ -812,6 +825,14 @@ public class QLBHController implements javafx.fxml.Initializable {
                     product,
                     promotionId 
                 );
+=======
+                        product.getTenSP(),
+                        product.getGia(),
+                        "D:/Code/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
+                        product.getSoLuong(),
+                        product,
+                        promotionId);
+>>>>>>> 46f9778533745e3cee61c8ffec28bab6cd33beea
 
                 cardController.setQLBHController(this);
 
@@ -845,6 +866,11 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     @FXML
     void handleThanhToanBTN(ActionEvent event) {
+        // Kiểm tra các trường hợp nhập liệu không hợp lệ
+        if (Integer.parseInt(dttdDiemApDungTF.getText()) == 0 || Integer.parseInt(dttdTienApDungTF.getText()) == 0) {
+            showAlert(AlertType.ERROR, "Lỗi", "Vui lòng chọn tỉ lệ quy đổi điểm");
+            return;
+        }
         if (sellHinhThucCB.getSelectionModel().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Chưa chọn hình thức", "Hãy chọn hình thức thanh toán.");
             return;
@@ -887,12 +913,24 @@ public class QLBHController implements javafx.fxml.Initializable {
         hoaDon.setTienKhachDua(tienKhachTra);
         hoaDon.setTienTraLai(tienTraLai);
         hoaDon.setMaNV(maNV);
-        hoaDon.setMaKH(0);
+
+        int maKH = 0; // Mặc định mã khách hàng là 0 nếu không có số điện thoại
+        if (!sdt.isEmpty()) {
+            maKH = khachhangBUS.getMaKHBySDT(sdt);
+            if (maKH == -1) {
+                showAlert(Alert.AlertType.WARNING, "Khách hàng không tồn tại",
+                        "Số điện thoại không tồn tại trong hệ thống.");
+                return;
+            }
+        }
+
+        hoaDon.setMaKH(maKH); // Gán mã khách hàng (hoặc 0 nếu không có số điện thoại)
 
         // Gọi hàm thêm hóa đơn vào database
         hoaDonBUS.addHoaDon(hoaDon); // Lấy mã hóa đơn sau khi thêm
         int invoiceId = hoaDonBUS.getMaHD();
         lastInvoiceId = invoiceId; // Lưu mã hóa đơn vừa tạo
+
         // Thêm chi tiết hóa đơn vào database
         for (ProductDTO product : sellItems) {
             CTHoaDonDTO ctHoaDon = new CTHoaDonDTO();
@@ -908,50 +946,22 @@ public class QLBHController implements javafx.fxml.Initializable {
             }
         }
 
-        if (!sdt.isEmpty()) {
-            int maKH = khachhangBUS.getMaKHBySDT(sdt);
+        // Xử lý điểm tích lũy nếu có mã khách hàng
+        if (maKH != 0) {
+            int tien = Integer.parseInt(dttdTienApDungTF.getText().trim());
+            int diem = Integer.parseInt(dttdDiemApDungTF.getText().trim());
 
-            if (maKH != -1) { // Khách hàng tồn tại
-                if (dttdDiemApDungTF.getText().isEmpty() || dttdTienApDungTF.getText().isEmpty()) {
-                    showAlert(Alert.AlertType.ERROR, "Lỗi", "Vui lòng áp dụng tỷ lệ quy đổi tiền thành điểm.");
-                    return;
-                }
+            int diemTichLuy = (thanhTien / tien) * diem; // Quy đổi điểm
+            if (diemTichLuy > 0) {
+                LichSuDiemDTO lichSuTichLuy = new LichSuDiemDTO();
+                lichSuTichLuy.setMaKH(maKH);
+                lichSuTichLuy.setMaHD(invoiceId);
+                lichSuTichLuy.setDiem(diemTichLuy);
+                lichSuTichLuy.setNgayTichLuy(sqlDate);
+                lichSuTichLuy.setLoaiGD("Tích lũy");
 
-                int tien = Integer.parseInt(dttdTienApDungTF.getText().trim());
-                int diem = Integer.parseInt(dttdDiemApDungTF.getText().trim());
-
-                int diemTichLuy = (thanhTien / tien) * diem; // Quy đổi điểm
-                int diemHienTai = khachhangBUS.getDiemTichLuyBySoDienThoai(sdt); // Điểm hiện tại của khách hàng
-
-                // Cập nhật điểm tích lũy vào bảng KhachHang và thêm lịch sử tích lũy điểm
-                if (diemTichLuy > 0) {
-                    LichSuDiemDTO lichSuTichLuy = new LichSuDiemDTO();
-                    lichSuTichLuy.setMaKH(maKH);
-                    lichSuTichLuy.setMaHD(invoiceId);
-                    lichSuTichLuy.setDiem(diemTichLuy);
-                    lichSuTichLuy.setNgayTichLuy(sqlDate);
-                    lichSuTichLuy.setLoaiGD("Tích lũy");
-
-                    lichSuDiemBUS.addLichSuDiem(lichSuTichLuy);
-                    khachhangBUS.updateDiemTichLuy(maKH, diemTichLuy, sdt);
-                }
-
-                // Trừ điểm tích lũy nếu có áp dụng đổi điểm
-                int diemCanTru = diemHienTai;
-                if (diemHienTai > 0) {
-                    LichSuDiemDTO lichSuDoiDiem = new LichSuDiemDTO();
-                    lichSuDoiDiem.setMaKH(maKH);
-                    lichSuDoiDiem.setMaHD(invoiceId);
-                    lichSuDoiDiem.setDiem(-diemCanTru); // Điểm âm thể hiện đổi điểm
-                    lichSuDoiDiem.setNgayTichLuy(sqlDate);
-                    lichSuDoiDiem.setLoaiGD("Đổi điểm");
-
-                    // Thêm lịch sử đổi điểm vào bảng LichSuDiem
-                    lichSuDiemBUS.addLichSuDiem(lichSuDoiDiem);
-
-                    // Trừ điểm tích lũy của khách hàng trong bảng KhachHang
-                    khachhangBUS.subtractPoints(maKH, diemCanTru);
-                }
+                lichSuDiemBUS.addLichSuDiem(lichSuTichLuy);
+                khachhangBUS.updateDiemTichLuy(maKH, diemTichLuy, sdt);
             }
         }
 
@@ -966,7 +976,7 @@ public class QLBHController implements javafx.fxml.Initializable {
         sellTienGiam.setText("0 VNĐ");
         sellThanhTien.setText("0 VNĐ");
         showProduct(productBUS.getAllProducts());
-
+        loadDataHoaDon(hoaDonBUS.getAllHoaDon());
     }
 
     @FXML
@@ -1019,6 +1029,10 @@ public class QLBHController implements javafx.fxml.Initializable {
 
     @FXML
     void handleSoDienThoaiBTN(ActionEvent event) {
+        if (Integer.parseInt(ddttDiemApDungTF.getText()) == 0 || Integer.parseInt(ddttTienApDungTF.getText()) == 0) {
+            showAlert(AlertType.ERROR, "Lỗi", "Vui lòng chọn tỉ lệ quy đổi điểm");
+        }
+
         String phoneNumber = sellSoDienThoai.getText().trim();
 
         if (!isValidPhoneNumber(phoneNumber)) {
