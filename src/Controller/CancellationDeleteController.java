@@ -1,4 +1,5 @@
 package Controller;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -32,11 +33,11 @@ public class CancellationDeleteController {
     private Button buttonCreate;
 
     @FXML
-    private TableView<CancellationDTO> tblCancellation; 
+    private TableView<CancellationDTO> tblCancellation;
 
     @FXML
     private DatePicker dtpDate;
-    
+
     @FXML
     private TableColumn<CancellationDTO, Integer> colCancellationID;
 
@@ -84,26 +85,30 @@ public class CancellationDeleteController {
         txtEmployeeName.setText(nv.getTenNV());
         txtEmployeeID.setText(String.valueOf(nv.getMaNV()));
     }
-    
 
     @FXML
     public void initialize() {
         SessionManager session = SessionManager.getInstance();
         // Liên kết cột dữ liệu trong TableView phiếu hủy
-        colCancellationID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationID()).asObject());
+        colCancellationID
+                .setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationID()).asObject());
         colCancellationDay.setCellValueFactory(data -> {
             LocalDateTime cancellationDay = data.getValue().getCancellationDay();
             String formattedDate = cancellationDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             return new SimpleStringProperty(formattedDate);
         });
-        colEmployeeID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getEmployeeID()).asObject());
+        colEmployeeID
+                .setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getEmployeeID()).asObject());
 
         // Liên kết cột dữ liệu trong TableView chi tiết phiếu hủy
-        colCancellationDetailsID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationID()).asObject());
+        colCancellationDetailsID
+                .setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationID()).asObject());
         colProductID.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getProductID()).asObject());
         colProductName.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProductName()));
-        colProductType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProductType()));;
-        colCancellationQuantity.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getCancellationQuantity()).asObject());
+        colProductType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProductType()));
+        ;
+        colCancellationQuantity.setCellValueFactory(
+                data -> new SimpleIntegerProperty(data.getValue().getCancellationQuantity()).asObject());
 
         // Tải dữ liệu ban đầu
         loadCancellationTable();
@@ -118,7 +123,8 @@ public class CancellationDeleteController {
     private void handleCancellationClick(MouseEvent event) {
         CancellationDTO selected = tblCancellation.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            listCancellationDetails = FXCollections.observableArrayList(CancellationDetailsBUS.getCancellationDetailsByCancellationID(selected.getCancellationID()));
+            listCancellationDetails = FXCollections.observableArrayList(
+                    CancellationDetailsBUS.getCancellationDetailsByCancellationID(selected.getCancellationID()));
             tblCancellationDetail.setItems(listCancellationDetails);
         }
     }
@@ -128,7 +134,7 @@ public class CancellationDeleteController {
         CancellationDTO selected = tblCancellation.getSelectionModel().getSelectedItem();
         if (selected != null) {
             try {
-                if(CancellationBUS.deleteCancellation(selected.getCancellationID())){
+                if (CancellationBUS.deleteCancellation(selected.getCancellationID())) {
                     loadCancellationTable();
                 }
             } catch (SQLException e) {
@@ -139,7 +145,7 @@ public class CancellationDeleteController {
     }
 
     @FXML
-    private void btnCreate_Clicked (MouseEvent event){
+    private void btnCreate_Clicked(MouseEvent event) {
         openCancellationScreen();
     }
 
@@ -165,9 +171,9 @@ public class CancellationDeleteController {
     }
 
     @FXML
-    private void btnEdit_Clicked (MouseEvent event){
+    private void btnEdit_Clicked(MouseEvent event) {
         CancellationDTO selectedCancellation = tblCancellation.getSelectionModel().getSelectedItem();
-    
+
         if (selectedCancellation != null) {
             try {
                 // Tải form sửa từ FXML
@@ -180,17 +186,20 @@ public class CancellationDeleteController {
                 // Truyền ID phiếu hủy và các chi tiết liên quan vào form sửa
                 editController.setCancellationDTO(selectedCancellation);
 
-                if (popupStage == null) {
+                // Khởi tạo popupStage nếu chưa có
+                if (popupStage == null || !popupStage.isShowing()) {
                     popupStage = new Stage();
-                    popupStage.initStyle(StageStyle.UNDECORATED); // Đặt dạng modal trước khi hiển thị
+                    popupStage.initStyle(StageStyle.UNDECORATED); // Đặt kiểu modal
                     popupStage.setTitle("Sửa Phiếu Hủy");
+
+                    // Đặt Scene cho popup
+                    popupStage.setScene(new Scene(root));
+
+                    // Hiển thị Stage sau khi đã thiết lập tất cả
+                    popupStage.showAndWait();
+                } else {
+                    popupStage.toFront(); // Đưa popup lên trên nếu đã tồn tại
                 }
-                popupStage.initStyle(StageStyle.UNDECORATED);
-                // Đặt Scene cho popup
-                popupStage.setScene(new Scene(root));
-    
-                // Hiển thị Stage sau khi đã thiết lập tất cả
-                popupStage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -200,11 +209,11 @@ public class CancellationDeleteController {
             alert.showAndWait();
         }
     }
-    
+
     private void openCancellationScreen() {
         if (popupStage != null && popupStage.isShowing())
             return;
-        try {   
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/CreateCancellationGUI.fxml"));
             Parent parent = loader.load();
             CancellationController ctrol = loader.getController();

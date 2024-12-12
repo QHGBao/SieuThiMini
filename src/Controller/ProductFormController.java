@@ -69,9 +69,9 @@ public class ProductFormController {
     }
 
     private void setupTextFields() {
-        txtTenSanPham.setEditable(isEditMode);
-        txtMoTa.setEditable(isEditMode);
-        txtGiaBan.setEditable(isEditMode);
+        // txtTenSanPham.setEditable(isEditMode);
+        // txtMoTa.setEditable(isEditMode);
+         txtGiaBan.setEditable(true);
         txtMaSanPham.setEditable(false);
 
         if (!isEditMode) {

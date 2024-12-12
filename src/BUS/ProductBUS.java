@@ -52,4 +52,8 @@ public class ProductBUS {
         return prDAO.getTenLoaiByMaLoai(maLoai);
     }
 
+    public int getProductQuantityById(int maSP) {
+        return prDAO.getProductQuantityById(maSP);
+    }
+
 }

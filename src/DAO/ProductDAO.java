@@ -233,6 +233,26 @@ public class ProductDAO {
         return products;
     }
 
+    public int getProductQuantityById(int maSP) {
+        int soLuong = -1; // Trả về -1 nếu không tìm thấy sản phẩm
+        String query = "SELECT SoLuong FROM SanPham WHERE MaSP = ? AND Is_Deleted = 0";
+        try {
+            connectManager.openConnection();
+            Connection connection = connectManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, maSP); // Gán giá trị MaSP vào câu lệnh SQL
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                soLuong = rs.getInt("SoLuong"); // Lấy số lượng sản phẩm
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connectManager.closeConnection();
+        }
+        return soLuong;
+    }    
+
     public String getTenSanPhamByMaSP(int maSP) {
         String tenSP = "";
         String sql = "SELECT TenSP FROM SanPham WHERE MaSP = ?";

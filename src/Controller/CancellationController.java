@@ -2,6 +2,7 @@ package Controller;
 
 import BUS.CancellationBUS;
 import BUS.CancellationProductBUS;
+import BUS.ProductBUS;
 import DTO.CancellationDTO;
 import DTO.CancellationProductDTO;
 import DTO.NhanVienDTO;
@@ -45,6 +46,7 @@ public class CancellationController {
 
     private CancellationProductBUS cancellationProductBUS = new CancellationProductBUS();
     private CancellationBUS cancellationBUS = new CancellationBUS();
+    private ProductBUS productBUS = new ProductBUS();
     private ObservableList<CancellationProductDTO> cancellationList = FXCollections.observableArrayList();
     private CancellationDeleteController ctrl;
 
@@ -132,6 +134,18 @@ public class CancellationController {
             String productName = cmbProductName.getValue();
             int productTypeid = Integer.parseInt(txtProductTypeID.getText());
             String quantityText = txtCancellationQuantity.getText();
+            if (Integer.parseInt(txtCancellationQuantity.getText()) > productBUS.getProductQuantityById(productID)) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy không được lớn hơn số lượng kho");
+                txtCancellationQuantity.setText("");
+                return;
+            }
+
+            if (Integer.parseInt(txtCancellationQuantity.getText()) < 0) {
+                showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy không được bé hơn 0");
+                txtCancellationQuantity.setText("");
+                return;
+            }
+
             if (quantityText == null || quantityText.trim().isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, "Lỗi dữ liệu", "Số lượng hủy không được để trống!");
                 return;
