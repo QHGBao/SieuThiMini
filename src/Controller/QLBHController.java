@@ -939,6 +939,7 @@ public class QLBHController implements javafx.fxml.Initializable {
 
         // Xử lý điểm tích lũy nếu có mã khách hàng
         if (maKH != 0) {
+            System.out.println(maKH);
             int tien = Integer.parseInt(dttdTienApDungTF.getText().trim());
             int diem = Integer.parseInt(dttdDiemApDungTF.getText().trim());
 
