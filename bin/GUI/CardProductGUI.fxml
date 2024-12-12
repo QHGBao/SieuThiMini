@@ -23,7 +23,7 @@
             </AnchorPane>
             <HBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="230.0">
                <children>
-                  <Label fx:id="productName" prefHeight="31.0" prefWidth="135.0" text="Cá ngừ đại dương">
+                  <Label fx:id="productName" prefHeight="31.0" prefWidth="181.0" text="Cá ngừ đại dương">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
