@@ -1,12 +1,6 @@
 package DAO;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import DTO.QuanLyGiamGiaSpDTO;
 import DTO.SanPhamDTO;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
