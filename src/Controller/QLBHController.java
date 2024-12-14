@@ -819,7 +819,7 @@ public class QLBHController implements javafx.fxml.Initializable {
                 cardController.setProductInfo(
                     product.getTenSP(),
                     product.getGia(),
-                    "D:/Code1/SieuThiMini/Assets/Img/Product/" + product.getHinhAnh(),
+                    "D:/CodeLearning/Java_QLSieuThiMini/ProjectSieuThiMini/SieuThiMini/Assets/Img/Product" + product.getHinhAnh(),
                     product.getSoLuong(),
                     product,
                     promotionId 
