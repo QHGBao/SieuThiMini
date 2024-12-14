@@ -257,6 +257,8 @@ public class QuanLyGiamGiaSpController implements Initializable {
                 showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thêm khuyến mãi thành công!");
                 clearInputFields();
                 tblQLGgSP.getItems().add(newKM); // Cập nhật bảng
+
+                
             } else {
                 showAlert(Alert.AlertType.ERROR, "Thất bại", "Không thể thêm khuyến mãi!");
             }
