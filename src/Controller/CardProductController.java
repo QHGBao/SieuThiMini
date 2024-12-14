@@ -89,7 +89,6 @@ public class CardProductController {
         productPrice.setText(String.format("%,d VNĐ", originalPrice));
     }
 
-
     public String getProductName() {
         return productName.getText();
     }
@@ -113,8 +112,6 @@ public class CardProductController {
     @FXML
     void handleproductAddBTN(ActionEvent event) {
 
-
-
         Integer quantity = productSpinner.getValue();
         // Kiểm tra nếu spinner không có giá trị (null) hoặc giá trị nhỏ hơn hoặc bằng 0
         if (quantity == null || quantity <= 0) {
@@ -130,12 +127,13 @@ public class CardProductController {
             return;
         }
         if (qlbhController != null && currentProduct != null) {
+            
             qlbhController.addProductToTable(new ProductDTO(
                     currentProduct.getMaSP(),
                     currentProduct.getTenSP(),
                     currentProduct.getMaLoai(),
                     currentProduct.getMoTa(),
-                    currentProduct.getGia(),
+                    Integer.parseInt(productPrice.getText().replaceAll("[^0-9]", "")),
                     quantity, // Cập nhật số lượng
                     currentProduct.getHinhAnh(),
                     currentProduct.getIsDeleted()), quantity);
